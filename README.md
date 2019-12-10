@@ -13,14 +13,15 @@
 $array = array();
 define('PATH', '/home/user');
 ```
-
-graph LR;
-  A(scandir PATH result: 1, 2, 3) -- For each element --> B((1));
-  B --> C(/home/user/1);
-  C --> D{Is THIS contained by some element of $array?};
-  D -- Yes --> Finish!;
-  D -- No --> E{is_dir AND not empty?};
-  E -- Yes --> F($path=THIS);
-  E -- No --> G(Push THIS into $array AND $path = PATH);
-  F --> A;
-  G --> A;
+```mermaid
+graph LR
+A(scandir PATH result: 1, 2, 3) -- For each element --> B((1))
+  B --> C(/home/user/1)
+  C --> D{Is THIS contained by some element of $array?}
+  D --> |Yes| [Finish!]
+  D --> |No| E{is_dir AND not empty?}
+  E --> |Yes| F($path=THIS)
+  E --> |No| G(Push THIS into $array AND $path = PATH)
+  F --> A
+  G --> A
+```
