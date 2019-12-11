@@ -14,4 +14,4 @@ $array = array();
 define('PATH', '/home/user');
 ```
 
-![List Files](resourcesGit/listFiles.PNG)
+![List Files](resourcesGit/listFilesFlow.PNG)
