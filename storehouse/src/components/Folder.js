@@ -169,19 +169,19 @@ class Folder extends Component {
   render() {
     console.log("Render COMPLETE");
     return (
-      <FileBrowser
-        files={this.state.files}
-        icons={Icons.FontAwesome(4)}
+        <FileBrowser
+          files={this.state.files}
+          icons={Icons.FontAwesome(4)}
 
-        onCreateFolder={this.handleCreateFolder}
-        onCreateFiles={this.handleCreateFiles}
-        onMoveFolder={this.handleRenameFolder}
-        onMoveFile={this.handleRenameFile}
-        onRenameFolder={this.handleRenameFolder}
-        onRenameFile={this.handleRenameFile}
-        onDeleteFolder={this.handleDeleteFolder}
-        onDeleteFile={this.handleDeleteFile}
-      />
+          onCreateFolder={this.handleCreateFolder}
+          onCreateFiles={this.handleCreateFiles}
+          onMoveFolder={this.handleRenameFolder}
+          onMoveFile={this.handleRenameFile}
+          onRenameFolder={this.handleRenameFolder}
+          onRenameFile={this.handleRenameFile}
+          onDeleteFolder={this.handleDeleteFolder}
+          onDeleteFile={this.handleDeleteFile}
+        />
     )
   }
 }
