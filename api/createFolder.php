@@ -1,6 +1,6 @@
 <?php
 header("access-control-allow-origin: http://localhost:3000");
+header('Content-Type: application/json');
 
-$absolutePath = 'C:\Users\Nayxer\Projects\Atom\root';
-mkdir($absolutePath.'/'.$_POST['folderName'].'/');
-echo $_POST['folderName'];
+$absolutePath = '/home/snowtray/test/';
+mkdir($absolutePath.'/'.$_POST['folderName'].'/')?'true':'false';

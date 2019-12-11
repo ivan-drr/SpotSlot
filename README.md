@@ -1,17 +1,12 @@
+
 # Storehouse
 > React project with MDB to manage local machine files.
 
 |TO DO            |DOING                         |DONE                        |
 |----------------|-------------------------------|-----------------------------|
-|`Encapsulate all ajax calls`|`Fixing API listFiles.php`|`Asynchronous forEach`|
-|`Merge Functions.js component into API`||`API Create Folders`|
-|`Apply basic styles`||`API Delete Files`|
-|`Fix render in incomplete asynchronous response`|
+|`Merge Functions.js component into API`|`Encapsulate mapModified`|`Asynchronous forEach`|
+|`Apply basic styles`|`Encapsulate all ajax calls`|`API Create Folders`|
+|`Fix render in incomplete asynchronous response`||`API Delete Files`|
+|||`Fix API listFiles.php`
 
-### listFiles.php (building):
-```php
-$array = array();
-define('PATH', '/home/user');
-```
-
-![List Files](resourcesGit/listFilesFlow.PNG)
+![Under Construction](https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/QIAQ9Rd/under-construction-design-video-animation_efihlppfl__F0010.png)
