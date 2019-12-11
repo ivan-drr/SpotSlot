@@ -6,7 +6,7 @@
 |----------------|-------------------------------|-----------------------------|
 |`Merge Functions.js component into API`|`Encapsulate mapModified`|`Asynchronous forEach`|
 |`Apply basic styles`|`Encapsulate all ajax calls`|`API Create Folders`|
-|`Fix render in incomplete asynchronous response`||`API Delete Files`|
+|`Fix render in incomplete asynchronous response`|`Event render of Loading`|`API Delete Files`|
 |||`Fix API listFiles.php`
 
 ![Under Construction](resourcesGit/under-construction.png)
