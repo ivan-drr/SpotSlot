@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import '../styles/Folder.css';
 import Moment from 'moment';
 import $ from 'jquery';
-import { asyncForEach, createFolder, removeElement } from './Functions';
+import { asyncForEach } from '../assets/OwnFunctions';
+import { fetchElements, createFolder, removeElement } from '../api/Crud';
+import { mapModified } from '../api/Mappers';
 
 import FileBrowser, {Icons} from 'react-keyed-file-browser';
 
@@ -14,47 +16,11 @@ class Folder extends Component {
   componentDidMount() {
     console.log("Fetching Files...");
 
-    $.ajax({
-      url: 'http://ejercicios.lan/API/listFiles.php',
-      type: 'GET',
-      dataType: "json",
-      success: function (result) {
-        return result;
-      },
-      error: function(error) {
-        console.error(error);
-      },
-      complete: function() {
-        console.log("Fetching COMPLETE");
-        console.log("Rendering...");
-      }
-    }).then((result) => {
+    fetchElements().then((result) => {
       this.setState(state => {
         state.files = result.map((file) => {
-          if (file.modified.days!==0) return {
-            key: file.key,
-            size: file.size,
-            modified: +Moment().subtract(file.modified.days, 'days')
-          }
-
-          if (file.modified.hours!==0) return {
-            key: file.key,
-            size: file.size,
-            modified: +Moment().subtract(file.modified.hours, 'hours')
-          }
-
-          if (file.modified.minutes!==0) return {
-            key: file.key,
-            size: file.size,
-            modified: +Moment().subtract(file.modified.minutes, 'minutes')
-          }
-
-          if (file.modified.seconds!==0) return {
-            key: file.key,
-            size: file.size,
-            modified: +Moment().subtract(file.modified.seconds, 'seconds')
-          }
-        })
+          return mapModified(file);
+        });
         return state;
       });
     });
@@ -167,9 +133,8 @@ class Folder extends Component {
   }
 
   render() {
-    $('#loading').fadeOut(800);
+    $('#loading').fadeOut(900);
     console.log("Render COMPLETE");
-
     return (
         <FileBrowser
           files={this.state.files}

@@ -1,13 +1,25 @@
 import $ from 'jquery';
 
-export async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
-  }
+export function fetchElements() {
+  return $.ajax({
+    url: 'http://ejercicios.lan/API/listFiles.php',
+    type: 'GET',
+    dataType: "json",
+    success: function (result) {
+      return result;
+    },
+    error: function(error) {
+      console.error(error);
+    },
+    complete: function() {
+      console.log("Fetching COMPLETE");
+      console.log("Rendering...");
+    }
+  });
 }
 
 export function createFolder(key) {
-  $.ajax({
+  return $.ajax({
     url: 'http://localhost/web/handler/createFolder.php',
     type: 'POST',
     data: {"folderName": key},
@@ -21,7 +33,7 @@ export function createFolder(key) {
 }
 
 export function removeElement(key) {
-  $.ajax({
+  return $.ajax({
     url: 'http://localhost/web/handler/removeElement.php',
     type: 'POST',
     data: {"folderName": key},
