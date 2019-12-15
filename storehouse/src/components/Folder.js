@@ -37,13 +37,13 @@ class Folder extends Component {
     })
   }
 
-  handleCreateFile = (kew) => {
+  handleCreateFile = (key) => {
     createFile(key)
 
     this.setState(state => {
       state.files = state.files.concat([{
         key: key,
-        size: file.size,
+        size: this.file.size,
         modified: +Moment()
       }])
       return state
