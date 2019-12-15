@@ -62,14 +62,17 @@ export function createFile(key) {
 
 export function renameElement(oldKey, newKey) {
   return $.ajax({
-    url: 'http://ejercicios.lan/API/renameElement.php?oldKey=' + oldKey,
+    url: 'http://ejercicios.lan/API/renameElement.php',
     type: 'POST',
-    data: {"newKey": newKey},
+    data: {
+      "newKey": newKey,
+      "oldKey": oldKey
+    },
     success: function (result) {
       console.log(result);
     },
     error: function(error) {
-      console.error(error);
+      console.error(error.responseText);
     }
   });
 }

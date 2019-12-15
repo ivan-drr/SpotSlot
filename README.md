@@ -5,7 +5,7 @@
 |TO DO            |DOING                         |DONE                        |
 |----------------|-------------------------------|-----------------------------|
 |`IT tests`|`Fix render in incomplete asynchronous response`|`Asynchronous forEach`|
-|`Unit tests`|`check API functions`|`API Create Folders`|
+|`Unit tests`|`Fix API renameElement`|`API Create Folders`|
 |||`API Delete Files`|
 |||`Fix API listFiles.php`
 |||`Event render of Loading`

@@ -11,7 +11,7 @@ function deleteDirectory($dir) {
 
     foreach (scandir($dir) as $item) {
         if ($item == '.' || $item == '..') continue;
-        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) return false;
+        if (!deleteDirectory($dir . '/' . $item)) return false;
     }
     return rmdir($dir);
 }
