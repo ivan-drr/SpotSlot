@@ -3,7 +3,7 @@ import '../styles/Folder.css';
 import Moment from 'moment';
 import $ from 'jquery';
 import { asyncForEach } from '../assets/OwnFunctions';
-import { fetchElements, createFolder, removeElement } from '../api/Crud';
+import { fetchElements, createFolder, removeElement, createFile, renameElement } from '../api/Crud';
 import { mapModified } from '../api/Mappers';
 
 import FileBrowser, {Icons} from 'react-keyed-file-browser';
@@ -36,7 +36,21 @@ class Folder extends Component {
       return state
     })
   }
-  handleCreateFiles = (files, prefix) => {
+
+  handleCreateFile = (kew) => {
+    createFile(key)
+
+    this.setState(state => {
+      state.files = state.files.concat([{
+        key: key,
+        size: file.size,
+        modified: +Moment()
+      }])
+      return state
+    })
+  }
+
+  /*handleCreateFiles = (files, prefix) => {
     this.setState(state => {
       const newFiles = files.map((file) => {
         let newKey = prefix
@@ -66,8 +80,10 @@ class Folder extends Component {
       state.files = state.files.concat(uniqueNewFiles)
       return state
     })
-  }
+  }*/
   handleRenameFolder = (oldKey, newKey) => {
+    renameElement(oldKey, newKey);
+
     this.setState(state => {
       const newFiles = []
       asyncForEach(state.files , (file) => {
@@ -86,6 +102,8 @@ class Folder extends Component {
     })
   }
   handleRenameFile = (oldKey, newKey) => {
+    renameElement(oldKey, newKey);
+
     this.setState(state => {
       const newFiles = []
       asyncForEach(state.files, (file) => {
@@ -141,7 +159,7 @@ class Folder extends Component {
           icons={Icons.FontAwesome(4)}
 
           onCreateFolder={this.handleCreateFolder}
-          onCreateFiles={this.handleCreateFiles}
+          onCreateFiles={this.handleCreateFile}
           onMoveFolder={this.handleRenameFolder}
           onMoveFile={this.handleRenameFile}
           onRenameFolder={this.handleRenameFolder}

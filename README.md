@@ -4,8 +4,8 @@
 
 |TO DO            |DOING                         |DONE                        |
 |----------------|-------------------------------|-----------------------------|
-|`IT tests`|`End API functions`|`Asynchronous forEach`|
-|`Unit tests`|`Fix render in incomplete asynchronous response`|`API Create Folders`|
+|`IT tests`|`Fix render in incomplete asynchronous response`|`Asynchronous forEach`|
+|`Unit tests`|`check API functions`|`API Create Folders`|
 |||`API Delete Files`|
 |||`Fix API listFiles.php`
 |||`Event render of Loading`
@@ -13,5 +13,6 @@
 |||`Encapsulate mapModified`
 |||`Merge Functions.js component into API`
 |||`Encapsulate all ajax calls`
+|||`End API functions`
 
 ![Under Construction](resourcesGit/under-construction.png)

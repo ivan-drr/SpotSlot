@@ -45,3 +45,31 @@ export function removeElement(key) {
     }
   });
 }
+
+export function createFile(key) {
+  return $.ajax({
+    url: 'http://ejercicios.lan/API/createFile.php',
+    type: 'POST',
+    data: {"fileName": key},
+    success: function (result) {
+      console.log(result);
+    },
+    error: function(error) {
+      console.error(error);
+    }
+  });
+}
+
+export function renameElement(oldKey, newKey) {
+  return $.ajax({
+    url: 'http://ejercicios.lan/API/renameElement.php?oldKey=' + oldKey,
+    type: 'POST',
+    data: {"newKey": newKey},
+    success: function (result) {
+      console.log(result);
+    },
+    error: function(error) {
+      console.error(error);
+    }
+  });
+}
