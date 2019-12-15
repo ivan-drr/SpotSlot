@@ -1,6 +1,6 @@
 <?php
 header("access-control-allow-origin: http://localhost:3000");
 header('Content-Type: application/json');
+require_once('./path.php');
 
-$absolutePath = '/home/snowtray/test/';
-mkdir($absolutePath.'/'.$_POST['folderName'].'/')?'true':'false';
+touch(PATH.'/'.$_POST['fileName'].'/')?'true':'false';

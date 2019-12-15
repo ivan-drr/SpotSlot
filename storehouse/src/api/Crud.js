@@ -18,23 +18,23 @@ export function fetchElements() {
   });
 }
 
-export function createFolder(key) {
+export function createFolder(key) {;
   return $.ajax({
-    url: 'http://localhost/web/handler/createFolder.php',
+    url: 'http://ejercicios.lan/API/createFolder.php',
     type: 'POST',
     data: {"folderName": key},
     success: function (result) {
       console.log(result);
     },
     error: function(error) {
-      console.error(error);
+      console.error(error.responseText);
     }
   });
 }
 
 export function removeElement(key) {
   return $.ajax({
-    url: 'http://localhost/web/handler/removeElement.php',
+    url: 'http://ejercicios.lan/API/removeElement.php',
     type: 'POST',
     data: {"folderName": key},
     success: function (result) {

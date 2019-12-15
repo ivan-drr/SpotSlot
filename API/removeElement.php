@@ -1,9 +1,9 @@
 <?php
 header("access-control-allow-origin: http://localhost:3000");
 header('Content-Type: application/json');
+require_once('./path.php');
 
-$absolutePath = '/home/snowtray/test/';
-$dir = $absolutePath.'/'.$_POST['folderName'];
+$dir = PATH.'/'.$_POST['folderName'];
 
 function deleteDirectory($dir) {
     if (!file_exists($dir)) return true;

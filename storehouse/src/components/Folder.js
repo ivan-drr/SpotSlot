@@ -133,7 +133,7 @@ class Folder extends Component {
   }
 
   render() {
-    $('#loading').fadeOut(900);
+    $('#loading').fadeOut(800);
     console.log("Render COMPLETE");
     return (
         <FileBrowser
