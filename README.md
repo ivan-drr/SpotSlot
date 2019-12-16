@@ -5,7 +5,7 @@
 |TO DO            |DOING                         |DONE                        |
 |----------------|-------------------------------|-----------------------------|
 |`IT tests`|`Fix render in incomplete asynchronous response`|`Asynchronous forEach`|
-|`Unit tests`|`Fix API renameElement`|`API Create Folders`|
+|`Unit tests`||`API Create Folders`|
 |||`API Delete Files`|
 |||`Fix API listFiles.php`
 |||`Event render of Loading`
@@ -14,5 +14,6 @@
 |||`Merge Functions.js component into API`
 |||`Encapsulate all ajax calls`
 |||`End API functions`
+|||`Fix API renameElement`
 
 ![Under Construction](resourcesGit/under-construction.png)
