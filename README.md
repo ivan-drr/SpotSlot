@@ -4,8 +4,8 @@
 
 |TO DO            |DOING                         |DONE                        |
 |----------------|-------------------------------|-----------------------------|
-|`Unit tests`|`IT tests`|`Asynchronous forEach`|
-|||`API Create Folders`|
+|`IT tests`|`Unit tests`|`Asynchronous forEach`|
+||`Fix CSS import for test`|`API Create Folders`|
 |||`API Delete Files`|
 |||`Fix API listFiles.php`
 |||`Event render of Loading`
