@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../styles/Folder.css';
 import Moment from 'moment';
 import $ from 'jquery';
-import { asyncForEach } from '../assets/OwnFunctions';
 import { fetchElements, createFolder, removeElement, createFile, renameElement } from '../api/Crud';
 import { mapModified } from '../api/Mappers';
 
@@ -81,46 +80,34 @@ class Folder extends Component {
       return state
     })
   }*/
+
   handleRenameFolder = (oldKey, newKey) => {
+
     renameElement(oldKey, newKey);
 
     this.setState(state => {
-      const newFiles = []
-      asyncForEach(state.files , (file) => {
-        if (file.key.substr(0, oldKey.length) === oldKey) {
-          newFiles.push({
-            ...file,
-            key: file.key.replace(oldKey, newKey),
-            modified: +Moment(),
-          })
-        } else {
-          newFiles.push(file)
+      state.files.forEach((file) => {
+        if (file.key === '/'+oldKey) {
+          file.key = newKey;
         }
       })
-      state.files = newFiles
       return state
     })
   }
+
   handleRenameFile = (oldKey, newKey) => {
     renameElement(oldKey, newKey);
 
     this.setState(state => {
-      const newFiles = []
-      asyncForEach(state.files, (file) => {
-        if (file.key === oldKey) {
-          newFiles.push({
-            ...file,
-            key: newKey,
-            modified: +Moment(),
-          })
-        } else {
-          newFiles.push(file)
+      state.files.forEach((file) => {
+        if (file.key === '/'+oldKey) {
+          file.key = newKey;
         }
       })
-      state.files = newFiles
       return state
     })
   }
+
   handleDeleteFolder = (folderKey) => {
     removeElement(folderKey);
 
@@ -135,6 +122,7 @@ class Folder extends Component {
       return state
     })
   }
+
   handleDeleteFile = (fileKey) => {
     removeElement(fileKey);
 
