@@ -10,7 +10,7 @@ class Loading extends Component {
 
   componentDidMount() {
     var iterator = 0;
-    setInterval(this.typeWriter('Loading...', 55, 'loadingText', iterator), 2000);
+    this.typeWriter('Loading...', 55, 'loadingText', iterator);
   }
 
   typeWriter(str, speed, id, iterator) {

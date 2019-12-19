@@ -47,6 +47,12 @@
     "setupFilesAfterEnv": [
       "./src/setupTests.js"
     ],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/moment",
+      "<rootDir>/node_modules/react-keyed-file-browser"
+    ],
     "moduleNameMapper":{
          "\\.(css|less|sass|scss)$": "<rootDir>/src/__mocks__/styleMock.js",
          "\\.(gif|ttf|eot|svg)$": "<rootDir>/src/__mocks__/fileMock.js"
