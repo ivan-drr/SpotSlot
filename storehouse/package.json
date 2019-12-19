@@ -45,7 +45,7 @@
   },
   "jest": {
     "setupFilesAfterEnv": [
-      "./setupEnzyme.js"
+      "./src/setupTests.js"
     ],
     "moduleNameMapper":{
          "\\.(css|less|sass|scss)$": "<rootDir>/src/__mocks__/styleMock.js",

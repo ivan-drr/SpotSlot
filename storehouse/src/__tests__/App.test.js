@@ -3,15 +3,14 @@ import Enzyme, { shallow } from 'enzyme';
 import App from '../components/App';
 import Folder from '../components/Folder';
 
-jest.mock('../components/Folder', () => ()=>
-<div id="Folder">
-   FolderMock
-</div>)
+beforeAll(() => {
+  jest.mock('../components/Folder');
+});
 
-describe('Unit App component', () => {
-  test('render', () => {
-    const wrapper = shallow(<App />);
+describe('Unit Tests', () => {
+  it('should render correctly with no props', () => {
+    const app = shallow(<Folder/>);
 
-    expect(wrapper.exists()).toBe(true);
+    expect(app).toMatchSnapshot();
   });
 });
