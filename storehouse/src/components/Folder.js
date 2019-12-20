@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/Folder.css';
 import Moment from 'moment';
 import $ from 'jquery';
-import { asyncFetchElements, createFolder, removeElement, createFile, renameElement } from '../api/Crud';
+import { fetchElements, createFolder, removeElement, createFile, renameElement } from '../api/Crud';
 import { mapModified } from '../api/Mappers';
 
 import FileBrowser, {Icons} from 'react-keyed-file-browser';
@@ -15,12 +15,14 @@ class Folder extends Component {
 
   componentDidMount() {
     if (this.state.path === '') {
-      this.state.path = $("#explorer").trigger("click");
+      this.setState(state => {
+        state.path = $("#explorer").trigger("click");
+      })
     }
 
     console.log("Fetching Files...");
 
-    asyncFetchElements('/home/snowtray/test/').then((result) => {
+    fetchElements('/home/snowtray/test/').then((result) => {
       this.setState(state => {
         state.files = result.map((file) => {
           return mapModified(file);
@@ -31,7 +33,7 @@ class Folder extends Component {
   }
 
   handleCreateFolder = (key) => {
-    createFolder(key);
+    createFolder(this.state.path, key);
 
     this.setState(state => {
       state.files = state.files.concat([{
@@ -42,7 +44,7 @@ class Folder extends Component {
   }
 
   handleCreateFile = (key) => {
-    createFile(key)
+    createFile(this.state.path, key)
 
     this.setState(state => {
       state.files = state.files.concat([{
@@ -88,7 +90,7 @@ class Folder extends Component {
 
   handleRenameFolder = (oldKey, newKey) => {
 
-    renameElement(oldKey, newKey);
+    renameElement(this.state.path, oldKey, newKey);
 
     this.setState(state => {
       state.files.forEach((file) => {
@@ -101,7 +103,7 @@ class Folder extends Component {
   }
 
   handleRenameFile = (oldKey, newKey) => {
-    renameElement(oldKey, newKey);
+    renameElement(this.state.path, oldKey, newKey);
 
     this.setState(state => {
       state.files.forEach((file) => {
@@ -114,7 +116,7 @@ class Folder extends Component {
   }
 
   handleDeleteFolder = (folderKey) => {
-    removeElement(folderKey);
+    removeElement(this.state.path, folderKey);
 
     this.setState(state => {
       const newFiles = []
@@ -129,7 +131,7 @@ class Folder extends Component {
   }
 
   handleDeleteFile = (fileKey) => {
-    removeElement(fileKey);
+    removeElement(this.state.path, fileKey);
 
     this.setState(state => {
       const newFiles = []

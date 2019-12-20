@@ -1,24 +1,13 @@
 import $ from 'jquery';
 
-function definePath(path) {
+export function fetchElements(path) {
   return $.ajax({
     url: 'http://ejercicios.lan/API/listFiles.php',
     type: 'POST',
-    data: {"PATH": path},
-    success: function (result) {
-      console.log(result);
-    },
-    error: function(error) {
-      console.error(error);
-    }
-  });
-}
-
-function fetchElements() {
-  return $.ajax({
-    url: 'http://ejercicios.lan/API/listFiles.php',
-    type: 'GET',
     dataType: "json",
+    data: {
+      "PATH": path
+    },
     success: function (result) {
       return result;
     },
@@ -32,16 +21,14 @@ function fetchElements() {
   });
 }
 
-export async function asyncFetchElements(path) {
-  await definePath(path);
-  await fetchElements();
-}
-
-export function createFolder(key) {;
+export function createFolder(path, key) {;
   return $.ajax({
     url: 'http://ejercicios.lan/API/createFolder.php',
     type: 'POST',
-    data: {"folderName": key},
+    data: {
+      "PATH": path,
+      "folderName": key
+    },
     success: function (result) {
       console.log(result);
     },
@@ -51,11 +38,14 @@ export function createFolder(key) {;
   });
 }
 
-export function removeElement(key) {
+export function removeElement(path, key) {
   return $.ajax({
     url: 'http://ejercicios.lan/API/removeElement.php',
     type: 'POST',
-    data: {"folderName": key},
+    data: {
+      "PATH": path,
+      "folderName": key
+    },
     success: function (result) {
       console.log(result);
     },
@@ -65,11 +55,14 @@ export function removeElement(key) {
   });
 }
 
-export function createFile(key) {
+export function createFile(path, key) {
   return $.ajax({
     url: 'http://ejercicios.lan/API/createFile.php',
     type: 'POST',
-    data: {"fileName": key},
+    data: {
+      "PATH": path,
+      "fileName": key
+    },
     success: function (result) {
       console.log(result);
     },
@@ -79,11 +72,12 @@ export function createFile(key) {
   });
 }
 
-export function renameElement(oldKey, newKey) {
+export function renameElement(path, oldKey, newKey) {
   return $.ajax({
     url: 'http://ejercicios.lan/API/renameElement.php',
     type: 'POST',
     data: {
+      "PATH": path,
       "newKey": newKey,
       "oldKey": oldKey
     },
