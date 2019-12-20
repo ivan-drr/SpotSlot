@@ -4,8 +4,8 @@
 
 |TO DO            |DOING                         |DONE                        |
 |----------------|-------------------------------|-----------------------------|
-|`IT tests`|`Unit tests`|`Asynchronous forEach`|
-|||`API Create Folders`|
+|`IT tests`|`Add PATH parameter on API`|`Asynchronous forEach`|
+|`Unit tests`|`Open a folder explorer first time that init the application`|`API Create Folders`|
 |||`API Delete Files`|
 |||`Fix API listFiles.php`
 |||`Event render of Loading`
