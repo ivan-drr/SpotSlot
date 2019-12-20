@@ -1,6 +1,6 @@
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
-import App from '../components/App';
+import App from '../../components/App';
 
 describe('Unit Tests', () => {
   describe('Render', function () {

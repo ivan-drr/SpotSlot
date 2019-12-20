@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import Enzyme, { shallow } from 'enzyme';
-import Folder from '../components/Folder';
+import Folder from '../../components/Folder';
 
-import { fetchElements, createFolder, removeElement, createFile, renameElement } from '../api/Crud';
-import { mapModified } from '../api/Mappers';
+import { fetchElements, createFolder, removeElement, createFile, renameElement } from '../../api/Crud';
+import { mapModified } from '../../api/Mappers';
 
 beforeAll(function () {
   jest.mock("react-keyed-file-browser");
-  jest.mock("../api/Crud");
-  jest.mock("../api/Mappers");
+  jest.mock("../../api/Crud");
+  jest.mock("../../api/Mappers");
 });
 
 describe('Unit Tests', () => {

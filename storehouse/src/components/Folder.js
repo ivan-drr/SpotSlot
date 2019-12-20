@@ -2,20 +2,25 @@ import React, { Component } from 'react';
 import '../styles/Folder.css';
 import Moment from 'moment';
 import $ from 'jquery';
-import { fetchElements, createFolder, removeElement, createFile, renameElement } from '../api/Crud';
+import { asyncFetchElements, createFolder, removeElement, createFile, renameElement } from '../api/Crud';
 import { mapModified } from '../api/Mappers';
 
 import FileBrowser, {Icons} from 'react-keyed-file-browser';
 
 class Folder extends Component {
   state = {
+    path: '',
     files: []
   }
 
   componentDidMount() {
+    if (this.state.path === '') {
+      this.state.path = $("#explorer").trigger("click");
+    }
+
     console.log("Fetching Files...");
 
-    fetchElements().then((result) => {
+    asyncFetchElements('/home/snowtray/test/').then((result) => {
       this.setState(state => {
         state.files = result.map((file) => {
           return mapModified(file);
@@ -142,19 +147,22 @@ class Folder extends Component {
     $('#loading').fadeOut(800);
     console.log("Render COMPLETE");
     return (
-        <FileBrowser
-          files={this.state.files}
-          icons={Icons.FontAwesome(4)}
+        <div>
+          <input type="file" id="explorer" className="d-none" />
+          <FileBrowser
+            files={this.state.files}
+            icons={Icons.FontAwesome(4)}
 
-          onCreateFolder={this.handleCreateFolder}
-          onCreateFiles={this.handleCreateFile}
-          onMoveFolder={this.handleRenameFolder}
-          onMoveFile={this.handleRenameFile}
-          onRenameFolder={this.handleRenameFolder}
-          onRenameFile={this.handleRenameFile}
-          onDeleteFolder={this.handleDeleteFolder}
-          onDeleteFile={this.handleDeleteFile}
-        />
+            onCreateFolder={this.handleCreateFolder}
+            onCreateFiles={this.handleCreateFile}
+            onMoveFolder={this.handleRenameFolder}
+            onMoveFile={this.handleRenameFile}
+            onRenameFolder={this.handleRenameFolder}
+            onRenameFile={this.handleRenameFile}
+            onDeleteFolder={this.handleDeleteFolder}
+            onDeleteFile={this.handleDeleteFile}
+          />
+        </div>
     )
   }
 }

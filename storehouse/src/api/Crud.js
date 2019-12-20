@@ -1,6 +1,20 @@
 import $ from 'jquery';
 
-export function fetchElements() {
+function definePath(path) {
+  return $.ajax({
+    url: 'http://ejercicios.lan/API/listFiles.php',
+    type: 'POST',
+    data: {"PATH": path},
+    success: function (result) {
+      console.log(result);
+    },
+    error: function(error) {
+      console.error(error);
+    }
+  });
+}
+
+function fetchElements() {
   return $.ajax({
     url: 'http://ejercicios.lan/API/listFiles.php',
     type: 'GET',
@@ -18,6 +32,11 @@ export function fetchElements() {
   });
 }
 
+export async function asyncFetchElements(path) {
+  await definePath(path);
+  await fetchElements();
+}
+
 export function createFolder(key) {;
   return $.ajax({
     url: 'http://ejercicios.lan/API/createFolder.php',
@@ -27,7 +46,7 @@ export function createFolder(key) {;
       console.log(result);
     },
     error: function(error) {
-      console.error(error.responseText);
+      console.error(error);
     }
   });
 }
@@ -72,7 +91,7 @@ export function renameElement(oldKey, newKey) {
       console.log(result);
     },
     error: function(error) {
-      console.error(error.responseText);
+      console.error(error);
     }
   });
 }
