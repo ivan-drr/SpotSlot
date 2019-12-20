@@ -5,7 +5,7 @@
 |TO DO            |DOING                         |DONE                        |
 |----------------|-------------------------------|-----------------------------|
 |`IT tests`|`Unit tests`|`Asynchronous forEach`|
-||`Fix CSS import for test`|`API Create Folders`|
+|||`API Create Folders`|
 |||`API Delete Files`|
 |||`Fix API listFiles.php`
 |||`Event render of Loading`
@@ -16,5 +16,6 @@
 |||`End API functions`
 |||`Fix API renameElement`
 |||`Fix render in incomplete asynchronous response`
+|||`Fix CSS import for test`
 
 ![Under Construction](resourcesGit/under-construction.png)
