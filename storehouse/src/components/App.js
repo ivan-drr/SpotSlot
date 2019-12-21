@@ -12,7 +12,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App" id="app">
         <div className="fluid-container m-5 text-center">
           <Folder />
         </div>
