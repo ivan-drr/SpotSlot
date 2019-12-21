@@ -14,10 +14,8 @@ if (isset($_POST['PATH'])) {
 
 	} else {
     if (isset($_POST['KEY'])) {
-
       if ($_POST['KEY'] !== '') {
-        $dir = $_POST['PATH'].'/'.$_POST['KEY'];
-        echo (@deleteDirectory($dir)?'{"log": "element_removed"}':'{"log": "could_not_remove_element"}');
+        echo (@mkdir($_POST['PATH'].'/'.$_POST['KEY'].'/')?'{"log": "element_created"}':'{"log": "could_not_create_element"}');
 
       } else echo '{"log": "empty_element_name"}';
 
@@ -25,14 +23,3 @@ if (isset($_POST['PATH'])) {
 	}
 
 } else echo '{"log": "undefined_path_given"}';
-
-function deleteDirectory($dir) {
-    if (!file_exists($dir)) return false;
-    if (!is_dir($dir)) return unlink($dir);
-
-    foreach (scandir($dir) as $item) {
-        if ($item == '.' || $item == '..') continue;
-        if (!deleteDirectory($dir . '/' . $item)) return false;
-    }
-    return rmdir($dir);
-}

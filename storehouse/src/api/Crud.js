@@ -1,8 +1,8 @@
 import $ from 'jquery';
 
-export function fetchElements(path) {
+export function fetchData(path) {
   return $.ajax({
-    url: 'http://ejercicios.lan/API/listFiles.php',
+    url: 'http://ejercicios.lan/API/fetchData.php',
     type: 'POST',
     dataType: "json",
     data: {
@@ -12,28 +12,33 @@ export function fetchElements(path) {
       return result;
     },
     error: function(error) {
-      console.error(error);
+      console.warn('Undefined path given');
+      error.statusText = 'undefined_path_given';
+
+      return error;
     },
     complete: function() {
-      console.log("Fetching COMPLETE");
-      console.log("Rendering...");
+      console.info("Fetching COMPLETE");
     }
   });
 }
 
-export function createFolder(path, key) {;
+export function createElement(path, key) {;
   return $.ajax({
-    url: 'http://ejercicios.lan/API/createFolder.php',
+    url: 'http://ejercicios.lan/API/createElement.php',
     type: 'POST',
     data: {
       "PATH": path,
-      "folderName": key
+      "KEY": key
     },
     success: function (result) {
-      console.log(result);
+      return result
     },
     error: function(error) {
-      console.error(error);
+      console.warn('Unavailable to create element');
+      error.statusText = 'could_not_create_element';
+
+      return error;
     }
   });
 }
@@ -44,30 +49,16 @@ export function removeElement(path, key) {
     type: 'POST',
     data: {
       "PATH": path,
-      "folderName": key
+      "KEY": key
     },
     success: function (result) {
-      console.log(result);
+      return result;
     },
     error: function(error) {
-      console.error(error);
-    }
-  });
-}
+      console.warn('Unavailable to remove element');
+      error.statusText = 'could_not_remove_element';
 
-export function createFile(path, key) {
-  return $.ajax({
-    url: 'http://ejercicios.lan/API/createFile.php',
-    type: 'POST',
-    data: {
-      "PATH": path,
-      "fileName": key
-    },
-    success: function (result) {
-      console.log(result);
-    },
-    error: function(error) {
-      console.error(error);
+      return error;
     }
   });
 }
@@ -78,14 +69,17 @@ export function renameElement(path, oldKey, newKey) {
     type: 'POST',
     data: {
       "PATH": path,
-      "newKey": newKey,
-      "oldKey": oldKey
+      "NEW_KEY": newKey,
+      "OLD_KEY": oldKey
     },
     success: function (result) {
-      console.log(result);
+      return result;
     },
     error: function(error) {
-      console.error(error);
+      console.warn('Unavailable to rename element');
+      error.statusText = 'could_not_rename_element';
+
+      return error;
     }
   });
 }

@@ -18,6 +18,10 @@ describe('Unit Tests', () => {
 
       expect(folder).toMatchSnapshot();
     });
+
+    it('should warn that there are not valid PATH selected if PATH is empty or undefined', () => {
+
+    });
   });
 
   describe('Fetch files', function () {
@@ -47,6 +51,18 @@ describe('Unit Tests', () => {
       });
 
       mockFetchElements.mockClear();
+    });
+
+    it('should warn that the path is undefined', () => {
+
+    });
+
+    it('should warn that the PATH is empty', () => {
+
+    });
+
+    it('should warn that the PATH is not a folder', () => {
+
     });
   });
 

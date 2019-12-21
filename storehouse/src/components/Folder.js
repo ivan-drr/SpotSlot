@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/Folder.css';
 import Moment from 'moment';
 import $ from 'jquery';
-import { fetchElements, createFolder, removeElement, createFile, renameElement } from '../api/Crud';
+import { fetchData, createElement, removeElement, renameElement } from '../api/Crud';
 import { mapModified } from '../api/Mappers';
 
 import FileBrowser, {Icons} from 'react-keyed-file-browser';
@@ -22,7 +22,7 @@ class Folder extends Component {
 
     console.log("Fetching Files...");
 
-    fetchElements('/home/snowtray/test/').then((result) => {
+    fetchData('/home/snowtray/test/').then((result) => {
       this.setState(state => {
         state.files = result.map((file) => {
           return mapModified(file);
@@ -33,7 +33,7 @@ class Folder extends Component {
   }
 
   handleCreateFolder = (key) => {
-    createFolder(this.state.path, key);
+    createElement(this.state.path, key);
 
     this.setState(state => {
       state.files = state.files.concat([{
@@ -44,7 +44,7 @@ class Folder extends Component {
   }
 
   handleCreateFile = (key) => {
-    createFile(this.state.path, key)
+    createElement(this.state.path, key)
 
     this.setState(state => {
       state.files = state.files.concat([{
@@ -147,7 +147,6 @@ class Folder extends Component {
 
   render() {
     $('#loading').fadeOut(800);
-    console.log("Render COMPLETE");
     return (
         <div>
           <input type="file" id="explorer" className="d-none" />
