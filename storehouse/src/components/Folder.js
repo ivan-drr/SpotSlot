@@ -1,35 +1,43 @@
 import React, { Component } from 'react';
 import '../styles/Folder.css';
 import Moment from 'moment';
-import $ from 'jquery';
+
+import Loading from './Loading';
 import { fetchData, createElement, removeElement, renameElement } from '../api/Crud';
 import { mapModified } from '../api/Mappers';
 
 import FileBrowser, {Icons} from 'react-keyed-file-browser';
 
 class Folder extends Component {
-  state = {
-    path: '',
-    files: []
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      path: '',
+      files: [],
+      _isFetch: false
+    }
   }
 
   componentDidMount() {
-    if (this.state.path === '') {
-      this.setState(state => {
-        state.path = $("#explorer").trigger("click");
-      })
-    }
+    console.info('%c⇄ Fetching Files...', 'color: blue');
 
-    console.log("Fetching Files...");
-
-    fetchData('/home/snowtray/test/').then((result) => {
-      this.setState(state => {
-        state.files = result.map((file) => {
-          return mapModified(file);
+    fetchData('/home/snowtray/test/')
+      .then(result => {
+        this.setState(state => {
+          state.files = result.map((file) => {
+            return mapModified(file);
+          });
+          state._isFetch = true;
+          return state;
         });
-        return state;
-      });
-    });
+      })
+      .catch(error => {
+        this.setState(state => {
+          state._isFetch = 'error';
+          return state;
+        })
+      })
   }
 
   handleCreateFolder = (key) => {
@@ -146,24 +154,29 @@ class Folder extends Component {
   }
 
   render() {
-    $('#loading').fadeOut(800);
+    //$('#loading').fadeOut(800);
     return (
         <div>
           <input type="file" id="explorer" className="d-none" />
-          <FileBrowser
-            files={this.state.files}
-            icons={Icons.FontAwesome(4)}
+          <div>
+            <FileBrowser
+              files={this.state.files}
+              icons={Icons.FontAwesome(4)}
 
-            onCreateFolder={this.handleCreateFolder}
-            onCreateFiles={this.handleCreateFile}
-            onMoveFolder={this.handleRenameFolder}
-            onMoveFile={this.handleRenameFile}
-            onRenameFolder={this.handleRenameFolder}
-            onRenameFile={this.handleRenameFile}
-            onDeleteFolder={this.handleDeleteFolder}
-            onDeleteFile={this.handleDeleteFile}
-          />
+              onCreateFolder={this.handleCreateFolder}
+              onCreateFiles={this.handleCreateFile}
+              onMoveFolder={this.handleRenameFolder}
+              onMoveFile={this.handleRenameFile}
+              onRenameFolder={this.handleRenameFolder}
+              onRenameFile={this.handleRenameFile}
+              onDeleteFolder={this.handleDeleteFolder}
+              onDeleteFile={this.handleDeleteFile}
+            />
+          </div>
+
+          <Loading _isFetch={this.state._isFetch}/>
         </div>
+
     )
   }
 }

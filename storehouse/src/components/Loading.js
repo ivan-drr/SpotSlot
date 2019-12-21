@@ -8,35 +8,42 @@ class Loading extends Component {
     this.typeWriter = this.typeWriter.bind(this);
   }
 
-  componentDidMount() {
-    var iterator = 0;
-    this.typeWriter('Loading...', 55, 'loadingText', iterator);
-  }
-
   typeWriter(str, speed, id, iterator) {
-    setTimeout(() => {
-      if (iterator < str.length) {
-        document.getElementById(id).innerHTML += str.charAt(iterator);
-        iterator++;
-        setTimeout(this.typeWriter(str, speed, id, iterator), speed);
-      }
-    }, 60);
+    if (document.getElementById(id) !== null) {
+      var element = document.getElementById(id);
+
+      setTimeout(() => {
+        if (iterator < str.length) {
+          element.innerHTML += str.charAt(iterator);
+          iterator++;
+          setTimeout(this.typeWriter(str, speed, id, iterator), speed);
+        }
+      }, 1000/speed*2);
+    }
   }
 
   render() {
-    return(
-      <div id="loading" className="text-primary fixed-top">
+    var iterator = 0;
 
-        <div className="spinner-border text-primary" role="status">
-          <div className="spinner-border" role="status">
-            <div className="spinner-border" role="status">
-              <div className="spinner-border" role="status">
-              </div>
-            </div>
-          </div>
-        </div> <span id="loadingText" className="ml-3"></span>
-      </div>
-    );
+    if (this.props._isFetch === 'error') {
+      document.getElementById('loadingText').innerHTML = '';
+      this.typeWriter(' ✘ Error connecting to API', 70, 'loadingText', iterator);
+      return (
+        <div id="loading" className="text-danger fixed-top">
+          <span id="loadingText" className="ml-3"></span>
+        </div>
+      );
+
+    } else if (!this.props._isFetch) {
+      this.typeWriter(' Loading...', 70, 'loadingText', iterator);
+      return(
+        <div id="loading" className="text-primary fixed-top">
+
+          <div className="spinner-border text-primary" role="status"></div>
+          <span id="loadingText" className="ml-3"></span>
+        </div>
+      );
+    } else return null;
   }
 
 }

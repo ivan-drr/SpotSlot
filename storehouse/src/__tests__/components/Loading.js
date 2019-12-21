@@ -11,7 +11,7 @@ describe('Unit Tests', () => {
       expect(loading).toMatchSnapshot();
     });
 
-    it('should exist <span id="loadingText">', function () {
+    it('should exist <div id="loading" className="text-primary fixed-top">', function () {
 
     });
 
@@ -21,12 +21,7 @@ describe('Unit Tests', () => {
 
     describe('typeWriter', function () {
       it('should write on the DOM element', function () {
-        var iterator = 0;
-        document.body.innerHTML = '<span id="loadingText" class="ml-3"></span>';
-
-        //loading.typeWriter('Loading...', 55, 'loadingText', iterator);
-
-        //expect($('#loadingText').text()).stringContaining('Loading...');
+        
       });
 
       it('should warn that the DOM element was not found', function () {

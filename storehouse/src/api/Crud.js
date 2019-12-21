@@ -9,17 +9,15 @@ export function fetchData(path) {
       "PATH": path
     },
     success: function (result) {
+      console.info('%c✔ Fetching complete', 'color: green');
       return result;
     },
     error: function(error) {
-      console.warn('Undefined path given');
+      console.info('%c✘ Error fetching files', 'color: red');
       error.statusText = 'undefined_path_given';
 
       return error;
     },
-    complete: function() {
-      console.info("Fetching COMPLETE");
-    }
   });
 }
 
