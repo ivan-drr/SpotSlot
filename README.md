@@ -1,10 +1,8 @@
 
-# SpotSlot
+# SpotSlot ![Working on](https://www.flaticon.com/free-icon/challenges_1933952)
 SpotSlot or Sot, is a node module powered by React which list all files and folders found on the given path and let the user to manage it with a simple API on PHP.
 
 ## Installation
-
-
 Install the package with npm on your app:
 
 ```
