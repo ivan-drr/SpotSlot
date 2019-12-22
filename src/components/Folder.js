@@ -21,8 +21,6 @@ class Folder extends Component {
   }
 
   componentDidMount() {
-    const status = document.getElementById('logController');
-
     if (this.state.path !== '' && this.state.path !== null) styledLog('%c​⇄ %cFetching Files...');
     else styledLog('%c☂ %c​𝙀𝙈𝙋𝙏𝙔 path');
 
