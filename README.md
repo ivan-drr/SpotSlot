@@ -1,21 +1,44 @@
 
-# Storehouse
-> React project with MDB to manage local machine files.
+# SpotSlot
+SpotSlot or Sot, is a node module powered by React which list all files and folders found on the given path and let the user to manage it with a simple API on PHP.
 
-|TO DO            |DOING                         |DONE                        |
-|----------------|-------------------------------|-----------------------------|
-|`IT tests`|`Add PATH parameter on API`|`Asynchronous forEach`|
-|`Unit tests`|`Open a folder explorer first time that init the application`|`API Create Folders`|
-|||`API Delete Files`|
-|||`Fix API listFiles.php`
-|||`Event render of Loading`
-|||`Apply basic styles`
-|||`Encapsulate mapModified`
-|||`Merge Functions.js component into API`
-|||`Encapsulate all ajax calls`
-|||`End API functions`
-|||`Fix API renameElement`
-|||`Fix render in incomplete asynchronous response`
-|||`Fix CSS import for test`
+## Installation
 
-![Under Construction](resourcesGit/under-construction.png)
+
+Install the package with npm on your app:
+
+```
+npm install spot-slot
+```
+
+## Usage
+Use it on lifecycle method render:
+
+```javascript
+import React, { Component } from 'react'
+import FileManager from 'spot-slot'
+
+class App extends Component {
+  render() {
+    return (<FileManger files=[]/>)
+  }
+}
+```
+Or use it with ES6 imports:
+```javascript
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import FileManager from 'spot-slot'
+
+var mount = document.querySelectorAll('div.browser-mount');
+
+ReactDOM.render(
+  <FileManager
+    files=[]
+  />,
+  mount[0]
+);
+```
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
