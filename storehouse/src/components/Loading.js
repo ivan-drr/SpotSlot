@@ -8,6 +8,7 @@ class Loading extends Component {
     this.typeWriter = this.typeWriter.bind(this);
   }
 
+  // ERROR: need to cancel timeout if the function its called again
   typeWriter(str, speed, id, iterator) {
     if (document.getElementById(id) !== null) {
       var element = document.getElementById(id);
@@ -29,7 +30,6 @@ class Loading extends Component {
     var iterator = 0;
 
     if (this.props._isFetch === 'error') {
-      if (document.getElementById('loadingText') !== null) document.getElementById('loadingText').innerHTML = '';
       this.typeWriter(' ✘ Error connecting to API', 70, 'loadingText', iterator);
       return (
         <div id="loading" className="text-danger fixed-top">
@@ -37,7 +37,9 @@ class Loading extends Component {
         </div>
       );
     } else if (!this.props._isFetch) {
-      this.typeWriter(' Loading...', 70, 'loadingText', iterator);
+      setTimeout(() => {
+        this.typeWriter(' Loading...', 70, 'loadingText', iterator);
+      }, 0);
       return(
         <div id="loading" className="text-primary fixed-top">
           <div className="spinner-border text-primary" role="status"></div>

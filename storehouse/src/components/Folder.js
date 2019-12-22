@@ -5,6 +5,7 @@ import Moment from 'moment';
 import Loading from './Loading';
 import { fetchData, createElement, removeElement, renameElement } from '../api/Crud';
 import { mapModified } from '../api/Mappers';
+import { styledLog } from './OwnFunctions';
 
 import FileBrowser, {Icons} from 'react-keyed-file-browser';
 
@@ -13,24 +14,33 @@ class Folder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      path: '',
+      path: '/home/snowtray/Proyects',
       files: [],
-      _isFetch: false
+      _isFetch: false,
     }
   }
 
   componentDidMount() {
-    console.info('%c⇄ Fetching Files...', 'color: blue');
+    const status = document.getElementById('logController');
 
-    fetchData('/home/snowtray/test/')
+    if (this.state.path !== '' && this.state.path !== null) styledLog('%c​⇄ %cFetching Files...');
+    else styledLog('%c☂ %c​𝙀𝙈𝙋𝙏𝙔 path');
+
+    fetchData(this.state.path)
       .then(result => {
         this.setState(state => {
-          state.files = result.map((file) => {
-            return mapModified(file);
-          });
           state._isFetch = true;
           return state;
         });
+
+        if (result.log !== 'empty_path_given') {
+          this.setState(state => {
+            state.files = result.map((file) => {
+              return mapModified(file);
+            });
+            return state;
+          });
+        }
       })
       .catch(error => {
         this.setState(state => {
@@ -154,10 +164,19 @@ class Folder extends Component {
   }
 
   render() {
-    //$('#loading').fadeOut(800);
+    console.log(this.state._isFetch);
     return (
         <div>
-          <input type="file" id="explorer" className="d-none" />
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroupFileAddon01">Empty</span>
+            </div>
+            <div className="custom-file">
+              <input type="file" className="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" />
+              <label className="custom-file-label text-primary" htmlFor="inputGroupFile01">Choose a path to scan</label>
+            </div>
+          </div>
+
           <div>
             <FileBrowser
               files={this.state.files}

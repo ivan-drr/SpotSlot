@@ -6,10 +6,6 @@ import Folder from './Folder';
 
 class App extends Component {
 
-  //updateLoading(_isActive) {
-    //updateIsActiveLoading(_isActive);
-  //}
-
   render() {
     return (
       <div className="App" id="app">

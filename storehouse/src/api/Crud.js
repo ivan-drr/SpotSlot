@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import { styledLog } from '../components/OwnFunctions';
 
 export function fetchData(path) {
   return $.ajax({
@@ -9,11 +10,11 @@ export function fetchData(path) {
       "PATH": path
     },
     success: function (result) {
-      console.info('%c✔ Fetching complete', 'color: green');
+      styledLog('%c☀ %cFetching complete');
       return result;
     },
     error: function(error) {
-      console.info('%c✘ Error fetching files', 'color: red');
+      styledLog('%c❄ %cError fetching files');
       error.statusText = 'undefined_path_given';
 
       return error;

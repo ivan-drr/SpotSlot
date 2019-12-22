@@ -6,6 +6,19 @@ import './styles/index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
+const init = () => {
+  console.group('%c%c⊢☵☵☵☵☵☵┤ 𝙇𝙚𝙜𝙚𝙣𝙙 ├☵☵☵☵☵☵⊣', '', 'color:#1E799E; font-size:1.3em; text-shadow: 3px 2px #CDCDCD;');
+    console.info('%c☀  %c=  %cCorrect app flow', 'font-size: 2em', 'color:black; font-size: 1.5em' , 'color:#1E9E65');
+    console.info('%c☂  %c=  %cWarning it may rain', 'font-size: 2em', 'color:black; font-size: 1.5em' , 'color:#CEB922');
+    console.info('%c❄  %c=  %cApp got freeze by errors', 'font-size: 2em', 'color:black; font-size: 1.5em' , 'color:#C72A2A');
+  console.groupEnd();
+  console.info('%c%c⊢☵☵☵☵☵☵☵☵☵☵☵☵☵☵☵☵☵☵☵⊣', '', 'color:#1E799E; font-weight: bold; font-size:1.3em; text-shadow: 3px 2px #CDCDCD;');
+  console.info('');
+
+  console.group('%c%c ⊢└⊣┤ 𝙇𝙤𝙜 ├⊢┘⊣', '', 'color:#1E799E; font-size:1.3em;');
+}
+
+init();
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
