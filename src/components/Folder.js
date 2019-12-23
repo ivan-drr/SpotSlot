@@ -26,19 +26,18 @@ class Folder extends Component {
 
     fetchData(this.state.path)
       .then(result => {
-        this.setState(state => {
-          state._isFetch = true;
-          return state;
-        });
-
         if (result.log !== 'empty_path_given') {
           this.setState(state => {
             state.files = result.map((file) => {
               return mapModified(file);
             });
-            return state;
           });
         }
+
+        this.setState(state => {
+          state._isFetch = true;
+          return state;
+        });
       })
       .catch(error => {
         this.setState(state => {
@@ -162,7 +161,6 @@ class Folder extends Component {
   }
 
   render() {
-    console.log(this.state._isFetch);
     return (
         <div>
           <div className="input-group mb-3">

@@ -3,7 +3,7 @@ import { styledLog } from '../components/OwnFunctions';
 
 export function fetchData(path) {
   return $.ajax({
-    url: 'http://ejercicios.lan/API/fetchData.php',
+    url: 'http://ejercicios.lan/sot-API/src/fetchData.php',
     type: 'POST',
     dataType: "json",
     data: {
