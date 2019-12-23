@@ -15,7 +15,7 @@ Use it on lifecycle method render:
 
 ```javascript
 import React, { Component } from 'react'
-import FileManager from 'spot-slot'
+import FileManager from 'react-spot-slot'
 
 class App extends Component {
   render() {
