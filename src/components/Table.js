@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../styles/Folder.css';
+import '../styles/Table.css';
 import Moment from 'moment';
 
 import Loading from './Loading';
@@ -9,7 +9,7 @@ import { styledLog } from './OwnFunctions';
 
 import FileBrowser, {Icons} from 'react-keyed-file-browser';
 
-class Folder extends Component {
+class Table extends Component {
 
   constructor(props) {
     super(props);
@@ -196,4 +196,4 @@ class Folder extends Component {
   }
 }
 
-export default Folder;
+export default Table;

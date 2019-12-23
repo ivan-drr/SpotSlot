@@ -16,13 +16,14 @@ class Loading extends Component {
         if (iterator < str.length) {
           element.innerHTML += str.charAt(iterator);
           iterator++;
+
           setTimeout(this.typeWriter(str, speed, id, iterator), speed);
 
           return true;
         } else return false;
       }, 1000/speed*2);
 
-    } else return 'element_not_found';
+    }
   }
 
   render() {
