@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { mapModified } from '../api/Mappers';
+import { mapModified, fileType } from '../api/Mappers';
 
 class FileManager extends Component {
 
@@ -14,11 +14,8 @@ class FileManager extends Component {
 
     if (this.props.files.length !== 0) {
       this.props.files.forEach((file, index) => {
-        if (file.key.includes('/', file.key.length-1)) htmlClass = 'folder';
-        else htmlClass = 'file';
-
         files.push(
-          <tr className={htmlClass}>
+          <tr className={fileType(file.key)}>
             <th scope="row">{index+1}</th>
             <td>{file.key}</td>
             <td>{file.size}</td>
