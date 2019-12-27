@@ -4,17 +4,16 @@ import Moment from 'moment';
 
 import Loading from './Loading';
 import { fetchData, createElement, removeElement, renameElement } from '../api/Crud';
-import { mapModified } from '../api/Mappers';
 import { styledLog } from './OwnFunctions';
 
-import FileBrowser, {Icons} from 'react-keyed-file-browser';
+import FileManager from './FileManager';
 
 class Table extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      path: '/home/snowtray/Proyects',
+      path: '/home/snowtray/test',
       files: [],
       _isFetch: false,
     }
@@ -28,9 +27,7 @@ class Table extends Component {
       .then(result => {
         if (result.log !== 'empty_path_given') {
           this.setState(state => {
-            state.files = result.map((file) => {
-              return mapModified(file);
-            });
+            state.files = result;
           });
         }
 
@@ -174,19 +171,7 @@ class Table extends Component {
           </div>
 
           <div>
-            <FileBrowser
-              files={this.state.files}
-              icons={Icons.FontAwesome(4)}
-
-              onCreateFolder={this.handleCreateFolder}
-              onCreateFiles={this.handleCreateFile}
-              onMoveFolder={this.handleRenameFolder}
-              onMoveFile={this.handleRenameFile}
-              onRenameFolder={this.handleRenameFolder}
-              onRenameFile={this.handleRenameFile}
-              onDeleteFolder={this.handleDeleteFolder}
-              onDeleteFile={this.handleDeleteFile}
-            />
+            <FileManager files={this.state.files} />
           </div>
 
           <Loading _isFetch={this.state._isFetch}/>
