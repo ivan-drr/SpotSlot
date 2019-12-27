@@ -10,8 +10,6 @@ class FileManager extends Component {
 
   handleFiles() {
     var files = [];
-    var htmlClass = 'file';
-
     if (this.props.files.length !== 0) {
       this.props.files.forEach((file, index) => {
         files.push(

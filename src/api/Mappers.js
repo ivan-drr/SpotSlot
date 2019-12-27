@@ -20,6 +20,10 @@ export function fileType(key) {
   else return extensionFilter(key);
 }
 
+export function displayStructure() {
+
+}
+
 function extensionFilter(key) {
   // PROGRAMMING
   if (key.endsWith('.java')) return 'java';
@@ -167,8 +171,4 @@ function extensionFilter(key) {
   else if (key.endsWith('.tmp')) return 'tmp';
 
   else return 'unknown';
-}
-
-export function mapDisplayStructure() {
-
 }
