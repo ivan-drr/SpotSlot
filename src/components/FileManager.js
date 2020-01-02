@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Table from 'react-bootstrap/Table'
+
 import { mapModified, fileType } from '../api/Mappers';
 
 class FileManager extends Component {
@@ -6,44 +8,46 @@ class FileManager extends Component {
   constructor(props) {
     super(props);
     this.handleFiles = this.handleFiles.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e, data) {
+    console.log(e.target.parentElement.className);
+    console.log(data+" was clicked");
   }
 
   handleFiles() {
     var files = [];
     if (this.props.files.length !== 0) {
-      this.props.files.forEach((file, index) => {
+      this.props.files.forEach(file => {
         files.push(
-          <tr className={fileType(file.key)}>
-            <th scope="row">{index+1}</th>
+          <tr className={fileType(file.key)} onClick={e => this.handleClick(e, file.key)}>
             <td>{file.key}</td>
             <td>{file.size}</td>
             <td>{mapModified(file.modified)}</td>
           </tr>
         );
-      })
+      });
     }
 
-    if(!files) return (<td colspan="4">No files</td>);
+    if(!this.props.files) return 'No files';
     else return files;
   }
 
   render() {
+
     return (
       <div className="folderManager">
-        <table class="table table-striped">
+        <Table responsive bordered hover>
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Size</th>
-              <th scope="col">Last modified</th>
+              <th>File Name</th>
+              <th>Size</th>
+              <th>Last modification</th>
             </tr>
           </thead>
-          <tbody>
-            {this.handleFiles()}
-
-          </tbody>
-        </table>
+          <tbody>{this.handleFiles()}</tbody>
+        </Table>
       </div>
     )
   }

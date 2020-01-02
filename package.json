@@ -10,7 +10,6 @@
     "react-bootstrap": "^1.0.0-beta.16",
     "react-dnd": "^10.0.2",
     "react-dom": "^16.12.0",
-    "react-keyed-file-browser": "^1.5.4",
     "react-scripts": "3.3.0"
   },
   "scripts": {
@@ -50,8 +49,6 @@
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom",
-      "<rootDir>/node_modules/moment",
-      "<rootDir>/node_modules/react-keyed-file-browser"
     ],
     "moduleNameMapper": {
       "\\.(css|less|sass|scss)$": "<rootDir>/src/__mocks__/styleMock.js",

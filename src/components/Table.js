@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../styles/Table.css';
-import Moment from 'moment';
 
 import Loading from './Loading';
 import { fetchData, createElement, removeElement, renameElement } from '../api/Crud';
@@ -62,7 +61,7 @@ class Table extends Component {
       state.files = state.files.concat([{
         key: key,
         size: this.file.size,
-        modified: +Moment()
+        modified: 'Now'
       }])
       return state
     })
