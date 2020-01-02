@@ -1,3 +1,5 @@
+import { faCoffee, faFileImage, faFileAlt, faFolder } from '@fortawesome/free-solid-svg-icons'
+
 export function mapModified(modified) {
   if (modified.days!=='') {
     const time = modified.days==='1'?' day':' days';
@@ -15,8 +17,28 @@ export function mapModified(modified) {
   else return 'Not available';
 }
 
+export function isVisible(key) {
+  if (key.endsWith('.pdf')
+    || key.endsWith('.bmp')
+    || key.endsWith('.gif')
+    || key.endsWith('.ico')
+    || key.endsWith('.jpeg')
+    || key.endsWith('.png')
+    || key.endsWith('.svg')
+    || key.endsWith('.tif') || key.endsWith('.tiff')
+    || key.endsWith('.avi')
+    || key.endsWith('.mp4')
+    || key.endsWith('.wmv')) return true;
+  else return false;
+}
+
+export function isFolder(key) {
+  if (key.endsWith('/')) return true;
+  else return false;
+}
+
 export function fileType(key) {
-  if (key.endsWith('/')) return 'folder';
+  if (key.endsWith('/')) return faFolder;
   else return extensionFilter(key);
 }
 
@@ -26,7 +48,7 @@ export function displayStructure() {
 
 function extensionFilter(key) {
   // PROGRAMMING
-  if (key.endsWith('.java')) return 'java';
+  if (key.endsWith('.java')) return faCoffee;
   else if (key.endsWith('.c')) return 'c';
   else if (key.endsWith('.cs')) return 'c#';
   else if (key.endsWith('.sh')) return 'bash';
@@ -53,7 +75,7 @@ function extensionFilter(key) {
   else if (key.endsWith('.gif')) return 'gif';
   else if (key.endsWith('.ico')) return 'icon';
   else if (key.endsWith('.jpeg') || key.endsWith('.jpg')) return 'jpeg';
-  else if (key.endsWith('.png')) return 'png';
+  else if (key.endsWith('.png')) return faFileImage;
   else if (key.endsWith('.ps')) return 'post-script';
   else if (key.endsWith('.psd')) return 'psd';
   else if (key.endsWith('.svg')) return 'svg';
@@ -65,7 +87,7 @@ function extensionFilter(key) {
   else if (key.endsWith('.pdf')) return 'pdf';
   else if (key.endsWith('.rtf')) return 'rich-text';
   else if (key.endsWith('.tex')) return 'tex';
-  else if (key.endsWith('.txt')) return 'txt';
+  else if (key.endsWith('.txt')) return faFileAlt;
   else if (key.endsWith('.wks') || key.endsWith('.wps')) return 'microsoft-works';
   else if (key.endsWith('.wpd')) return 'wordperfect';
 
