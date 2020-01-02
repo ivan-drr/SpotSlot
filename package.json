@@ -48,7 +48,7 @@
     ],
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-dom"
     ],
     "moduleNameMapper": {
       "\\.(css|less|sass|scss)$": "<rootDir>/src/__mocks__/styleMock.js",
