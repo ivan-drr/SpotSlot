@@ -19,7 +19,7 @@ export function mapModified(modified) {
 
 export function fileName(key) {
   if (isFolder(key)) key = key.slice(0, -1);
-  return key.replace(/^.*[\\\/]/, '');
+  return key.replace(/^.*[\\\\/]/, '');
 }
 
 export function isVisible(key) {
