@@ -17,6 +17,11 @@ export function mapModified(modified) {
   else return 'Not available';
 }
 
+export function fileName(key) {
+  if (isFolder(key)) key = key.slice(0, -1);
+  return key.replace(/^.*[\\\/]/, '');
+}
+
 export function isVisible(key) {
   if (key.endsWith('.pdf')
     || key.endsWith('.bmp')

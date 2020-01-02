@@ -1,35 +1,11 @@
-.button {
-  margin-left: 0.5em;
+#badgeTitle {
+  background-color: rgba(105, 173, 187, 0.79);
 }
-
-.file-white {
-  background-color: rgb(189, 222, 235);
-  margin: 0.4em;
+#pathText {
+  background-color: rgba(181, 218, 219, 0.25);
+  color: rgb(23, 149, 167);
 }
-.folder-white {
-  background-color: rgb(230, 235, 189);
-  margin: 0.4em;
-}
-.fileHeader-white {
-  background-color: rgb(120, 196, 231);
-}
-.folderHeader-white {
-  background-color: rgb(233, 187, 156);
-}
-.folderName-white {
-  color: rgb(10, 70, 133);
-}
-.fileName-white {
-  color: rgb(87, 87, 87);
-}
-
-
-@@media only screen and (min-width: 1100px) {
-  .actionColumn {
-    width: 10%;
-  }
-}
-
-.actionColumn {
-  width: 20%;
+#pathInfo {
+  background-color: rgba(66, 128, 158, 0.74);
+  color: rgb(179, 225, 237);
 }
