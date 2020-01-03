@@ -27,20 +27,30 @@ class Grid extends Component {
     this.handleAreaSelect = this.handleAreaSelect.bind(this);
   }
 
-  handleAreaSelect(e) {
-    if (e.type === 'mousedown') console.log('mousedown');
-    else console.log('mouseup');
-  }
-
-  handleClickOut(e) {
-    console.log(e.target.className);
+  clickedOnCard = (e) => {
     if (e.target.tagName !== 'path'
       && !e.target.className.includes('file')
       && !e.target.className.includes('card')
       && !e.target.className.includes('card-header')
       && !e.target.className.includes('footer')
       && !e.target.className.includes('card-footer')
-      && !e.target.className.includes('card-title')) {
+      && !e.target.className.includes('card-title')) return false;
+
+    else return true;
+  }
+
+  handleAreaSelect(e) {
+    if (!this.clickedOnCard(e)) {
+      if (e.type === 'mousedown') {
+        // if mouse goes out of fileManager kill area
+        console.log('mousedown');
+      } else console.log('mouseup');
+    }
+  }
+
+  handleClickOut(e) {
+    console.log(e.target.className);
+    if (!this.clickedOnCard(e)) {
       Array.prototype.slice.call(document.getElementsByClassName('file')).forEach(card => card.style.backgroundColor = '');
     }
   }
