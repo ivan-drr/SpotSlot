@@ -9,7 +9,7 @@ class App extends Component {
   render() {
     return (
       <div className="App" id="app">
-        <div className="fluid-container m-5 text-center">
+        <div className="fluid-container m-5 text-center noselect">
           <FileManager />
         </div>
       </div>

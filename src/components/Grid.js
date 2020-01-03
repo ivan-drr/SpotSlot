@@ -23,12 +23,37 @@ class Grid extends Component {
     this.handleFiles = this.handleFiles.bind(this);
     this.getFilesKeys = this.getFilesKeys.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleClickOut = this.handleClickOut.bind(this);
+  }
+
+  handleClickOut(e) {
+    console.log(e.target.className);
+    if (e.target.tagName !== 'path'
+      && !e.target.className.includes('file')
+      && !e.target.className.includes('card')
+      && !e.target.className.includes('card-header')
+      && !e.target.className.includes('footer')
+      && !e.target.className.includes('card-footer')
+      && !e.target.className.includes('card-title')) {
+      Array.prototype.slice.call(document.getElementsByClassName('file')).forEach(card => card.style.backgroundColor = '');
+    }
   }
 
   handleClick(e, data) {
-    if(e.target.className !== 'BUTTON' && e.target.tagName !== 'path' && e.target.tagName !== 'svg' && isFolder(data)) {
-      console.log(e.target.parentElement.class);
-      console.log(data+" was clicked");
+    if (e.target.className !== 'BUTTON' && e.target.tagName !== 'path' && e.target.tagName !== 'svg') {
+      var target = e.target.parentElement;
+      if (target.className.includes('file')) target = target.children[0];
+      if (target.className.includes('card-header')) target = target.parentElement;
+      if (target.className.includes('card-title')) target = target.parentElement.parentElement;
+
+      if (target.parentElement.style.backgroundColor !== 'rgba(102, 163, 198, 0.5)') {
+        target.parentElement.style.backgroundColor = 'rgba(102, 163, 198, 0.5)';
+        target.parentElement.style.borderRadius = '0.3em';
+        target.parentElement.style.borderColor = '#E2F1FF';
+      }
+      else target.parentElement.style.backgroundColor = '';
+      //console.log(target);
+      //console.log(data+" was clicked");
     }
   }
 
@@ -64,17 +89,14 @@ class Grid extends Component {
     if (this.props.files.length !== 0) {
       this.props.files.forEach(file => {
         files.push(
-          <Col xs={6} sm={6} md={4} lg={3}>
-            <Card className={isFolder(file.key)?"folder-white":"file-white"} onClick={e => this.handleClick(e, file.key)}>
+          <Col className="file" xs={6} sm={6} md={4} lg={3}>
+            <Card className={isFolder(file.key)?"folder-white":"file-white"}
+              onClick={e => this.handleClick(e, file.key)}
+            >
                 <Card.Header className={isFolder(file.key)?"folderHeader-white":"fileHeader-white"}>
                   <Card.Title className={isFolder(file.key)?"folderName-white":"fileName-white"}>{fileName(file.key)}</Card.Title>
                 </Card.Header>
-                <Card.Body>
-                  {isFolder(file.key)?true:isVisible(file.key)?<Button className="button" variant="primary"><FontAwesomeIcon icon={faEye} /></Button>:false}
 
-                  <Button className="button" variant="danger"><FontAwesomeIcon icon={faTrash} /></Button>
-                  <Button className="button" variant="info"><FontAwesomeIcon icon={faCloudDownloadAlt} /></Button>
-                </Card.Body>
                 <Card.Footer className="text-muted footer">
                   Last updated {mapModified(file.modified)} ago<br></br>
                   {isFolder(file.key)?true:'Size: ' + file.size + ' - '}<FontAwesomeIcon icon={fileType(file.key)} />
@@ -92,7 +114,7 @@ class Grid extends Component {
   render() {
     this.handleFolders(this.getFilesKeys(this.props.files));
     return (
-      <div>
+      <div id="fileManager" onClick={e => this.handleClickOut(e)}>
         <Container>
           <Row className="justify-content-md-center fadeIn">
           {this.handleFiles()}
