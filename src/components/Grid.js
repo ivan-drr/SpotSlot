@@ -24,6 +24,12 @@ class Grid extends Component {
     this.getFilesKeys = this.getFilesKeys.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleClickOut = this.handleClickOut.bind(this);
+    this.handleAreaSelect = this.handleAreaSelect.bind(this);
+  }
+
+  handleAreaSelect(e) {
+    if (e.type === 'mousedown') console.log('mousedown');
+    else console.log('mouseup');
   }
 
   handleClickOut(e) {
@@ -114,7 +120,7 @@ class Grid extends Component {
   render() {
     this.handleFolders(this.getFilesKeys(this.props.files));
     return (
-      <div id="fileManager" onClick={e => this.handleClickOut(e)}>
+      <div id="fileManager" onClick={e => this.handleClickOut(e)} onMouseDown={this.handleAreaSelect} onMouseUp={this.handleAreaSelect}>
         <Container>
           <Row className="justify-content-md-center fadeIn">
           {this.handleFiles()}
