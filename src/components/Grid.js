@@ -3,14 +3,11 @@ import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 
-import { mapModified, isFolder, isVisible, fileType, fileName } from '../api/Mappers';
-
+import { mapModified, isFolder, fileType, fileName } from '../api/Mappers';
 import '../styles/Grid.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faCloudDownloadAlt, faEye } from '@fortawesome/free-solid-svg-icons'
 
 
 
