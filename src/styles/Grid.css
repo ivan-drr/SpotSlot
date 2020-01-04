@@ -1,3 +1,10 @@
+#areaSelector {
+  background-color: rgba(16, 160, 222, 0.52);
+  border-radius: 0.3em;
+  border-color: rgba(9, 122, 171, 0.61);
+  position: absolute;
+}
+
 .file:hover {
   background-color: rgba(102, 163, 198, 0.3);
   border-radius: 0.3em;
