@@ -100,7 +100,7 @@ class Grid extends Component {
 
   handleMouseDown = (data) => {
     if (this.lastMouseMove === 'mousedown') {
-      data.forEach(card => {
+      data.forEach((card, index) => {
         if (this.visibleOnArea(card)) {
           card.parentElement.style.backgroundColor = 'rgba(102, 163, 198, 0.3)';
           card.parentElement.style.borderRadius = '0.3em';
@@ -110,7 +110,7 @@ class Grid extends Component {
           card.parentElement.style.backgroundColor = '';
           card.parentElement.style.borderRadius = 'none';
           card.parentElement.style.borderColor = '';
-          this.selectedCards.splice(this.selectedCards.indexOf(card), 1);
+          this.selectedCards.splice(index, 1);
         }
       });
       console.log('-----------------------------------------------------');
