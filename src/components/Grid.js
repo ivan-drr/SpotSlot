@@ -6,11 +6,12 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 
 import { mapModified, isFolder, fileType, fileName } from '../api/Mappers';
+import * as Constant from './constants/grid';
+
 import '../styles/Grid.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Grid extends Component {
-
   constructor(props) {
     super(props);
     this.filesToShow = [];
@@ -39,7 +40,7 @@ class Grid extends Component {
     else return true;
   }
 
-  handleMouseMove = (e) => {
+  getMousePosition = (e) => {
     var eventDoc, doc, body;
     e = e || window.e;
 
@@ -74,8 +75,8 @@ class Grid extends Component {
   }
 
   visibleOnArea = element => {
-    var width = element.offsetWidth;
-    var height = element.offsetHeight;
+    const width = element.offsetWidth;
+    const height = element.offsetHeight;
 
     var x0 = 0, y0 = 0;
     do {
@@ -84,43 +85,52 @@ class Grid extends Component {
         element = element.offsetParent;
     } while(element);
 
-    var x1 = x0 + width;
-    var y1 = y0 + height;
+    const x1 = x0 + width;
+    const y1 = y0 + height;
 
-    console.log(!(x0 > this.sx1 ||
-           x1 < this.sx0 ||
-           y0 > this.sy1 ||
-           y1 < this.sy0));
+    const areaStartAtTopLeft = !(x0 > this.sx1 || x1 < this.sx0 || y0 > this.sy1 || y1 < this.sy0);
+    const areaStartAtBottomLeft = !(x0 > this.sx1 || x1 < this.sx0 || y1 > this.sy0 || y0 < this.sy1);
 
-    return !(x0 > this.sx1 ||
-           x1 < this.sx0 ||
-           y0 > this.sy1 ||
-           y1 < this.sy0);
+    return areaStartAtTopLeft;
   }
+
+  getCardTarget = e => {
+    if (e.target.className !== 'BUTTON' && e.target.tagName !== 'path' && e.target.tagName !== 'svg') {
+      var target = e.target.parentElement;
+      if (target.className.includes('file')) target = target.children[0];
+      if (target.className.includes('card-header')) target = target.parentElement;
+      if (target.className.includes('card-title')) target = target.parentElement.parentElement;
+
+      return target.parentElement;
+    } else return false
+  }
+
+
 
   handleMouseDown = (data) => {
     if (this.lastMouseMove === 'mousedown') {
-      data.forEach((card, index) => {
+      data.forEach((target, index) => {
+        var card = target.parentElement;
         if (this.visibleOnArea(card)) {
-          card.parentElement.style.backgroundColor = 'rgba(102, 163, 198, 0.3)';
-          card.parentElement.style.borderRadius = '0.3em';
-          card.parentElement.style.borderColor = '#E2F1FF';
-          if (!this.selectedCards.includes(card)) this.selectedCards.push(card);
+          if (!this.selectedCards.includes(target)) this.selectedCards.push(target);
+          card.style.backgroundColor = Constant.MOUSEOVER_COLOR;
+          card.style.borderRadius = Constant.MOUSEOVER_BORDER_RADIUS;
+          card.style.borderColor = Constant.MOUSEOVER_BORDER_COLOR;
         } else if (this.lastMouseMove !== 'mouseup') {
-          card.parentElement.style.backgroundColor = '';
-          card.parentElement.style.borderRadius = 'none';
-          card.parentElement.style.borderColor = '';
           this.selectedCards.splice(index, 1);
+          card.style.backgroundColor = '';
+          card.style.borderRadius = 'none';
+          card.style.borderColor = '';
         }
       });
-      console.log('-----------------------------------------------------');
+      console.log('----------------------');
     }
   }
 
   handleAreaSelect(e) {
     const target = document.getElementById("areaSelector");
     const cards = Array.prototype.slice.call(document.getElementsByClassName("card"));
-    const pos = this.handleMouseMove(e);
+    const pos = this.getMousePosition(e);
 
     this.sx1 = pos.x;
     this.sy1 = pos.y;
@@ -137,18 +147,18 @@ class Grid extends Component {
         this.setDiv(target);
         this.lastMouseMove = 'mousedown';
       } else if (e.type === 'mouseup') {
-        console.log('mouseup');
-        console.log(this.selectedCards);
+        cards.forEach(card => {
+          console.log({name: card.id, visible: this.visibleOnArea(card), selected: this.selectedCards.includes(card)});
+        })
         this.selectedCards.forEach(card => {
-          card.parentElement.style.backgroundColor = 'rgba(102, 163, 198, 0.5)';
-          card.parentElement.style.borderRadius = '0.3em';
-          card.parentElement.style.borderColor = '#E2F1FF';
+          card.parentElement.style.backgroundColor = Constant.ON_AREASELECT_COLOR;
+          card.parentElement.style.borderRadius = Constant.MOUSEOVER_BORDER_RADIUS;
+          card.parentElement.style.borderColor = Constant.MOUSEOVER_BORDER_COLOR;
         });
         this.selectedCards = [];
         target.hidden = 1;
         this.lastMouseMove = 'mouseup';
       }
-
     }
   }
 
@@ -165,10 +175,10 @@ class Grid extends Component {
       if (target.className.includes('card-header')) target = target.parentElement;
       if (target.className.includes('card-title')) target = target.parentElement.parentElement;
 
-      if (target.parentElement.style.backgroundColor !== 'rgba(102, 163, 198, 0.5)') {
-        target.parentElement.style.backgroundColor = 'rgba(102, 163, 198, 0.5)';
-        target.parentElement.style.borderRadius = '0.3em';
-        target.parentElement.style.borderColor = '#E2F1FF';
+      if (target.parentElement.style.backgroundColor !== Constant.ONCLICK_COLOR) {
+        target.parentElement.style.backgroundColor = Constant.ONCLICK_COLOR;
+        target.parentElement.style.borderRadius = Constant.MOUSEOVER_BORDER_RADIUS;
+        target.parentElement.style.borderColor = Constant.MOUSEOVER_BORDER_COLOR;
       }
       else target.parentElement.style.backgroundColor = '';
     }
@@ -188,16 +198,12 @@ class Grid extends Component {
 
       files.forEach(name => {
         let key = name.substring(1, name.length);
-        //console.log(key);
 
         if ((!key.includes('/') || key.charAt(key.indexOf('/')+1) === '') && this.filesToShow.indexOf(key) === -1) this.filesToShow.push(key);
         else {
-          //this.handleFolders()
-          //this.filesToShow.push(key.substring(0, key.indexOf('/')));
+
         }
-        //console.log(key.substring(0, key.indexOf('/')));
       })
-      //console.log(this.filesToShow);
     }
   }
 
@@ -207,7 +213,7 @@ class Grid extends Component {
       this.props.files.forEach(file => {
         files.push(
           <Col className="file" xs={6} sm={6} md={4} lg={3}>
-            <Card id={fileName(file.key)} className={isFolder(file.key)?"folder-white":"file-white"}
+            <Card id={fileName(file.key)} className={isFolder(file.key)?" folder-white":" file-white"}
               onClick={e => this.handleClick(e, file.key)}
             >
                 <Card.Header className={isFolder(file.key)?"folderHeader-white":"fileHeader-white"}>
@@ -229,7 +235,7 @@ class Grid extends Component {
   }
 
   render() {
-    this.handleFolders(this.getFilesKeys(this.props.files));
+    //this.handleFolders(this.getFilesKeys(this.props.files));
     return (
       <div id="fileManager" onMouseDown={e => {this.handleAreaSelect(e); this.handleClickOut(e)}} onMouseUp={this.handleAreaSelect} onMouseMove={this.handleAreaSelect}>
         <div id="areaSelector" hidden>&nbsp;</div>
