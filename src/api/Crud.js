@@ -1,6 +1,8 @@
 import $ from 'jquery';
 import { styledLog } from '../components/OwnFunctions';
 
+import * as Log from '../components/constants/log';
+
 export function fetchData(path) {
   return $.ajax({
     url: 'http://ejercicios.lan/sot-API/src/fetchData.php',
@@ -10,11 +12,11 @@ export function fetchData(path) {
       "PATH": path
     },
     success: function (result) {
-      styledLog('%c☀ %cFetching complete');
+      styledLog(Log.SUCCESS + 'Fetching complete');
       return result;
     },
     error: function(error) {
-      styledLog('%c❄ %cError fetching files');
+      styledLog(Log.ERROR + 'Error fetching files');
       error.statusText = 'undefined_path_given';
 
       return error;

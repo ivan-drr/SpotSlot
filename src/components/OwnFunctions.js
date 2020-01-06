@@ -6,7 +6,7 @@ export async function asyncForEach(array, callback) {
 
 export function styledLog(msg) {
     const CORRECT = '1E9E65';
-    const WARNING = 'CEB922';
+    const WARNING = 'aca94f';
     const ERROR = 'C72A2A';
     const INFO = '598ED1';
 
@@ -17,5 +17,6 @@ export function styledLog(msg) {
     else if (msg.includes('❄')) statusColor = ERROR;
     else statusColor = INFO;
 
-    console.info(msg, 'font-size: 2em', 'color: #'+statusColor+';');
+    if (console.info(msg, 'font-size: 2em', 'color: #'+statusColor+';')) return true;
+    else return false;
 }

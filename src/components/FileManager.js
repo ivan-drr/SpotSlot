@@ -4,6 +4,7 @@ import '../styles/FileManager.css';
 import Loading from './Loading';
 import { fetchData, createElement, removeElement, renameElement } from '../api/Crud';
 import { styledLog } from './OwnFunctions';
+import * as Log from './constants/log';
 
 import Grid from './Grid';
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -14,25 +15,20 @@ class FileManager extends Component {
 
   constructor(props) {
     super(props);
+    this.path = '/home/snowtray/test';
+    this.files = [];
     this.state = {
-      path: '/home/snowtray/test',
-      files: [],
-      _isFetch: false,
+      _isFetch: false
     }
   }
 
   componentDidMount() {
-    if (this.state.path !== '' && this.state.path !== null) styledLog('%c​⇄ %cFetching Files...');
-    else styledLog('%c☂ %c​𝙀𝙈𝙋𝙏𝙔 path');
+    if (this.path !== '' && this.path !== null) styledLog(Log.REQUEST + 'Fetching Files...');
+    else styledLog(Log.WARNING + '​𝙀𝙈𝙋𝙏𝙔 path');
 
-    fetchData(this.state.path)
+    fetchData(this.path)
       .then(result => {
-        if (result.log !== 'empty_path_given') {
-          this.setState(state => {
-            state.files = result;
-          });
-        }
-
+        if (result.log !== 'empty_path_given') this.files = result;
         this.setState(state => {
           state._isFetch = true;
           return state;
@@ -76,38 +72,6 @@ class FileManager extends Component {
       return state
     })
   }
-
-  /*handleCreateFiles = (files, prefix) => {
-    this.setState(state => {
-      const newFiles = files.map((file) => {
-        let newKey = prefix
-        if (prefix !== '' && prefix.substring(prefix.length - 1, prefix.length) !== '/') {
-          newKey += '/'
-        }
-        newKey += file.name
-        return {
-          key: newKey,
-          size: file.size,
-          modified: +Moment(),
-        }
-      })
-
-      const uniqueNewFiles = []
-      newFiles.forEach((newFile) => {
-        let exists = false
-        asyncForEach(state.files, (existingFile) => {
-          if (existingFile.key === newFile.key) {
-            exists = true
-          }
-        })
-        if (!exists) {
-          uniqueNewFiles.push(newFile)
-        }
-      })
-      state.files = state.files.concat(uniqueNewFiles)
-      return state
-    })
-  }*/
 
   handleRenameFolder = (oldKey, newKey) => {
 
@@ -168,27 +132,23 @@ class FileManager extends Component {
 
   render() {
     return (
-        <div>
+      <div>
         <h1>Spot<Badge variant="secondary" id="badgeTitle">Slot</Badge></h1>
         <hr></hr>
 
-          <ToolNav/>
+        <ToolNav/>
 
-          <InputGroup className="mb-3">
-            <InputGroup.Text id="pathText">❖ Current path being spotted</InputGroup.Text>
-            <InputGroup.Prepend>
-              <InputGroup.Text id="pathInfo">
-                {this.state.path}
-              </InputGroup.Text>
-            </InputGroup.Prepend>
-          </InputGroup>
+        <InputGroup className="mb-3">
+          <InputGroup.Text id="pathText">❖ Current path being spotted</InputGroup.Text>
+          <InputGroup.Prepend>
+            <InputGroup.Text id="pathInfo">
+              {this.state.path}
+            </InputGroup.Text>
+          </InputGroup.Prepend>
+        </InputGroup>
 
-          <div>
-            <Grid files={this.state.files} />
-          </div>
-
-          <Loading _isFetch={this.state._isFetch}/>
-        </div>
+        {this.state._isFetch?<div><Grid files={this.files} /></div>:<Loading _isFetch={this.state._isFetch}/>}
+      </div>
     );
   }
 }
