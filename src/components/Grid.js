@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import Loading from './Loading';
 import AreaSelector from './AreaSelector';
-import { fetchData } from '../api/Crud';
-import { mapModified, isFolder, fileType, fileName } from '../api/Mappers';
+import { fileName, isFolder, fileType } from './Mapper';
 import { styledLog } from './Utilities';
 import { PATH } from './constants/global';
 import * as Log from './constants/log';
@@ -30,20 +29,11 @@ class Grid extends Component {
     if (PATH !== '' && PATH !== null) styledLog(Log.REQUEST + 'Fetching Files...');
     else styledLog(Log.WARNING + '​𝙀𝙈𝙋𝙏𝙔 path');
 
-    fetchData(PATH)
-      .then(result => {
-        if (result.log !== 'empty_path_given') this.files = result;
-        this.setState(state => {
-          state._isFetch = true;
-          return state;
-        });
-      })
-      .catch(error => {
-        this.setState(state => {
-          state._isFetch = 'error';
-          return state;
-        })
-      })
+    // AFTER FETCH FILES OF FIREBASE
+    this.setState(state => {
+      state._isFetch = true;
+      return state;
+    });
   }
 
   render() {
@@ -91,7 +81,7 @@ class Grid extends Component {
                 </Card.Header>
 
                 <Card.Footer className="text-muted footer">
-                  Last updated {mapModified(file.modified)} ago<br></br>
+                  Last updated {file.modified} ago<br></br>
                   {isFolder(file.key)?true:'Size: ' + file.size + ' - '}<FontAwesomeIcon icon={fileType(file.key)} />
                 </Card.Footer>
             </Card>
