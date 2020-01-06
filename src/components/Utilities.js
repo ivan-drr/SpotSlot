@@ -1,5 +1,3 @@
-/** @module several/functions */
-
 /** Utilities */
 
 /**
@@ -16,7 +14,6 @@ export async function asyncForEach(array, callback) {
 
 /**
  * Styled messages for navigator console
- * @function
  * @param {string} msg - Message wich will be printed on console
  * @return {boolean} If console.log failed returns false, if not returns true
  */
