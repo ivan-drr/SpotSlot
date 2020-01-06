@@ -142,7 +142,7 @@ class FileManager extends Component {
           <InputGroup.Text id="pathText">❖ Current path being spotted</InputGroup.Text>
           <InputGroup.Prepend>
             <InputGroup.Text id="pathInfo">
-              {this.state.path}
+              {this.path}
             </InputGroup.Text>
           </InputGroup.Prepend>
         </InputGroup>
