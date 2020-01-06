@@ -12,12 +12,12 @@ const AreaSelector = (props) => {
   }
 }
 
-var selectedCards = [];
-var lastMouseMove = false;
-var sx0 = 0;
-var sy0 = 0;
-var sx1 = 0;
-var sy1 = 0;
+let selectedCards = [];
+let lastMouseMove = false;
+let sx0 = 0;
+let sy0 = 0;
+let sx1 = 0;
+let sy1 = 0;
 
 const setEvents = props => {
   props.container.addEventListener('mousedown', e => {
@@ -36,7 +36,7 @@ const setEvents = props => {
 }
 
 const getMousePosition = e => {
-  var eventDoc, doc, body;
+  let eventDoc, doc, body;
   e = e || window.e;
 
   if (e.pageX == null && e.clientX != null) {
@@ -59,10 +59,10 @@ const getMousePosition = e => {
 }
 
 const attachMousePosTo = target => {
-  var x3 = Math.min(sx0, sx1);
-  var x4 = Math.max(sx0, sx1);
-  var y3 = Math.min(sy0, sy1);
-  var y4 = Math.max(sy0, sy1);
+  const x3 = Math.min(sx0, sx1);
+  const x4 = Math.max(sx0, sx1);
+  const y3 = Math.min(sy0, sy1);
+  const y4 = Math.max(sy0, sy1);
   target.style.left = x3 + 'px';
   target.style.top = y3 + 'px';
   target.style.width = x4 - x3 + 'px';
@@ -84,7 +84,7 @@ const clickedOnCard = e => {
 
 const getCardTarget = e => {
   if (e.target.className !== 'BUTTON' && e.target.tagName !== 'path' && e.target.tagName !== 'svg') {
-    var target = e.target.parentElement;
+    let target = e.target.parentElement;
     if (target.className.includes('file')) target = target.children[0];
     if (target.className.includes('card-header')) target = target.parentElement;
     if (target.className.includes('card-title')) target = target.parentElement.parentElement;
@@ -94,7 +94,7 @@ const getCardTarget = e => {
 }
 
 const handleClickOnCard = e => {
-  let target = getCardTarget(e);
+  const target = getCardTarget(e);
   if (!target) return false;
   else {
     if (target.style.backgroundColor !== Constant.ONCLICK_COLOR) {
@@ -117,7 +117,7 @@ const handleClickOutOfCard = e => {
 const handleMouseDown = data => {
   if (lastMouseMove === 'mousedown') {
     data.forEach((target, index) => {
-      let card = target.parentElement;
+      const card = target.parentElement;
       if (visibleOnArea(card)) {
         if (!selectedCards.includes(target)) selectedCards.push(target);
         card.style.backgroundColor = Constant.MOUSEOVER_COLOR;
@@ -137,7 +137,7 @@ const visibleOnArea = element => {
   const width = element.offsetWidth;
   const height = element.offsetHeight;
 
-  var x0 = 0, y0 = 0;
+  let x0 = 0, y0 = 0;
   do {
       x0 += element.offsetLeft  || 0;
       y0 += element.offsetTop || 0;
@@ -148,7 +148,7 @@ const visibleOnArea = element => {
   const y1 = y0 + height;
 
   const areaStartAtTopLeft = !(x0 > sx1 || x1 < sx0 || y0 > sy1 || y1 < sy0);
-  const areaStartAtBottomLeft = !(x0 > sx1 || x1 < sx0 || y1 > sy0 || y0 < sy1);
+  //const areaStartAtBottomLeft = !(x0 > sx1 || x1 < sx0 || y1 > sy0 || y0 < sy1);
 
   return areaStartAtTopLeft;
 }

@@ -10,7 +10,7 @@ class Loading extends Component {
 
   typeWriter(str, speed, id, iterator, intervals) {
     if (document.getElementById(id) !== null) {
-      var element = document.getElementById(id);
+      const element = document.getElementById(id);
 
       setTimeout(() => {
         if (iterator < str.length) {
@@ -27,7 +27,7 @@ class Loading extends Component {
   }
 
   render() {
-    var iterator = 0;
+    let iterator = 0;
 
     if (this.props._isFetch === 'error') {
       setTimeout(() => {

@@ -35,7 +35,7 @@ class Grid extends Component {
   }
 
   getFilesKeys(files) {
-    var fileKeys = [];
+    let fileKeys = [];
     files.forEach(file => {
       fileKeys.push(file.key);
     })
@@ -58,7 +58,7 @@ class Grid extends Component {
   }
 
   handleFiles() {
-    var files = [];
+    let files = [];
     if (this.props.files !== null && this.props.files.length !== 0) {
       this.props.files.forEach(file => {
         files.push(

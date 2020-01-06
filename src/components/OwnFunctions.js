@@ -10,7 +10,7 @@ export function styledLog(msg) {
     const ERROR = 'C72A2A';
     const INFO = '598ED1';
 
-    var statusColor = '1E9E65';
+    let statusColor = '1E9E65';
 
     if (msg.includes('☀')) statusColor = CORRECT;
     else if (msg.includes('☂')) statusColor = WARNING;
