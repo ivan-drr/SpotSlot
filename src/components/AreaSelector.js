@@ -168,7 +168,7 @@ class AreaSelector extends Component {
     this.sx1 = pos.x;
     this.sy1 = pos.y;
 
-    this.attachMousePosTo(areaSelector);
+    if (this.lastMouseMove === 'mousedown') this.attachMousePosTo(areaSelector);
     this.handleMouseDown(cards);
 
     if (!pos) return false;
