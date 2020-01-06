@@ -62,7 +62,7 @@ class Grid extends Component {
     if (this.props.files !== null && this.props.files.length !== 0) {
       this.props.files.forEach(file => {
         files.push(
-          <Col className="file" xs={6} sm={6} md={4} lg={3}>
+          <Col key={fileName(file.key)} className="file" xs={6} sm={6} md={4} lg={3}>
             <Card id={fileName(file.key)} className={isFolder(file.key)?" folder-white cardFile":" file-white cardFile"}>
                 <Card.Header className={isFolder(file.key)?"folderHeader-white":"fileHeader-white"}>
                   <Card.Title className={isFolder(file.key)?"folderName-white":"fileName-white"}>{fileName(file.key)}</Card.Title>
