@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
+
+import { PATH } from './constants/global';
+import { createElement, removeElement, renameElement } from '../api/Crud';
+
 import '../styles/FileManager.css';
-
-import Loading from './Loading';
-import { fetchData, createElement, removeElement, renameElement } from '../api/Crud';
-import { styledLog } from './Utilities';
-import * as Log from './constants/log';
-
 import Grid from './Grid';
 import InputGroup from 'react-bootstrap/InputGroup'
 import Badge from 'react-bootstrap/Badge'
@@ -13,33 +11,24 @@ import ToolNav from './ToolNav'
 
 class FileManager extends Component {
 
-  constructor(props) {
-    super(props);
-    this.path = '/home/snowtray/test';
-    this.files = [];
-    this.state = {
-      _isFetch: false
-    }
-  }
+  render() {
+    return (
+      <div>
+        <h1>Spot<Badge variant="secondary" id="badgeTitle">Slot</Badge></h1>
+        <hr></hr>
 
-  componentDidMount() {
-    if (this.path !== '' && this.path !== null) styledLog(Log.REQUEST + 'Fetching Files...');
-    else styledLog(Log.WARNING + '​𝙀𝙈𝙋𝙏𝙔 path');
+        <ToolNav/>
 
-    fetchData(this.path)
-      .then(result => {
-        if (result.log !== 'empty_path_given') this.files = result;
-        this.setState(state => {
-          state._isFetch = true;
-          return state;
-        });
-      })
-      .catch(error => {
-        this.setState(state => {
-          state._isFetch = 'error';
-          return state;
-        })
-      })
+        <InputGroup className="mb-3">
+          <InputGroup.Text id="pathText">❖ Current path being spotted</InputGroup.Text>
+          <InputGroup.Prepend>
+            <InputGroup.Text id="pathInfo">{PATH}</InputGroup.Text>
+          </InputGroup.Prepend>
+        </InputGroup>
+
+        <Grid/>
+      </div>
+    );
   }
 
   handleChangePath = () => {
@@ -128,28 +117,6 @@ class FileManager extends Component {
       state.files = newFiles
       return state
     })
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>Spot<Badge variant="secondary" id="badgeTitle">Slot</Badge></h1>
-        <hr></hr>
-
-        <ToolNav/>
-
-        <InputGroup className="mb-3">
-          <InputGroup.Text id="pathText">❖ Current path being spotted</InputGroup.Text>
-          <InputGroup.Prepend>
-            <InputGroup.Text id="pathInfo">
-              {this.path}
-            </InputGroup.Text>
-          </InputGroup.Prepend>
-        </InputGroup>
-
-        {this.state._isFetch?<div><Grid files={this.files} /></div>:<Loading _isFetch={this.state._isFetch}/>}
-      </div>
-    );
   }
 }
 

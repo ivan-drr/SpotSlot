@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
-import 'font-awesome/css/font-awesome.min.css';
 
 import FileManager from './FileManager';
 

@@ -8,24 +8,6 @@ class Loading extends Component {
     this.typeWriter = this.typeWriter.bind(this);
   }
 
-  typeWriter(str, speed, id, iterator, intervals) {
-    if (document.getElementById(id) !== null) {
-      const element = document.getElementById(id);
-
-      setTimeout(() => {
-        if (iterator < str.length) {
-          element.innerHTML += str.charAt(iterator);
-          iterator++;
-
-          setTimeout(this.typeWriter(str, speed, id, iterator), speed);
-
-          return true;
-        } else return false;
-      }, 1000/speed*2);
-
-    }
-  }
-
   render() {
     let iterator = 0;
 
@@ -51,6 +33,23 @@ class Loading extends Component {
     } else return null;
   }
 
+  typeWriter(str, speed, id, iterator, intervals) {
+    if (document.getElementById(id) !== null) {
+      const element = document.getElementById(id);
+
+      setTimeout(() => {
+        if (iterator < str.length) {
+          element.innerHTML += str.charAt(iterator);
+          iterator++;
+
+          setTimeout(this.typeWriter(str, speed, id, iterator), speed);
+
+          return true;
+        } else return false;
+      }, 1000/speed*2);
+
+    }
+  }
 }
 
 export default Loading;

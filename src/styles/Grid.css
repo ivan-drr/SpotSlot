@@ -5,6 +5,42 @@
   position: absolute;
 }
 
+.file-white {
+    -webkit-box-shadow: 0 10px 6px -6px rgba(119, 119, 119, 0.5);
+       -moz-box-shadow: 0 10px 6px -6px rgba(119, 119, 119, 0.5);
+            box-shadow: 0 10px 6px -6px rgba(119, 119, 119, 0.5);
+}
+
+.folder-white {
+    position:relative;
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.folder-white:before, .effect8:after {
+    content:"";
+    position:absolute;
+    z-index:-1;
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.6);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,0.6);
+    box-shadow:0 0 20px rgba(0,0,0,0.6);
+    top:10px;
+    bottom:10px;
+    left:3px;
+    right:3px;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+}
+.folder-white:after {
+    right:10px;
+    left:auto;
+    -webkit-transform:skew(8deg) rotate(3deg);
+       -moz-transform:skew(8deg) rotate(3deg);
+        -ms-transform:skew(8deg) rotate(3deg);
+         -o-transform:skew(8deg) rotate(3deg);
+            transform:skew(8deg) rotate(3deg);
+}
+
 .file:hover {
   background-color: rgba(102, 163, 198, 0.3);
   border-radius: 0.3em;

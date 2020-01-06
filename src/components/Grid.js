@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 
+import Loading from './Loading';
 import AreaSelector from './AreaSelector';
+import { fetchData } from '../api/Crud';
 import { mapModified, isFolder, fileType, fileName } from '../api/Mappers';
+import { styledLog } from './Utilities';
+import { PATH } from './constants/global';
+import * as Log from './constants/log';
 
 import '../styles/Grid.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,42 +15,59 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
-/**
- * General component description in JSDoc format. Markdown is *supported*.
- */
 class Grid extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      container: false,
-      cards: false
-    }
-
+    this.files = [];
     this.filesToShow = [];
 
-    this.handleFolders = this.handleFolders.bind(this);
-    this.handleFiles = this.handleFiles.bind(this);
-    this.getFilesKeys = this.getFilesKeys.bind(this);
+    this.state = {
+      _isFetch: false
+    }
   }
 
   componentDidMount() {
-    this.setState(state => {
-      state.container = document;
-      state.cards = Array.prototype.slice.call(document.getElementsByClassName('cardFile'));
+    if (PATH !== '' && PATH !== null) styledLog(Log.REQUEST + 'Fetching Files...');
+    else styledLog(Log.WARNING + '​𝙀𝙈𝙋𝙏𝙔 path');
 
-      return state;
-    });
+    fetchData(PATH)
+      .then(result => {
+        if (result.log !== 'empty_path_given') this.files = result;
+        this.setState(state => {
+          state._isFetch = true;
+          return state;
+        });
+      })
+      .catch(error => {
+        this.setState(state => {
+          state._isFetch = 'error';
+          return state;
+        })
+      })
   }
 
-  getFilesKeys(files) {
+  render() {
+    return (
+      <div id="fileManager">
+        <Loading _isFetch={this.state._isFetch}/>
+        <AreaSelector />
+        <Container>
+          <Row className="justify-content-md-center fadeIn">
+            {this.handleFilesAndEmptyFolders()}
+          </Row>
+        </Container>
+      </div>
+    );
+  }
+
+  getFilesKeys = (files) => {
     let fileKeys = [];
     files.forEach(file => { fileKeys.push(file.key) });
     return fileKeys;
   }
 
-  handleFolders(files) {
+  handleFolders = (files) => {
     if (files !== 0) {
-
       files.forEach(name => {
         let key = name.substring(1, name.length);
 
@@ -57,10 +79,10 @@ class Grid extends Component {
     }
   }
 
-  handleFiles() {
+  handleFilesAndEmptyFolders = () => {
     let files = [];
-    if (this.props.files !== null && this.props.files.length !== 0) {
-      this.props.files.forEach(file => {
+    if (this.files !== null && this.files.length !== 0) {
+      this.files.forEach(file => {
         files.push(
           <Col key={fileName(file.key)} className="file" xs={6} sm={6} md={4} lg={3}>
             <Card id={fileName(file.key)} className={isFolder(file.key)?" folder-white cardFile":" file-white cardFile"}>
@@ -79,19 +101,6 @@ class Grid extends Component {
     } else return <span className="text-info mt-3">No files</span>;
 
     return files;
-  }
-
-  render() {
-    return (
-      <div id="fileManager">
-        <AreaSelector container={this.state.container} cards={this.state.cards} />
-        <Container>
-          <Row className="justify-content-md-center fadeIn">
-            {this.handleFiles()}
-          </Row>
-        </Container>
-      </div>
-    );
   }
 }
 
