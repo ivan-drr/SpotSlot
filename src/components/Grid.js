@@ -30,7 +30,7 @@ class Grid extends Component {
 
   componentDidMount() {
     this.setState(state => {
-      state.container = document.getElementById('fileManager');
+      state.container = document.getElementById('app');
       state.cards = Array.prototype.slice.call(document.getElementsByClassName('cardFile'));
 
       return state;
