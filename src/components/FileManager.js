@@ -3,7 +3,7 @@ import '../styles/FileManager.css';
 
 import Loading from './Loading';
 import { fetchData, createElement, removeElement, renameElement } from '../api/Crud';
-import { styledLog } from './OwnFunctions';
+import { styledLog } from './Utilities';
 import * as Log from './constants/log';
 
 import Grid from './Grid';

@@ -18,6 +18,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --verbose",
+    "createdoc": "jsdoc src -r -d docs",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -36,13 +37,14 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/user-event": "^7.1.2",
     "@babel/preset-react": "^7.7.4",
+    "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.1.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "jsdoc": "^3.6.3"
   },
   "jest": {
     "setupFilesAfterEnv": [

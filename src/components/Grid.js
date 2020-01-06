@@ -10,6 +10,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
+/**
+ * General component description in JSDoc format. Markdown is *supported*.
+ */
 class Grid extends Component {
   constructor(props) {
     super(props);
@@ -36,10 +39,7 @@ class Grid extends Component {
 
   getFilesKeys(files) {
     let fileKeys = [];
-    files.forEach(file => {
-      fileKeys.push(file.key);
-    })
-
+    files.forEach(file => { fileKeys.push(file.key) });
     return fileKeys;
   }
 

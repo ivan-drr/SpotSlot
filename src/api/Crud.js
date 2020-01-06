@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { styledLog } from '../components/OwnFunctions';
+import { styledLog } from '../components/Utilities';
 
 import * as Log from '../components/constants/log';
 

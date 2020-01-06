@@ -1,5 +1,5 @@
 import React from 'react';
-import { styledLog } from './OwnFunctions';
+import { styledLog } from './Utilities';
 import * as Constant from './constants/AreaSelector';
 import * as Log from './constants/log';
 
