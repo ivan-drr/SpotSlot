@@ -4,7 +4,6 @@ import Loading from './Loading';
 import AreaSelector from './AreaSelector';
 import { fileName, isFolder, fileType } from './Mapper';
 import { styledLog } from './Utilities';
-import { PATH } from './constants/global';
 import * as Log from './constants/log';
 
 import '../styles/Grid.css';
@@ -26,10 +25,11 @@ class Grid extends Component {
   }
 
   componentDidMount() {
-    if (PATH !== '' && PATH !== null) styledLog(Log.REQUEST + 'Fetching Files...');
+    if (true) styledLog(Log.REQUEST + 'Fetching Files...');
     else styledLog(Log.WARNING + '​𝙀𝙈𝙋𝙏𝙔 path');
 
     // AFTER FETCH FILES OF FIREBASE
+    if (this.files.length === 0) styledLog(Log.INFO + 'Directory is empty');
     this.setState(state => {
       state._isFetch = true;
       return state;
