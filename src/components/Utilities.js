@@ -1,5 +1,27 @@
 /** Utilities */
 
+let startTime, endTime;
+
+/**
+ * Set Date NOW to local variable startTime
+ */
+export function startCounter() {
+  startTime = new Date();
+}
+
+/**
+ * Set Date NOW to local variable endTime and compare it to startTime
+ * @return {string} A formatted string which contain time passed between
+ * startTime and endTime
+ */
+export function endCounter() {
+  endTime = new Date();
+  let timeDiff = endTime - startTime;
+
+  if (timeDiff>=1000) timeDiff = (timeDiff/1000).toFixed(2);
+  return ' (' + timeDiff + "ms)";
+}
+
 /**
  * Foreach in asynchronous way
  * @async

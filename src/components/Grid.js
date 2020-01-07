@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Loading from './Loading';
 import AreaSelector from './AreaSelector';
 import { fileName, isFolder, fileType } from './Mapper';
-import { styledLog } from './Utilities';
+import { styledLog, startCounter, endCounter } from './Utilities';
 import * as Log from './constants/log';
 
 import '../styles/Grid.css';
@@ -25,10 +25,12 @@ class Grid extends Component {
   }
 
   componentDidMount() {
+    startCounter();
     if (true) styledLog(Log.REQUEST + 'Fetching Files...');
     else styledLog(Log.WARNING + '​𝙀𝙈𝙋𝙏𝙔 path');
 
     // AFTER FETCH FILES OF FIREBASE
+    styledLog(Log.SUCCESS + 'Fetching complete' + endCounter());
     if (this.files.length === 0) styledLog(Log.INFO + 'Directory is empty');
     this.setState(state => {
       state._isFetch = true;
