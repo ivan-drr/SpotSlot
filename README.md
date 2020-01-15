@@ -1,7 +1,7 @@
 
 # ![Working on](https://img.icons8.com/dusk/2x/work.png)SpotSlot *(working on)*
 
-SpotSlot or Sot, is a node module powered by React which list all files and folders found on the given path and let the user to manage it with a simple API on PHP.
+SpotSlot or Sot, is a web app built on Reactjs with Firestore Cloud.
 
 ## Installation
 Install the package with npm on your app:
