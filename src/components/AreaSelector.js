@@ -3,6 +3,8 @@ import { styledLog } from './Utilities';
 import * as Constant from './constants/AreaSelector';
 import * as Log from './constants/log';
 
+import '../styles/AreaSelector.css';
+
 class AreaSelector extends Component {
   constructor() {
     super();
@@ -24,10 +26,6 @@ class AreaSelector extends Component {
     styledLog(Log.SUCCESS + '𝘼𝙍𝙀𝘼-𝙎𝙀𝙇𝙀𝘾𝙏𝙊𝙍 ready');
   }
 
-  render() {
-    return <div id="areaSelector" hidden>&nbsp;</div>;
-  }
-
   setEvents = () => {
     this.state.container.addEventListener('mousedown', e => {
       this.handleAreaSelect(e);
@@ -36,6 +34,14 @@ class AreaSelector extends Component {
 
     this.state.container.addEventListener('mouseup', e => { this.handleAreaSelect(e) }, false);
     this.state.container.addEventListener('mousemove', e => { this.handleAreaSelect(e) }, false);
+
+    this.state.container.addEventListener('touchstart', e => {
+      this.handleAreaSelect(e);
+      this.handleClickOutOfCard(e);
+    }, false);
+
+    this.state.container.addEventListener('touchend', e => { this.handleAreaSelect(e) }, false);
+    this.state.container.addEventListener('touchmove', e => { this.handleAreaSelect(e) }, false);
 
     this.state.cards.forEach(card => {
       card.addEventListener('click', e => { this.handleClickOnCard(e) });
@@ -46,22 +52,27 @@ class AreaSelector extends Component {
     let eventDoc, doc, body;
     e = e || window.e;
 
-    if (e.pageX == null && e.clientX != null) {
-      eventDoc = (e.target && e.target.ownerDocument) || document;
+    let event;
+    if (e.type.includes("mouse")) event = e;
+    else if (e.type.includes("touch") && e.type !== "touchend") event = e.touches[0];
+    else return false;
+
+    if (event.pageX == null && event.clientX != null) {
+      eventDoc = (event.target && event.target.ownerDocument) || document;
       doc = eventDoc.documentElement;
       body = eventDoc.body;
 
-      e.pageX = e.clientX +
+      event.pageX = event.clientX +
         ((doc && doc.scrollLeft)?body && body.scrollLeft:0) -
         ((doc && doc.clientLeft)?body && body.clientLeft:0);
-      e.pageY = e.clientY +
+      event.pageY = event.clientY +
         ((doc && doc.scrollTop)?body && body.scrollTop:0) -
         ((doc && doc.clientTop)?body && body.clientTop:0);
     }
 
     return {
-      x: e.pageX,
-      y: e.pageY
+      x: event.pageX,
+      y: event.pageY
     }
   }
 
@@ -121,6 +132,15 @@ class AreaSelector extends Component {
     }
   }
 
+  detectLeftButton = e => {
+    e = e || window.event;
+    if ("buttons" in e) {
+        return e.buttons === 1;
+    }
+    var button = e.which || e.button;
+    return button === 1;
+  }
+
   handleMouseDown = data => {
     if (this.lastMouseMove === 'mousedown') {
       data.forEach((target, index) => {
@@ -171,25 +191,29 @@ class AreaSelector extends Component {
     if (this.lastMouseMove === 'mousedown') this.attachMousePosTo(areaSelector);
     this.handleMouseDown(cards);
 
-    if (!pos) return false;
-    else {
-      if (e.type === 'mousedown') {
+    if (e.type === 'mousedown' || e.type === 'touchstart') {
+      if (!pos) return false;
+      else {
         areaSelector.hidden = 0;
         this.sx0 = pos.x;
         this.sy0 = pos.y;
         this.attachMousePosTo(areaSelector);
         this.lastMouseMove = 'mousedown';
-      } else if (e.type === 'mouseup') {
-        this.selectedCards.forEach(card => {
-          card.parentElement.style.backgroundColor = Constant.ON_AREASELECT_COLOR;
-          card.parentElement.style.borderRadius = Constant.MOUSEOVER_BORDER_RADIUS;
-          card.parentElement.style.borderColor = Constant.MOUSEOVER_BORDER_COLOR;
-        });
-        this.selectedCards = [];
-        areaSelector.hidden = 1;
-        this.lastMouseMove = 'mouseup';
       }
+    } else if (e.type === 'mouseup' || e.type === 'touchend') {
+      this.selectedCards.forEach(card => {
+        card.parentElement.style.backgroundColor = Constant.ON_AREASELECT_COLOR;
+        card.parentElement.style.borderRadius = Constant.MOUSEOVER_BORDER_RADIUS;
+        card.parentElement.style.borderColor = Constant.MOUSEOVER_BORDER_COLOR;
+      });
+      this.selectedCards = [];
+      areaSelector.hidden = 1;
+      this.lastMouseMove = 'mouseup';
     }
+  }
+
+  render() {
+    return <div id="areaSelector" hidden>&nbsp;</div>;
   }
 }
 

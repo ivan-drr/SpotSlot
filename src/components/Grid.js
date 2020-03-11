@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 
 import Loading from './Loading';
 import AreaSelector from './AreaSelector';
-import { fileName, isFolder, fileType } from './Mapper';
+import FileCard from './FileCard';
+import { fileName } from './Mapper';
 import { styledLog, startCounter, endCounter } from './Utilities';
 import * as Log from './constants/log';
+import { storageRef } from './constants/firebase';
 
-import '../styles/Grid.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
 
 class Grid extends Component {
   constructor(props) {
@@ -25,31 +23,65 @@ class Grid extends Component {
   }
 
   componentDidMount() {
-    startCounter();
-    if (true) styledLog(Log.REQUEST + 'Fetching Files...');
-    else styledLog(Log.WARNING + '​𝙀𝙈𝙋𝙏𝙔 path');
+    this.fetchFiles();
+  }
 
-    // AFTER FETCH FILES OF FIREBASE
-    styledLog(Log.SUCCESS + 'Fetching complete' + endCounter());
-    if (this.files.length === 0) styledLog(Log.INFO + 'Directory is empty');
-    this.setState(state => {
-      state._isFetch = true;
-      return state;
+  fetchFiles = () => {
+    startCounter();
+    styledLog(Log.REQUEST + 'Fetching Files...');
+
+    let files = [];
+    return storageRef.listAll().then(res => {
+      res.prefixes.forEach((folderRef, index) => {
+        files.push({
+          key: folderRef.location.path + "/",
+          metadata: {
+            _isFile: false,
+            name: fileName(folderRef.location.path + "/"),
+            index: index
+          }
+        });
+      });
+      res.items.forEach(itemRef => {
+        this.fetchFilesMetadata(itemRef).then(item => {
+          files.push(item);
+        });
+      });
+
+      this.files = files;
+      styledLog(Log.SUCCESS + 'Fetch with no metadata complete' + endCounter());
+      if (this.files.length === 0) styledLog(Log.INFO + 'Directory is empty');
+      this.setState(state => {
+        state._isFetch = true;
+        return state;
+      });
+    }).catch(function(error) {
+      console.log(error);
+      return false;
     });
   }
 
-  render() {
-    return (
-      <div id="fileManager">
-        <Loading _isFetch={this.state._isFetch}/>
-        <AreaSelector />
-        <Container>
-          <Row className="justify-content-md-center fadeIn">
-            {this.handleFilesAndEmptyFolders()}
-          </Row>
-        </Container>
-      </div>
-    );
+  fetchFilesMetadata = (itemRef, index) => {
+    startCounter();
+    return itemRef.getMetadata().then(metadata => {
+      styledLog(Log.SUCCESS + 'Metadata fetched for ' + metadata.name + endCounter());
+      return {
+        key: itemRef.location.path,
+        metadata: {
+          _isFile: true,
+          name: metadata.name,
+          index: index,
+          size: metadata.size,
+          timeCreated: metadata.timeCreated,
+          updated: metadata.updated,
+          fullPath: metadata.fullPath,
+          contentType: metadata.contentType
+        }
+      }
+    }).catch(error => {
+      console.log(error);
+      return false;
+    });
   }
 
   getFilesKeys = (files) => {
@@ -72,27 +104,37 @@ class Grid extends Component {
   }
 
   handleFilesAndEmptyFolders = () => {
-    let files = [];
+    let fileCards = [];
+    console.log(this.files);
     if (this.files !== null && this.files.length !== 0) {
       this.files.forEach(file => {
-        files.push(
-          <Col key={fileName(file.key)} className="file" xs={6} sm={6} md={4} lg={3}>
-            <Card id={fileName(file.key)} className={isFolder(file.key)?" folder-white cardFile":" file-white cardFile"}>
-                <Card.Header className={isFolder(file.key)?"folderHeader-white":"fileHeader-white"}>
-                  <Card.Title className={isFolder(file.key)?"folderName-white":"fileName-white"}>{fileName(file.key)}</Card.Title>
-                </Card.Header>
-
-                <Card.Footer className="text-muted footer">
-                  Last updated {file.modified} ago<br></br>
-                  {isFolder(file.key)?true:'Size: ' + file.size + ' - '}<FontAwesomeIcon icon={fileType(file.key)} />
-                </Card.Footer>
-            </Card>
-          </Col>
-        );
+        fileCards.push(<FileCard key={file.metadata.index} file={file} />);
       });
-    } else return <span className="text-info mt-3">No files</span>;
+    } else return (
+      <span className="text-info mt-3">
+        {
+          this.state._isFetch
+          ? "No files"
+          : false
+        }
+      </span>
+    );
 
-    return files;
+    return fileCards;
+  }
+
+  render() {
+    return (
+      <div id="fileManager">
+        <Loading _isFetch={this.state._isFetch}/>
+        <AreaSelector />
+        <Container>
+          <Row className="justify-content-md-center fadeIn">
+            {this.handleFilesAndEmptyFolders()}
+          </Row>
+        </Container>
+      </div>
+    );
   }
 }
 

@@ -2,18 +2,19 @@
   "name": "storehouse",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "https://spotslot-cloud.firebaseapp.com",
+  "homepage": "https://spotslot-cloud.firebaseapp.com",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-fontawesome": "^0.1.8",
     "bootstrap": "^4.4.1",
+    "firebase": "^7.10.0",
     "jquery": "^3.4.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-dnd": "^10.0.2",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0"
+    "react-scripts": "3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
