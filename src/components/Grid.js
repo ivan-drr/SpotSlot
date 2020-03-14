@@ -14,11 +14,11 @@ import Row from 'react-bootstrap/Row';
 class Grid extends Component {
   constructor(props) {
     super(props);
-    this.files = [];
     this.filesToShow = [];
 
     this.state = {
-      _isFetch: false
+      _isFetch: false,
+      files: []
     }
   }
 
@@ -30,27 +30,30 @@ class Grid extends Component {
     startCounter();
     styledLog(Log.REQUEST + 'Fetching Files...');
 
-    let files = [];
     return storageRef.listAll().then(res => {
       res.prefixes.forEach((folderRef, index) => {
-        files.push({
-          key: folderRef.location.path + "/",
-          metadata: {
-            _isFile: false,
-            name: fileName(folderRef.location.path + "/"),
-            index: index
-          }
+        this.setState(state => {
+          state.files.push({
+            key: folderRef.location.path + "/",
+            metadata: {
+              _isFile: false,
+              name: fileName(folderRef.location.path + "/"),
+              index: index
+            }
+          });
+          return state;
         });
       });
       res.items.forEach(itemRef => {
         this.fetchFilesMetadata(itemRef).then(item => {
-          files.push(item);
+          this.setState(state => {
+            state.files.push(item);
+            return state;
+          })
         });
       });
-
-      this.files = files;
       styledLog(Log.SUCCESS + 'Fetch with no metadata complete' + endCounter());
-      if (this.files.length === 0) styledLog(Log.INFO + 'Directory is empty');
+      if (this.state.files.length === 0) styledLog(Log.INFO + 'Directory is empty');
       this.setState(state => {
         state._isFetch = true;
         return state;
@@ -104,13 +107,7 @@ class Grid extends Component {
   }
 
   handleFilesAndEmptyFolders = () => {
-    let fileCards = [];
-    console.log(this.files);
-    if (this.files !== null && this.files.length !== 0) {
-      this.files.forEach(file => {
-        fileCards.push(<FileCard key={file.metadata.index} file={file} />);
-      });
-    } else return (
+    if (this.state.files === null || this.state.files.length < 0) return (
       <span className="text-info mt-3">
         {
           this.state._isFetch
@@ -120,10 +117,17 @@ class Grid extends Component {
       </span>
     );
 
+    let fileCards = [];
+    console.log(this.state.files);
+
+    this.state.files.forEach(file => {
+      fileCards.push(<FileCard key={file.metadata.index} file={file} />);
+    });
     return fileCards;
   }
 
   render() {
+    console.log(this.state.files);
     return (
       <div id="fileManager">
         <Loading _isFetch={this.state._isFetch}/>
