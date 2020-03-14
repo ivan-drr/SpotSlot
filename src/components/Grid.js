@@ -115,7 +115,7 @@ class Grid extends Component {
   }
 
   handleOpenFolder = path => {
-    if (!path.includes("/")) return false;
+    if (!path.endsWith("/")) return false;
 
     this.setState(state => {
       state.files = [];
