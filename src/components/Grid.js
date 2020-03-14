@@ -23,14 +23,16 @@ class Grid extends Component {
   }
 
   componentDidMount() {
-    this.fetchFiles();
+    this.fetchFiles("/");
   }
 
-  fetchFiles = () => {
+  fetchFiles = path => {
     startCounter();
     styledLog(Log.REQUEST + 'Fetching Files...');
 
-    return storageRef.listAll().then(res => {
+    const listRef = storageRef.child(path);
+
+    return listRef.listAll().then(res => {
       res.prefixes.forEach(folderRef => {
         this.setState(state => {
           state.files.push({
@@ -118,9 +120,24 @@ class Grid extends Component {
     let fileCards = [];
 
     this.state.files.forEach(file => {
-      fileCards.push(<FileCard key={file.key} file={file} />);
+      fileCards.push(
+        <FileCard
+          key={file.key}
+          file={file}
+          customOnClick={e => {this.handleOpenFolder(file.key)}}
+        />
+      );
     });
     return fileCards;
+  }
+
+  handleOpenFolder = path => {
+    console.log("click");
+    this.setState(state => {
+      state.files = [];
+      return state;
+    });
+    this.fetchFiles(path);
   }
 
   render() {
