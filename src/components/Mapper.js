@@ -1,4 +1,4 @@
-import { faCoffee, faFileImage, faFileAlt, faFolder } from '@fortawesome/free-solid-svg-icons'
+import { faCoffee, faFileImage, faFileAlt, faFolder, faFile, faFileCode } from '@fortawesome/free-solid-svg-icons'
 
 export function fileName(key) {
   if (isFolder(key)) key = key.slice(0, -1);
@@ -44,7 +44,7 @@ function extensionFilter(key) {
   else if (key.endsWith('.vb')) return 'visual-basic';
 
   // INTERNET
-  else if (key.endsWith('.js')) return 'js';
+  else if (key.endsWith('.js')) return faFileCode;
   else if (key.endsWith('.jsp')) return 'jsp';
   else if (key.endsWith('.php')) return 'php';
   else if (key.endsWith('.py')) return 'py';
@@ -180,5 +180,5 @@ function extensionFilter(key) {
   else if (key.endsWith('.sys')) return 'sys';
   else if (key.endsWith('.tmp')) return 'tmp';
 
-  else return 'unknown';
+  else return faFile;
 }

@@ -28,7 +28,8 @@ class Grid extends Component {
 
   fetchFiles = path => {
     startCounter();
-    styledLog(Log.REQUEST + 'Fetching Files...');
+    console.log('');
+    styledLog(Log.REQUEST + 'Fetching Files from ' + path + ' ...');
 
     const listRef = storageRef.child(path);
 
@@ -45,6 +46,9 @@ class Grid extends Component {
           return state;
         });
       });
+      styledLog(Log.SUCCESS + 'Fetch with no metadata complete' + endCounter());
+      if (this.state.files.length === 0) styledLog(Log.INFO + 'No folders found');
+
       res.items.forEach(itemRef => {
         this.fetchFilesMetadata(itemRef).then(item => {
           this.setState(state => {
@@ -53,8 +57,6 @@ class Grid extends Component {
           })
         });
       });
-      styledLog(Log.SUCCESS + 'Fetch with no metadata complete' + endCounter());
-      if (this.state.files.length === 0) styledLog(Log.INFO + 'Directory is empty');
       this.setState(state => {
         state._isFetch = true;
         return state;
@@ -132,7 +134,8 @@ class Grid extends Component {
   }
 
   handleOpenFolder = path => {
-    console.log("click");
+    if (!path.includes("/")) return false;
+
     this.setState(state => {
       state.files = [];
       return state;
@@ -141,7 +144,6 @@ class Grid extends Component {
   }
 
   render() {
-    console.log(this.state.files);
     return (
       <div id="fileManager">
         <Loading _isFetch={this.state._isFetch}/>
