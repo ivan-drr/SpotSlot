@@ -62,7 +62,7 @@ function extensionFilter(key) {
   else if (key.endsWith('.bmp')) return 'bitmap';
   else if (key.endsWith('.gif')) return 'gif';
   else if (key.endsWith('.ico')) return 'icon';
-  else if (key.endsWith('.jpeg') || key.endsWith('.jpg')) return 'jpeg';
+  else if (key.endsWith('.jpeg') || key.endsWith('.jpg')) return faFileImage;
   else if (key.endsWith('.png')) return faFileImage;
   else if (key.endsWith('.ps')) return 'post-script';
   else if (key.endsWith('.psd')) return 'psd';

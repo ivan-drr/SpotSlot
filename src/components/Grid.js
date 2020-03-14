@@ -31,14 +31,13 @@ class Grid extends Component {
     styledLog(Log.REQUEST + 'Fetching Files...');
 
     return storageRef.listAll().then(res => {
-      res.prefixes.forEach((folderRef, index) => {
+      res.prefixes.forEach(folderRef => {
         this.setState(state => {
           state.files.push({
             key: folderRef.location.path + "/",
             metadata: {
               _isFile: false,
               name: fileName(folderRef.location.path + "/"),
-              index: index
             }
           });
           return state;
@@ -64,7 +63,7 @@ class Grid extends Component {
     });
   }
 
-  fetchFilesMetadata = (itemRef, index) => {
+  fetchFilesMetadata = itemRef => {
     startCounter();
     return itemRef.getMetadata().then(metadata => {
       styledLog(Log.SUCCESS + 'Metadata fetched for ' + metadata.name + endCounter());
@@ -73,7 +72,6 @@ class Grid extends Component {
         metadata: {
           _isFile: true,
           name: metadata.name,
-          index: index,
           size: metadata.size,
           timeCreated: metadata.timeCreated,
           updated: metadata.updated,
@@ -118,10 +116,9 @@ class Grid extends Component {
     );
 
     let fileCards = [];
-    console.log(this.state.files);
 
     this.state.files.forEach(file => {
-      fileCards.push(<FileCard key={file.metadata.index} file={file} />);
+      fileCards.push(<FileCard key={file.key} file={file} />);
     });
     return fileCards;
   }
