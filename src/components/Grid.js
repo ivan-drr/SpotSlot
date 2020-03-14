@@ -89,26 +89,7 @@ class Grid extends Component {
     });
   }
 
-  getFilesKeys = (files) => {
-    let fileKeys = [];
-    files.forEach(file => { fileKeys.push(file.key) });
-    return fileKeys;
-  }
-
-  handleFolders = (files) => {
-    if (files !== 0) {
-      files.forEach(name => {
-        let key = name.substring(1, name.length);
-
-        if ((!key.includes('/') || key.charAt(key.indexOf('/')+1) === '') && this.filesToShow.indexOf(key) === -1) this.filesToShow.push(key);
-        else {
-
-        }
-      })
-    }
-  }
-
-  handleFilesAndEmptyFolders = () => {
+  handleShowFileCards = () => {
     if (this.state.files === null || this.state.files.length < 0) return (
       <span className="text-info mt-3">
         {
@@ -150,7 +131,7 @@ class Grid extends Component {
         <AreaSelector />
         <Container>
           <Row className="justify-content-md-center fadeIn">
-            {this.handleFilesAndEmptyFolders()}
+            {this.handleShowFileCards()}
           </Row>
         </Container>
       </div>
