@@ -1,43 +1,4 @@
 
 # ![Working on](https://img.icons8.com/dusk/2x/work.png)SpotSlot *(working on)*
 
-SpotSlot or Sot, is a web app built on Reactjs with Firestore Cloud.
-
-## Installation
-Install the package with npm on your app:
-
-```
-npm install spot-slot
-```
-
-## Usage
-Use it on lifecycle method render:
-
-```javascript
-import React, { Component } from 'react'
-import FileManager from 'react-spot-slot'
-
-class App extends Component {
-  render() {
-    return (<FileManger files=[]/>)
-  }
-}
-```
-Or use it with ES6 imports:
-```javascript
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import FileManager from 'spot-slot'
-
-var mount = document.querySelectorAll('div.browser-mount');
-
-ReactDOM.render(
-  <FileManager
-    files=[]
-  />,
-  mount[0]
-);
-```
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+SpotSlot or Sot, is a PWA built on Reactjs with Firestore Cloud.
