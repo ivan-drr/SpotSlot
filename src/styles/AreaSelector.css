@@ -3,4 +3,5 @@
   border-radius: 0.3em;
   border-color: rgba(9, 122, 171, 0.61);
   position: absolute;
+  z-index: -1;
 }

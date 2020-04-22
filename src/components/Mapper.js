@@ -5,6 +5,13 @@ export function fileName(key) {
   return key.replace(/^.*[\\\\/]/, '');
 }
 
+export function lastDirectory(path) {
+  const realPath = path;
+  if (isFolder(path)) path = path.slice(0, -1);
+  const directoryName = path.substring(path.lastIndexOf("/"), path.length);
+  return realPath.replace(directoryName+"/", "") + "/";
+}
+
 export function isVisible(key) {
   if (key.endsWith('.pdf')
     || key.endsWith('.bmp')
@@ -28,10 +35,6 @@ export function isFolder(key) {
 export function fileType(key) {
   if (key.endsWith('/')) return faFolder;
   else return extensionFilter(key);
-}
-
-export function displayStructure() {
-
 }
 
 function extensionFilter(key) {
