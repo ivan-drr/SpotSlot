@@ -8,16 +8,16 @@ import * as serviceWorker from './serviceWorker';
 
 const init = () => {
   console.group('%c%c⊢☵☵☵☵☵☵┤ 𝙇𝙚𝙜𝙚𝙣𝙙 ├☵☵☵☵☵☵⊣', '', 'color:#1E799E; font-size:1.3em;');
-    console.info('%c☉  %c=  %cPinpoint info', 'font-size: 2em', 'font-size: 1.5em' , 'color:#598ED1');
-    console.info('%c☀  %c=  %cCorrect app flow', 'font-size: 2em', 'font-size: 1.5em' , 'color:#1E9E65');
-    console.info('%c☂  %c=  %cWarning it may rain', 'font-size: 2em', 'font-size: 1.5em' , 'color:#aca94f');
-    console.info('%c❄  %c=  %cApp got freeze by errors', 'font-size: 2em', 'font-size: 1.5em' , 'color:#C72A2A');
+  console.info('%c☉  %c=  %cPinpoint info', 'font-size: 2em', 'font-size: 1.5em', 'color:#598ED1');
+  console.info('%c☀  %c=  %cCorrect app flow', 'font-size: 2em', 'font-size: 1.5em', 'color:#1E9E65');
+  console.info('%c☂  %c=  %cWarning it may rain', 'font-size: 2em', 'font-size: 1.5em', 'color:#aca94f');
+  console.info('%c❄  %c=  %cApp got freeze by errors', 'font-size: 2em', 'font-size: 1.5em', 'color:#C72A2A');
   console.groupEnd();
   console.info('%c%c⊢☵☵☵☵☵☵☵☵☵☵☵☵☵☵☵☵☵☵☵⊣', '', 'color:#1E799E; font-weight: bold; font-size:1.3em;');
   console.info('');
 
   console.group('%c%c ⊢└⊣┤ 𝙇𝙤𝙜 ├⊢┘⊣', '', 'color:#1E799E; font-size:1.3em;');
-}
+};
 
 init();
 ReactDOM.render(<App />, document.getElementById('root'));

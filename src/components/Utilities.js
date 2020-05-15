@@ -1,6 +1,7 @@
 /** Utilities */
 
-let startTime, endTime;
+let startTime; let
+  endTime;
 
 /**
  * Set Date NOW to local variable startTime
@@ -18,8 +19,8 @@ export function endCounter() {
   endTime = new Date();
   let timeDiff = endTime - startTime;
 
-  if (timeDiff>=1000) timeDiff = (timeDiff/1000).toFixed(2);
-  return ' (' + timeDiff + "ms)";
+  if (timeDiff >= 1000) timeDiff = (timeDiff / 1000).toFixed(2);
+  return ` (${timeDiff}ms)`;
 }
 
 /**
@@ -40,18 +41,18 @@ export async function asyncForEach(array, callback) {
  * @return {boolean} If console.log failed returns false, if not returns true
  */
 export function styledLog(msg) {
-    const CORRECT = '1E9E65';
-    const WARNING = 'aca94f';
-    const ERROR = 'C72A2A';
-    const INFO = '598ED1';
+  const CORRECT = '1E9E65';
+  const WARNING = 'aca94f';
+  const ERROR = 'C72A2A';
+  const INFO = '598ED1';
 
-    let statusColor = '1E9E65';
+  let statusColor = '1E9E65';
 
-    if (msg.includes('☀')) statusColor = CORRECT;
-    else if (msg.includes('☂')) statusColor = WARNING;
-    else if (msg.includes('❄')) statusColor = ERROR;
-    else statusColor = INFO;
+  if (msg.includes('☀')) statusColor = CORRECT;
+  else if (msg.includes('☂')) statusColor = WARNING;
+  else if (msg.includes('❄')) statusColor = ERROR;
+  else statusColor = INFO;
 
-    if (console.info(msg, 'font-size: 2em', 'color: #'+statusColor+';')) return true;
-    else return false;
+  if (console.info(msg, 'font-size: 2em', `color: #${statusColor};`)) return true;
+  return false;
 }

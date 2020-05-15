@@ -21,7 +21,12 @@
     "build": "react-scripts build",
     "test": "jest --verbose",
     "createdoc": "jsdoc src -r -d docs",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .jsx,.js src",
+    "pre-commit": "npm run lint",
+    "pre-push": "npm test",
+    "post-merge": "npm install",
+    "post-rewrite": "npm install"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,6 +50,13 @@
     "@testing-library/user-event": "^7.1.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "husky": "^4.2.5",
     "jest": "^24.9.0",
     "jsdoc": "^3.6.3"
   },

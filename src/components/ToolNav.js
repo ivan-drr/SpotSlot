@@ -21,4 +21,4 @@ class ToolNav extends Component {
   }
 }
 
-export default ToolNav
+export default ToolNav;
