@@ -153,7 +153,10 @@ class FileManager extends Component {
 
     // Check if file already exist
     if(this.state.files.map(f => {
-      if (filepath === "/" + f.key) return true;
+      if (filepath === "/" + f.key) {
+        styledLog(`${Log.WARNING}File ${f.key} already exist`);
+        return true;
+      }
       return false;
     }).join().includes("true")) return;
 
