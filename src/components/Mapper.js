@@ -1,5 +1,5 @@
 import {
-  faCoffee, faFileImage, faFileAlt, faFolder, faFile, faFileCode,
+  faCoffee, faFileImage, faFileAlt, faFolder, faFile, faFileCode, faFilePdf,
 } from '@fortawesome/free-solid-svg-icons';
 
 export function fileName(key) {
@@ -77,7 +77,7 @@ function extensionFilter(key) {
   // WORD PROCESSOR AND TEXT
   if (key.endsWith('.doc') || key.endsWith('.docx')) return 'word';
   if (key.endsWith('.odt')) return 'odt';
-  if (key.endsWith('.pdf')) return 'pdf';
+  if (key.endsWith('.pdf')) return faFilePdf;
   if (key.endsWith('.rtf')) return 'rich-text';
   if (key.endsWith('.tex')) return 'tex';
   if (key.endsWith('.txt')) return faFileAlt;

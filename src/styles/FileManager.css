@@ -9,3 +9,26 @@
   background-color: rgba(66, 128, 158, 0.74);
   color: rgb(179, 225, 237);
 }
+
+.fixed-right{
+  width: 90px;
+  position: fixed;
+  z-index: 1;
+  top: 50px;
+  right: 10px;
+  overflow-x: hidden;
+  padding: 8px 0;
+}
+
+#toolNav {
+  background-color: rgba(90, 126, 139, 0.08);
+}
+
+.fixedFooter {
+  position: fixed;
+  height: 10px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
