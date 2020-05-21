@@ -16,6 +16,7 @@ package-lock.json
 .firebaserc
 firebase.json
 firebase-debug.log
+cors.json
 
 # misc
 .DS_Store

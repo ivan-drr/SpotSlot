@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { styledLog } from './Utilities';
+import { styledLog, downloadFile } from './Utilities';
 import * as Constant from './constants/AreaSelector';
 import * as Log from './constants/log';
 import { storageRef } from './constants/firebase';
+import { fileName } from './Mapper';
 
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faCloudDownloadAlt, faEye, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faCloudDownloadAlt, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 
 import '../styles/AreaSelector.css';
 import '../styles/ToolNav.css';
@@ -117,6 +118,16 @@ class AreaSelector extends Component {
     } return false;
   }
 
+  clickOutOfCard = () => {
+    Array.prototype.slice.call(document.getElementsByClassName('file')).forEach((card) => card.style.backgroundColor = '');
+    this.setState(state => {
+      if (state.selectedCards.length !== 0) {
+        state.selectedCards = [];
+        return state;
+      }
+    });
+  }
+
   handleClickOutOfCard = (e) => {
     if (!this.clickedOnCard(e)) {
       Array.prototype.slice.call(document.getElementsByClassName('file')).forEach((card) => card.style.backgroundColor = '');
@@ -212,13 +223,7 @@ class AreaSelector extends Component {
     this.state.selectedCards.forEach(file => {
       const ref = storageRef.child(file.id)
       ref.getDownloadURL().then(url => {
-        const xhr = new XMLHttpRequest();
-        xhr.responseType = 'blob';
-        xhr.onload = event => {
-          //const blob = xhr.response;
-        };
-        xhr.open('GET', url);
-        xhr.send();
+        downloadFile(url, fileName(file.id));
       }).catch(function(error) {
         // https://firebase.google.com/docs/storage/web/handle-errors
         switch (error.code) {
@@ -239,15 +244,26 @@ class AreaSelector extends Component {
             break;
 
           default:
-            styledLog(`${Log.ERROR}Unhandled error by firebase`);
+            styledLog(`${Log.ERROR}Unhandled error by firebase, check de code`);
             break;
         }
       });
-    })
+    });
   }
 
   handleDeleteFiles = () => {
+    const files = this.state.selectedCards;
+    files.forEach((file, index) => {
+      const ref = storageRef.child(file.id);
 
+      ref.delete().then(() => {
+        styledLog(`${Log.INFO}File ${file.id} was deleted`);
+        file.parentElement.remove();
+      }).catch(function(error) {
+        styledLog(`${Log.ERROR}File ${file.id} couldn't be deleted`);
+      });
+    });
+    this.clickOutOfCard();
   }
 
   render() {
@@ -257,14 +273,10 @@ class AreaSelector extends Component {
 
       <div id="toolNav" className="flex-column fixed-right rounded">
         <Nav>
-          <Button className="navButton" disabled
-            variant="primary">
-              <FontAwesomeIcon icon={faEye} />
-          </Button>
-
-          <Button className="navButton" disabled={this.state.selectedCards.length > 0 ? 0 : 1}
-            variant="danger">
-              <FontAwesomeIcon icon={faTrash} />
+          <Button className="navButton"
+            variant="success"
+            onClick={() => document.getElementById("addFile").click()}>
+              <FontAwesomeIcon icon={faFolderPlus} />
           </Button>
 
           <Button className="navButton" disabled={this.state.selectedCards.length > 0 ? 0 : 1}
@@ -273,10 +285,10 @@ class AreaSelector extends Component {
               <FontAwesomeIcon icon={faCloudDownloadAlt} />
           </Button>
 
-          <Button className="navButton"
-            variant="success"
-            onClick={() => document.getElementById("fileElem").click()}>
-              <FontAwesomeIcon icon={faFolderPlus} />
+          <Button className="navButton" disabled={this.state.selectedCards.length > 0 ? 0 : 1}
+            variant="danger"
+            onClick={() => this.handleDeleteFiles()}>
+              <FontAwesomeIcon icon={faTrash} />
           </Button>
         </Nav>
       </div>

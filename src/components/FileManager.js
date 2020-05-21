@@ -141,7 +141,6 @@ class FileManager extends Component {
     if (this.state.path === '/') return;
     this.handleOpenFolder('/');
   }
-
   handleCreateFile = e => {
     const file = e.target.files[0];
     const filepath = this.state.path + file.name;
@@ -170,7 +169,7 @@ class FileManager extends Component {
         return state;
       });
     }, () => {
-      styledLog(`${Log.INFO}File ${file.name} uploaded`);
+      styledLog(`${Log.INFO}File ${file.name} was uploaded`);
       this.setState(state => {
         state.fileUploadProgress = 0;
         return state;
@@ -210,7 +209,7 @@ class FileManager extends Component {
         <AreaSelector />
         <form>
           <input type="file"
-            id="fileElem"
+            id="addFile"
             style={{display: "none"}}
             onChange={ (e) => this.handleCreateFile(e) } />
         </form>
