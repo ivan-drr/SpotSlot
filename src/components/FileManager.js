@@ -13,6 +13,7 @@ import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+
 import '../styles/FileManager.css';
 
 class FileManager extends Component {
@@ -191,6 +192,22 @@ class FileManager extends Component {
     });
   }
 
+  handleCreateFolder = () => {
+    setTimeout(() => {
+      const folderInput = document.getElementById("folderName");
+      if (folderInput === null) return;
+
+      document.getElementById("folderName").onkeypress = e => {
+        if (!e) e = window.event;
+        const keyCode = e.keyCode || e.which;
+        if (keyCode === 13){
+          document.getElementById("newfolderOverlay").click();
+          return false;
+        }
+      }
+    }, 0);
+  }
+
   render() {
     return (
       <div id="fileManager">
@@ -213,6 +230,9 @@ class FileManager extends Component {
             style={{display: "none"}}
             onChange={ (e) => this.handleCreateFile(e) } />
         </form>
+        <button id="addFolder"
+          style={{display: "none"}}
+          onClick={() => this.handleCreateFolder()} />
 
         <Breadcrumb currentPath={this.state.path} />
 

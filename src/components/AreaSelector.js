@@ -7,8 +7,10 @@ import { fileName } from './Mapper';
 
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faCloudDownloadAlt, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faCloudDownloadAlt, faFolderPlus, faFileMedical } from '@fortawesome/free-solid-svg-icons';
 
 import '../styles/AreaSelector.css';
 import '../styles/ToolNav.css';
@@ -267,6 +269,15 @@ class AreaSelector extends Component {
   }
 
   render() {
+    const popover = (
+      <Popover id="newFolder">
+        <Popover.Title as="h3">New folder name</Popover.Title>
+        <Popover.Content>
+          <input id="folderName" type="text" />
+        </Popover.Content>
+      </Popover>
+    );
+
     return(
       <>
       <div id="areaSelector" hidden>&nbsp;</div>
@@ -274,10 +285,19 @@ class AreaSelector extends Component {
       <div id="toolNav" className="flex-column fixed-right rounded">
         <Nav>
           <Button className="navButton"
-            variant="success"
+            style={{backgroundColor: "#4cbb66", borderColor: "#4cbb66"}}
             onClick={() => document.getElementById("addFile").click()}>
-              <FontAwesomeIcon icon={faFolderPlus} />
+              <FontAwesomeIcon icon={faFileMedical} />
           </Button>
+
+          <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+            <Button className="navButton"
+              id="newfolderOverlay"
+              style={{backgroundColor: "#479057", borderColor: "#479057"}}
+              onClick={() => document.getElementById("addFolder").click()}>
+                <FontAwesomeIcon icon={faFolderPlus} />
+            </Button>
+          </OverlayTrigger>
 
           <Button className="navButton" disabled={this.state.selectedCards.length > 0 ? 0 : 1}
             variant="info"
