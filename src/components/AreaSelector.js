@@ -206,7 +206,6 @@ class AreaSelector extends Component {
       areaSelector.hidden = 1;
       this.lastMouseMove = 'mouseup';
     }
-    //console.log(this.state.selectedCards);
   }
 
   handleDownloadFiles = () => {
@@ -216,7 +215,7 @@ class AreaSelector extends Component {
         const xhr = new XMLHttpRequest();
         xhr.responseType = 'blob';
         xhr.onload = event => {
-          const blob = xhr.response;
+          //const blob = xhr.response;
         };
         xhr.open('GET', url);
         xhr.send();
@@ -252,7 +251,6 @@ class AreaSelector extends Component {
   }
 
   render() {
-    console.log(this.state.selectedCards);
     return(
       <>
       <div id="areaSelector" hidden>&nbsp;</div>
