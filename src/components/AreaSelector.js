@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import { styledLog } from './Utilities';
 import * as Constant from './constants/AreaSelector';
 import * as Log from './constants/log';
+import { storageRef } from './constants/firebase';
+
+import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faCloudDownloadAlt, faEye, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 
 import '../styles/AreaSelector.css';
+import '../styles/ToolNav.css';
 
 class AreaSelector extends Component {
   constructor() {
     super();
-    this.selectedCards = [];
     this.lastMouseMove = false;
     this.sx0 = 0;
     this.sy0 = 0;
@@ -16,6 +22,7 @@ class AreaSelector extends Component {
     this.sy1 = 0;
 
     this.state = {
+      selectedCards: [],
       container: document,
       cards: Array.prototype.slice.call(document.getElementsByClassName('cardFile')),
     };
@@ -28,7 +35,6 @@ class AreaSelector extends Component {
 
   setEvents = () => {
     const { container } = this.state;
-    const { cards } = this.state;
 
     container.addEventListener('mousedown', (e) => {
       this.handleAreaSelect(e);
@@ -45,10 +51,6 @@ class AreaSelector extends Component {
 
     container.addEventListener('touchend', (e) => { this.handleAreaSelect(e); }, false);
     container.addEventListener('touchmove', (e) => { this.handleAreaSelect(e); }, false);
-
-    cards.forEach((card) => {
-      card.addEventListener('click', (e) => { this.handleClickOnCard(e); });
-    });
   }
 
   getMousePosition = (e) => {
@@ -115,23 +117,15 @@ class AreaSelector extends Component {
     } return false;
   }
 
-  handleClickOnCard = (e) => {
-    const target = this.getCardTarget(e);
-    if (!target) return false;
-
-    if (target.style.backgroundColor !== Constant.ONCLICK_COLOR) {
-      target.style.backgroundColor = Constant.ONCLICK_COLOR;
-      target.style.borderRadius = Constant.MOUSEOVER_BORDER_RADIUS;
-      target.style.borderColor = Constant.MOUSEOVER_BORDER_COLOR;
-      return true;
-    }
-    target.style.backgroundColor = '';
-    return false;
-  }
-
   handleClickOutOfCard = (e) => {
     if (!this.clickedOnCard(e)) {
       Array.prototype.slice.call(document.getElementsByClassName('file')).forEach((card) => card.style.backgroundColor = '');
+      this.setState(state => {
+        if (state.selectedCards.length !== 0) {
+          state.selectedCards = [];
+          return state;
+        }
+      });
     }
   }
 
@@ -149,15 +143,15 @@ class AreaSelector extends Component {
       data.forEach((target, index) => {
         const card = target.parentElement;
         if (this.visibleOnArea(card)) {
-          if (!this.selectedCards.includes(target)) this.selectedCards.push(target);
+          if (!this.state.selectedCards.includes(target)) {
+            this.setState(state => {
+              state.selectedCards.push(target);
+              return state;
+            });
+          }
           card.style.backgroundColor = Constant.MOUSEOVER_COLOR;
           card.style.borderRadius = Constant.MOUSEOVER_BORDER_RADIUS;
           card.style.borderColor = Constant.MOUSEOVER_BORDER_COLOR;
-        } else if (this.lastMouseMove !== 'mouseup') {
-          this.selectedCards.splice(index, 1);
-          card.style.backgroundColor = '';
-          card.style.borderRadius = 'none';
-          card.style.borderColor = '';
         }
       });
     }
@@ -204,19 +198,92 @@ class AreaSelector extends Component {
       this.attachMousePosTo(areaSelector);
       this.lastMouseMove = 'mousedown';
     } else if (e.type === 'mouseup' || e.type === 'touchend') {
-      this.selectedCards.forEach((card) => {
+      this.state.selectedCards.forEach((card) => {
         card.parentElement.style.backgroundColor = Constant.ON_AREASELECT_COLOR;
         card.parentElement.style.borderRadius = Constant.MOUSEOVER_BORDER_RADIUS;
         card.parentElement.style.borderColor = Constant.MOUSEOVER_BORDER_COLOR;
       });
-      this.selectedCards = [];
       areaSelector.hidden = 1;
       this.lastMouseMove = 'mouseup';
     }
+    //console.log(this.state.selectedCards);
+  }
+
+  handleDownloadFiles = () => {
+    this.state.selectedCards.forEach(file => {
+      const ref = storageRef.child(file.id)
+      ref.getDownloadURL().then(url => {
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = event => {
+          const blob = xhr.response;
+        };
+        xhr.open('GET', url);
+        xhr.send();
+      }).catch(function(error) {
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case 'storage/object-not-found':
+            styledLog(`${Log.ERROR}File doesn't exist`);
+            break;
+
+          case 'storage/unauthorized':
+            styledLog(`${Log.WARNING}User doesn't have permission to access the object`);
+            break;
+
+          case 'storage/canceled':
+            styledLog(`${Log.WARNING}User canceled the upload`);
+            break;
+
+          case 'storage/unknown':
+            styledLog(`${Log.ERROR}Unknown error occurred, inspect the server response`);
+            break;
+
+          default:
+            styledLog(`${Log.ERROR}Unhandled error by firebase`);
+            break;
+        }
+      });
+    })
+  }
+
+  handleDeleteFiles = () => {
+
   }
 
   render() {
-    return <div id="areaSelector" hidden>&nbsp;</div>;
+    console.log(this.state.selectedCards);
+    return(
+      <>
+      <div id="areaSelector" hidden>&nbsp;</div>
+
+      <div id="toolNav" className="flex-column fixed-right rounded">
+        <Nav>
+          <Button className="navButton" disabled
+            variant="primary">
+              <FontAwesomeIcon icon={faEye} />
+          </Button>
+
+          <Button className="navButton" disabled={this.state.selectedCards.length > 0 ? 0 : 1}
+            variant="danger">
+              <FontAwesomeIcon icon={faTrash} />
+          </Button>
+
+          <Button className="navButton" disabled={this.state.selectedCards.length > 0 ? 0 : 1}
+            variant="info"
+            onClick={() => this.handleDownloadFiles()}>
+              <FontAwesomeIcon icon={faCloudDownloadAlt} />
+          </Button>
+
+          <Button className="navButton"
+            variant="success"
+            onClick={() => document.getElementById("fileElem").click()}>
+              <FontAwesomeIcon icon={faFolderPlus} />
+          </Button>
+        </Nav>
+      </div>
+      </>
+    );
   }
 }
 

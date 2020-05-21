@@ -12,11 +12,7 @@ import Breadcrumb from './Breadcrumb';
 import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Nav from 'react-bootstrap/Nav';
-import Button from 'react-bootstrap/Button';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faCloudDownloadAlt, faEye, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import '../styles/FileManager.css';
 
 class FileManager extends Component {
@@ -210,50 +206,14 @@ class FileManager extends Component {
           </Badge>
         </h1>
         <hr />
-        <div id="toolNav" className="flex-column fixed-right rounded">
-          <Nav>
-            <Nav.Link disabled>
-              <Button disabled
-                className="button"
-                variant="primary">
-                  <FontAwesomeIcon icon={faEye} />
-              </Button>
-            </Nav.Link>
 
-            <Nav.Link disabled>
-              <Button disabled
-                className="button"
-                variant="danger">
-                  <FontAwesomeIcon icon={faTrash} />
-              </Button>
-            </Nav.Link>
-
-            <Nav.Link disabled>
-              <Button disabled
-                className="button"
-                variant="info">
-                  <FontAwesomeIcon icon={faCloudDownloadAlt} />
-              </Button>
-            </Nav.Link>
-
-            <Nav.Link>
-              <Button className="button"
-                variant="success"
-                onClick={() => document.getElementById("fileElem").click()}>
-                  <FontAwesomeIcon icon={faFolderPlus} />
-              </Button>
-            </Nav.Link>
-
-            <form>
-              <input type="file"
-                id="fileElem"
-                style={{display: "none"}}
-                onChange={ (e) => this.handleCreateFile(e) } />
-            </form>
-          </Nav>
-        </div>
-
-
+        <AreaSelector />
+        <form>
+          <input type="file"
+            id="fileElem"
+            style={{display: "none"}}
+            onChange={ (e) => this.handleCreateFile(e) } />
+        </form>
 
         <Breadcrumb currentPath={this.state.path} />
 
@@ -285,7 +245,6 @@ class FileManager extends Component {
           </div>
         </div>
         <Loading _isFetch={this.state._isFetch} />
-        <AreaSelector />
         <Container>
           <Row className="justify-content-md-center fadeIn" id="cardsRow">
             {this.handleShowFileCards()}
