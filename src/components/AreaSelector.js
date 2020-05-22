@@ -271,9 +271,9 @@ class AreaSelector extends Component {
   render() {
     const popover = (
       <Popover id="newFolder">
-        <Popover.Title as="h3">New folder name</Popover.Title>
-        <Popover.Content>
-          <input id="folderName" type="text" />
+        <Popover.Title style={{backgroundColor: "#f3c3a3", color: "#0a4685"}} as="h3">New folder name</Popover.Title>
+        <Popover.Content style={{backgroundColor: "#f5f5f5"}}>
+          <input id="folderName" style={{textAlign: "center", color: "#0a4685"}} type="text" autoComplete="off" />
         </Popover.Content>
       </Popover>
     );

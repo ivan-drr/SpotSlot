@@ -200,9 +200,24 @@ class FileManager extends Component {
       document.getElementById("folderName").onkeypress = e => {
         if (!e) e = window.event;
         const keyCode = e.keyCode || e.which;
-        if (keyCode === 13){
+        console.log(keyCode);
+        if (keyCode === 13) {
           document.getElementById("newfolderOverlay").click();
-          return false;
+          if(e.target.value.replace(/\s/g, "").length <= 0) return;
+
+          const ref = storageRef.child(`${this.state.path}/${e.target.value}/.folder`);
+          ref.put(new File([""], ".folder"));
+
+          this.setState(state => {
+            state.files.push({
+              key: `${this.state.path}${e.target.value}/`,
+              metadata: {
+                _isFile: false,
+                name: fileName(`${e.target.value}/`),
+              },
+            });
+            return state;
+          });
         }
       }
     }, 0);
