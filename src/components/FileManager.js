@@ -142,8 +142,11 @@ class FileManager extends Component {
     if (this.state.path === '/') return;
     this.handleOpenFolder('/');
   }
+
   handleCreateFile = e => {
     const file = e.target.files[0];
+    e.target.value = "";
+
     const filepath = this.state.path + file.name;
     const ref = storageRef.child(this.state.path + file.name);
 
@@ -177,17 +180,29 @@ class FileManager extends Component {
       });
       this.setState(state => {
         state.files.push({
-          key: this.state.path + file.name,
+          key: filepath,
           metadata: {
             _isFile: true,
             name: file.name,
             size: file.size,
             updated: file.lastModifiedDate,
-            fullPath: this.state.path + file.name,
+            fullPath: filepath,
             contentType: file.type,
           }
         })
         return state;
+      });
+    });
+  }
+
+  handleDeleteStateFile = e => {
+    e.persist();
+    this.setState(state => {
+      state.files.forEach((file, index) => {
+        if (file.key === e.target.value) {
+          state.files.splice(index, 1);
+          return state;
+        }
       });
     });
   }
@@ -226,6 +241,7 @@ class FileManager extends Component {
   render() {
     return (
       <div id="fileManager">
+        <input id="deleteStateFile" style={{display: "none"}} type="text" onClick={e => this.handleDeleteStateFile(e)} />
         <h1>
           Spot
           <Badge

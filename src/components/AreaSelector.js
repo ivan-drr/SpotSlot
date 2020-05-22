@@ -260,6 +260,10 @@ class AreaSelector extends Component {
 
       ref.delete().then(() => {
         styledLog(`${Log.INFO}File ${file.id} was deleted`);
+        const deleteFile = document.getElementById("deleteStateFile");
+        deleteFile.value = file.id;
+        deleteFile.click();
+
         file.parentElement.style.display = "none";
       }).catch(function(error) {
         styledLog(`${Log.ERROR}File ${file.id} couldn't be deleted`);
