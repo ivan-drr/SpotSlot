@@ -126,10 +126,10 @@ class FileManager extends Component {
   handleOpenFolder = (path) => {
     if (!path.endsWith('/')) return false;
 
-    this.setState((state) => {
+    this.setState(state => {
       state.files = [];
-      return state;
     });
+    document.getElementById("unselectCards").click();
     this.fetchFiles(path);
   }
 
@@ -145,7 +145,7 @@ class FileManager extends Component {
   handleCreateFile = e => {
     const file = e.target.files[0];
     const filepath = this.state.path + file.name;
-    const ref = storageRef.child(file.name);
+    const ref = storageRef.child(this.state.path + file.name);
 
     // Check if file already exist
     if(this.state.files.map(f => {
@@ -200,23 +200,23 @@ class FileManager extends Component {
       document.getElementById("folderName").onkeypress = e => {
         if (!e) e = window.event;
         const keyCode = e.keyCode || e.which;
-        console.log(keyCode);
         if (keyCode === 13) {
           document.getElementById("newfolderOverlay").click();
           if(e.target.value.replace(/\s/g, "").length <= 0) return;
 
           const ref = storageRef.child(`${this.state.path}/${e.target.value}/.folder`);
-          ref.put(new File([""], ".folder"));
-
-          this.setState(state => {
-            state.files.push({
-              key: `${this.state.path}${e.target.value}/`,
-              metadata: {
-                _isFile: false,
-                name: fileName(`${e.target.value}/`),
-              },
+          ref.put(new File([""], ".folder")).then(() => {
+            styledLog(`${Log.INFO}Folder ${e.target.value} was created`);
+            this.setState(state => {
+              state.files.push({
+                key: `${this.state.path}${e.target.value}/`,
+                metadata: {
+                  _isFile: false,
+                  name: fileName(`${e.target.value}/`),
+                },
+              });
+              return state;
             });
-            return state;
           });
         }
       }

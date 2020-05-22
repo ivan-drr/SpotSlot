@@ -120,7 +120,7 @@ class AreaSelector extends Component {
     } return false;
   }
 
-  clickOutOfCard = () => {
+  unselectCards = () => {
     Array.prototype.slice.call(document.getElementsByClassName('file')).forEach((card) => card.style.backgroundColor = '');
     this.setState(state => {
       if (state.selectedCards.length !== 0) {
@@ -255,17 +255,28 @@ class AreaSelector extends Component {
 
   handleDeleteFiles = () => {
     const files = this.state.selectedCards;
-    files.forEach((file, index) => {
+    files.forEach(file => {
       const ref = storageRef.child(file.id);
 
       ref.delete().then(() => {
         styledLog(`${Log.INFO}File ${file.id} was deleted`);
-        file.parentElement.remove();
+        file.parentElement.style.display = "none";
       }).catch(function(error) {
         styledLog(`${Log.ERROR}File ${file.id} couldn't be deleted`);
       });
     });
-    this.clickOutOfCard();
+    this.unselectCards();
+  }
+
+  isFolderOnSelectedCards = () => {
+    let result = 0;
+    if (this.state.selectedCards.length > 0) {
+      this.state.selectedCards.forEach(card => {
+        if (card.className.includes("folder")) result = 1;
+      });
+    } else result = 1;
+
+    return result;
   }
 
   render() {
@@ -273,7 +284,7 @@ class AreaSelector extends Component {
       <Popover id="newFolder">
         <Popover.Title style={{backgroundColor: "#f3c3a3", color: "#0a4685"}} as="h3">New folder name</Popover.Title>
         <Popover.Content style={{backgroundColor: "#f5f5f5"}}>
-          <input id="folderName" style={{textAlign: "center", color: "#0a4685"}} type="text" autoComplete="off" />
+          <input id="folderName" style={{textAlign: "center", color: "#0a4685"}} type="text" autoFocus autoComplete="off" />
         </Popover.Content>
       </Popover>
     );
@@ -281,6 +292,7 @@ class AreaSelector extends Component {
     return(
       <>
       <div id="areaSelector" hidden>&nbsp;</div>
+      <button id="unselectCards" style={{display: "none"}} onClick={() => this.unselectCards()} />
 
       <div id="toolNav" className="flex-column fixed-right rounded">
         <Nav>
@@ -299,13 +311,13 @@ class AreaSelector extends Component {
             </Button>
           </OverlayTrigger>
 
-          <Button className="navButton" disabled={this.state.selectedCards.length > 0 ? 0 : 1}
+          <Button className="navButton" disabled={this.isFolderOnSelectedCards()}
             variant="info"
             onClick={() => this.handleDownloadFiles()}>
               <FontAwesomeIcon icon={faCloudDownloadAlt} />
           </Button>
 
-          <Button className="navButton" disabled={this.state.selectedCards.length > 0 ? 0 : 1}
+          <Button className="navButton" disabled={this.isFolderOnSelectedCards()}
             variant="danger"
             onClick={() => this.handleDeleteFiles()}>
               <FontAwesomeIcon icon={faTrash} />
