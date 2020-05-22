@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { fileType, elapsedTime, sizeFilter } from './Mapper';
 
-import '../styles/FileCard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+
+import '../styles/FileCard.css';
 
 class FileCard extends Component {
   constructor(props) {
@@ -31,11 +32,13 @@ class FileCard extends Component {
             <Card.Title className={file.metadata._isFile ? 'fileName-white' : 'folderName-white'}>{file.metadata.name}</Card.Title>
           </Card.Header>
 
-          <Card.Footer className="footer" style={{ color: '#636363' }}>
-            {file.metadata._isFile ? `Last updated: ${elapsedTime(new Date(file.metadata.updated))}` : 'Click to open'}
-            <br />
-            {file.metadata._isFile ? `Size: ${sizeFilter(file.metadata.size)} - ` : true}
-            <FontAwesomeIcon icon={fileType(file.key)} />
+          <Card.Footer className="footer" style={{ backgroundColor: "#e8e8e85e" }}>
+            <span style={{color: '#4e4e4e'}}>
+              {file.metadata._isFile ? `Last updated: ${elapsedTime(new Date(file.metadata.updated))}` : 'Click to open'}
+              <br />
+              {file.metadata._isFile ? `Size: ${sizeFilter(file.metadata.size)} - ` : true}
+              <FontAwesomeIcon icon={fileType(file.key)} />
+            </span>
           </Card.Footer>
         </Card>
       </Col>
