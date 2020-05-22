@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { styledLog, downloadFile } from './Utilities';
-import * as Constant from './constants/AreaSelector';
-import * as Log from './constants/log';
-import { storageRef } from './constants/firebase';
-import { fileName } from './Mapper';
 
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faCloudDownloadAlt, faFolderPlus, faFileMedical } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTrash, faCloudDownloadAlt, faFolderPlus, faFileMedical,
+} from '@fortawesome/free-solid-svg-icons';
+import { fileName } from './Mapper';
+import { storageRef } from './constants/firebase';
+import * as Log from './constants/log';
+import * as Constant from './constants/AreaSelector';
+import { styledLog, downloadFile } from './Utilities';
 
 import '../styles/AreaSelector.css';
 import '../styles/ToolNav.css';
@@ -122,7 +124,7 @@ class AreaSelector extends Component {
 
   unselectCards = () => {
     Array.prototype.slice.call(document.getElementsByClassName('file')).forEach((card) => card.style.backgroundColor = '');
-    this.setState(state => {
+    this.setState((state) => {
       if (state.selectedCards.length !== 0) {
         state.selectedCards = [];
         return state;
@@ -133,7 +135,7 @@ class AreaSelector extends Component {
   handleClickOutOfCard = (e) => {
     if (!this.clickedOnCard(e)) {
       Array.prototype.slice.call(document.getElementsByClassName('file')).forEach((card) => card.style.backgroundColor = '');
-      this.setState(state => {
+      this.setState((state) => {
         if (state.selectedCards.length !== 0) {
           state.selectedCards = [];
           return state;
@@ -157,7 +159,7 @@ class AreaSelector extends Component {
         const card = target.parentElement;
         if (this.visibleOnArea(card)) {
           if (!this.state.selectedCards.includes(target)) {
-            this.setState(state => {
+            this.setState((state) => {
               state.selectedCards.push(target);
               return state;
             });
@@ -222,11 +224,11 @@ class AreaSelector extends Component {
   }
 
   handleDownloadFiles = () => {
-    this.state.selectedCards.forEach(file => {
-      const ref = storageRef.child(file.id)
-      ref.getDownloadURL().then(url => {
+    this.state.selectedCards.forEach((file) => {
+      const ref = storageRef.child(file.id);
+      ref.getDownloadURL().then((url) => {
         downloadFile(url, fileName(file.id));
-      }).catch(function(error) {
+      }).catch((error) => {
         // https://firebase.google.com/docs/storage/web/handle-errors
         switch (error.code) {
           case 'storage/object-not-found':
@@ -255,17 +257,17 @@ class AreaSelector extends Component {
 
   handleDeleteFiles = () => {
     const files = this.state.selectedCards;
-    files.forEach(file => {
+    files.forEach((file) => {
       const ref = storageRef.child(file.id);
 
       ref.delete().then(() => {
         styledLog(`${Log.INFO}File ${file.id} was deleted`);
-        const deleteFile = document.getElementById("deleteStateFile");
+        const deleteFile = document.getElementById('deleteStateFile');
         deleteFile.value = file.id;
         deleteFile.click();
 
-        file.parentElement.style.display = "none";
-      }).catch(function(error) {
+        file.parentElement.style.display = 'none';
+      }).catch((error) => {
         styledLog(`${Log.ERROR}File ${file.id} couldn't be deleted`);
       });
     });
@@ -275,8 +277,8 @@ class AreaSelector extends Component {
   isFolderOnSelectedCards = () => {
     let result = 0;
     if (this.state.selectedCards.length > 0) {
-      this.state.selectedCards.forEach(card => {
-        if (card.className.includes("folder")) result = 1;
+      this.state.selectedCards.forEach((card) => {
+        if (card.className.includes('folder')) result = 1;
       });
     } else result = 1;
 
@@ -286,52 +288,62 @@ class AreaSelector extends Component {
   render() {
     const popover = (
       <Popover id="newFolder">
-        <Popover.Title style={{backgroundColor: "#f3c3a3", color: "#0a4685"}} as="h3">New folder name</Popover.Title>
-        <Popover.Content style={{backgroundColor: "#f5f5f5"}}>
-          <input id="folderName" style={{textAlign: "center", color: "#0a4685"}} type="text" autoFocus autoComplete="off" />
+        <Popover.Title style={{ backgroundColor: '#f3c3a3', color: '#0a4685' }} as="h3">New folder name</Popover.Title>
+        <Popover.Content style={{ backgroundColor: '#f5f5f5' }}>
+          <input id="folderName" style={{ textAlign: 'center', color: '#0a4685' }} type="text" autoFocus autoComplete="off" />
         </Popover.Content>
       </Popover>
     );
 
-    return(
+    return (
       <>
-      <div id="areaSelector" hidden>&nbsp;</div>
-      <button id="unselectCards" style={{display: "none"}} onClick={() => this.unselectCards()} />
+        <div id="areaSelector" hidden>&nbsp;</div>
+        <button id="unselectCards" style={{ display: 'none' }} onClick={() => this.unselectCards()} />
 
-      <div id="toolNav" className="flex-column fixed-right rounded">
-        <Nav>
-          <Button className="navButton"
-            aria-label="Add file"
-            style={{backgroundColor: "#4cbb66", borderColor: "#4cbb66"}}
-            onClick={() => document.getElementById("addFile").click()}>
+        <div id="toolNav" className="flex-column fixed-right rounded">
+          <Nav>
+            <Button
+              className="navButton"
+              aria-label="Add file"
+              style={{ backgroundColor: '#4cbb66', borderColor: '#4cbb66' }}
+              onClick={() => document.getElementById('addFile').click()}
+            >
               <FontAwesomeIcon icon={faFileMedical} />
-          </Button>
-
-          <OverlayTrigger trigger="click" placement="left" overlay={popover}>
-            <Button className="navButton"
-              aria-label="Add folder"
-              id="newfolderOverlay"
-              style={{backgroundColor: "#479057", borderColor: "#479057"}}
-              onClick={() => document.getElementById("addFolder").click()}>
-                <FontAwesomeIcon icon={faFolderPlus} />
             </Button>
-          </OverlayTrigger>
 
-          <Button className="navButton" disabled={this.isFolderOnSelectedCards()}
-            aria-label="Downlaod files"
-            variant="info"
-            onClick={() => this.handleDownloadFiles()}>
+            <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+              <Button
+                className="navButton"
+                aria-label="Add folder"
+                id="newfolderOverlay"
+                style={{ backgroundColor: '#479057', borderColor: '#479057' }}
+                onClick={() => document.getElementById('addFolder').click()}
+              >
+                <FontAwesomeIcon icon={faFolderPlus} />
+              </Button>
+            </OverlayTrigger>
+
+            <Button
+              className="navButton"
+              disabled={this.isFolderOnSelectedCards()}
+              aria-label="Downlaod files"
+              variant="info"
+              onClick={() => this.handleDownloadFiles()}
+            >
               <FontAwesomeIcon icon={faCloudDownloadAlt} />
-          </Button>
+            </Button>
 
-          <Button className="navButton" disabled={this.isFolderOnSelectedCards()}
-            aria-label="Delete files"
-            variant="danger"
-            onClick={() => this.handleDeleteFiles()}>
+            <Button
+              className="navButton"
+              disabled={this.isFolderOnSelectedCards()}
+              aria-label="Delete files"
+              variant="danger"
+              onClick={() => this.handleDeleteFiles()}
+            >
               <FontAwesomeIcon icon={faTrash} />
-          </Button>
-        </Nav>
-      </div>
+            </Button>
+          </Nav>
+        </div>
       </>
     );
   }

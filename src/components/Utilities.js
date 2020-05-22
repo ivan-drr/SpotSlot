@@ -58,7 +58,7 @@ export function styledLog(msg) {
 }
 
 export function downloadFile(fileURL, fileName) {
-  const link = document.createElement("a");
+  const link = document.createElement('a');
   link.style.display = 'none';
   link.download = fileName;
   link.href = fileURL;

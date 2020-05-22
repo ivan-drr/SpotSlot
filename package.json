@@ -22,7 +22,7 @@
     "test": "jest --verbose",
     "createdoc": "jsdoc src -r -d docs",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext .jsx,.js src",
+    "lint": "eslint --ext .jsx,.js src --fix",
     "pre-commit": "npm run lint",
     "pre-push": "npm test",
     "post-merge": "npm install",

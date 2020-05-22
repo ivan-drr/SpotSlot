@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import Badge from 'react-bootstrap/Badge';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import { fileName, lastDirectory } from './Mapper';
 import { styledLog, startCounter, endCounter } from './Utilities';
 import * as Log from './constants/log';
@@ -9,10 +13,6 @@ import AreaSelector from './AreaSelector';
 import FileCard from './FileCard';
 import Breadcrumb from './Breadcrumb';
 
-import Badge from 'react-bootstrap/Badge';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import ProgressBar from 'react-bootstrap/ProgressBar';
 
 import '../styles/FileManager.css';
 
@@ -25,7 +25,7 @@ class FileManager extends Component {
       _isFetch: false,
       path: '/',
       files: [],
-      fileUploadProgress: 0
+      fileUploadProgress: 0,
     };
   }
 
@@ -126,10 +126,10 @@ class FileManager extends Component {
   handleOpenFolder = (path) => {
     if (!path.endsWith('/')) return false;
 
-    this.setState(state => {
+    this.setState((state) => {
       state.files = [];
     });
-    document.getElementById("unselectCards").click();
+    document.getElementById('unselectCards').click();
     this.fetchFiles(path);
   }
 
@@ -143,42 +143,42 @@ class FileManager extends Component {
     this.handleOpenFolder('/');
   }
 
-  handleCreateFile = e => {
+  handleCreateFile = (e) => {
     const file = e.target.files[0];
-    e.target.value = "";
+    e.target.value = '';
 
     const filepath = this.state.path + file.name;
     const ref = storageRef.child(this.state.path + file.name);
 
     // Check if file already exist
-    if(this.state.files.map(f => {
-      if (filepath === "/" + f.key) {
+    if (this.state.files.map((f) => {
+      if (filepath === `/${f.key}`) {
         styledLog(`${Log.WARNING}File ${f.key} already exist`);
         return true;
       }
       return false;
-    }).join().includes("true")) return;
+    }).join().includes('true')) return;
 
     const uploadTask = ref.put(file);
     uploadTask.on('state_changed', (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      this.setState(state => {
+      this.setState((state) => {
         state.fileUploadProgress = progress;
         return state;
       });
-    }, error => {
+    }, (error) => {
       styledLog(`${Log.ERROR}File ${file.name} couldn't be uploaded`);
-      this.setState(state => {
+      this.setState((state) => {
         state.fileUploadProgress = 0;
         return state;
       });
     }, () => {
       styledLog(`${Log.INFO}File ${file.name} was uploaded`);
-      this.setState(state => {
+      this.setState((state) => {
         state.fileUploadProgress = 0;
         return state;
       });
-      this.setState(state => {
+      this.setState((state) => {
         state.files.push({
           key: filepath,
           metadata: {
@@ -188,16 +188,16 @@ class FileManager extends Component {
             updated: file.lastModifiedDate,
             fullPath: filepath,
             contentType: file.type,
-          }
-        })
+          },
+        });
         return state;
       });
     });
   }
 
-  handleDeleteStateFile = e => {
+  handleDeleteStateFile = (e) => {
     e.persist();
-    this.setState(state => {
+    this.setState((state) => {
       state.files.forEach((file, index) => {
         if (file.key === e.target.value) {
           state.files.splice(index, 1);
@@ -209,20 +209,20 @@ class FileManager extends Component {
 
   handleCreateFolder = () => {
     setTimeout(() => {
-      const folderInput = document.getElementById("folderName");
+      const folderInput = document.getElementById('folderName');
       if (folderInput === null) return;
 
-      document.getElementById("folderName").onkeypress = e => {
+      document.getElementById('folderName').onkeypress = (e) => {
         if (!e) e = window.event;
         const keyCode = e.keyCode || e.which;
         if (keyCode === 13) {
-          document.getElementById("newfolderOverlay").click();
-          if(e.target.value.replace(/\s/g, "").length <= 0) return;
+          document.getElementById('newfolderOverlay').click();
+          if (e.target.value.replace(/\s/g, '').length <= 0) return;
 
           const ref = storageRef.child(`${this.state.path}/${e.target.value}/.folder`);
-          ref.put(new File([""], ".folder")).then(() => {
+          ref.put(new File([''], '.folder')).then(() => {
             styledLog(`${Log.INFO}Folder ${e.target.value} was created`);
-            this.setState(state => {
+            this.setState((state) => {
               state.files.push({
                 key: `${this.state.path}${e.target.value}/`,
                 metadata: {
@@ -234,35 +234,39 @@ class FileManager extends Component {
             });
           });
         }
-      }
+      };
     }, 0);
   }
 
   render() {
     return (
       <div id="fileManager">
-        <input id="deleteStateFile" style={{display: "none"}} type="text" onClick={e => this.handleDeleteStateFile(e)} />
+        <input id="deleteStateFile" style={{ display: 'none' }} type="text" onClick={(e) => this.handleDeleteStateFile(e)} />
         <h1>
           Spot
           <Badge
             variant="secondary"
             id="badgeTitle"
           >
-            <span style={{color: "white"}}>Slot</span>
+            <span style={{ color: 'white' }}>Slot</span>
           </Badge>
         </h1>
         <hr />
 
         <AreaSelector />
         <form>
-          <input type="file"
+          <input
+            type="file"
             id="addFile"
-            style={{display: "none"}}
-            onChange={ (e) => this.handleCreateFile(e) } />
+            style={{ display: 'none' }}
+            onChange={(e) => this.handleCreateFile(e)}
+          />
         </form>
-        <button id="addFolder"
-          style={{display: "none"}}
-          onClick={() => this.handleCreateFolder()} />
+        <button
+          id="addFolder"
+          style={{ display: 'none' }}
+          onClick={() => this.handleCreateFolder()}
+        />
 
         <Breadcrumb currentPath={this.state.path} />
 
@@ -303,7 +307,9 @@ class FileManager extends Component {
           id="fileUploadProgressBar"
           className="fixedFooter"
           now={this.state.fileUploadProgress}
-          label={`${this.state.fileUploadProgress}%`} srOnly />
+          label={`${this.state.fileUploadProgress}%`}
+          srOnly
+        />
       </div>
     );
   }
