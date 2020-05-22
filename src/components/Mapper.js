@@ -5,51 +5,51 @@ import {
   faRss, faFileWord, faFileAudio,
   faFileArchive, faFileExcel, faFilePowerpoint,
   faFileVideo, faDatabase, faCompactDisc,
-  faRunning, faFont, faLaptopCode
+  faRunning, faFont, faLaptopCode,
 } from '@fortawesome/free-solid-svg-icons';
 
 export function sizeFilter(size) {
   if (isNaN(size)) size = 0;
-	if (size < 1024) return size + ' Bytes';
-	size /= 1024;
-	if (size < 1024) return size.toFixed(2) + ' Kb';
+  if (size < 1024) return `${size} Bytes`;
   size /= 1024;
-  if (size < 1024) return size.toFixed(2) + ' Mb';
+  if (size < 1024) return `${size.toFixed(2)} Kb`;
   size /= 1024;
-  if (size < 1024) return size.toFixed(2) + ' Gb';
+  if (size < 1024) return `${size.toFixed(2)} Mb`;
   size /= 1024;
-  return size.toFixed(2) + ' Tb';
+  if (size < 1024) return `${size.toFixed(2)} Gb`;
+  size /= 1024;
+  return `${size.toFixed(2)} Tb`;
 }
 
 export function elapsedTime(date) {
   let result = (new Date() - date) / 60;
-  let keyword = "";
+  let keyword = '';
 
-  if (result < 1000) result = "Less than 1m";
+  if (result < 1000) result = 'Less than 1m';
   else {
-    result = Math.trunc(result/1000);
-    if (result === 1) keyword = "minute";
-    else keyword = "minutes";
+    result = Math.trunc(result / 1000);
+    if (result === 1) keyword = 'minute';
+    else keyword = 'minutes';
 
     if (result >= 60) {
-      result = Math.trunc(result/10);
-      if (result === 1) keyword = "hour";
-      else keyword = "hours";
+      result = Math.trunc(result / 10);
+      if (result === 1) keyword = 'hour';
+      else keyword = 'hours';
 
       if (result >= 24) {
-        result = Math.trunc(result/24);
-        if (result === 1) keyword = "day";
-        else keyword = "days";
+        result = Math.trunc(result / 24);
+        if (result === 1) keyword = 'day';
+        else keyword = 'days';
 
         if (result >= 30) {
-          result = Math.trunc(result/30);
-          if (result === 1) keyword = "month";
-          else keyword = "months";
+          result = Math.trunc(result / 30);
+          if (result === 1) keyword = 'month';
+          else keyword = 'months';
 
           if (result >= 12) {
-            result = Math.trunc(result/12);
-            if (result === 1) keyword = "year";
-            else keyword = "years";
+            result = Math.trunc(result / 12);
+            if (result === 1) keyword = 'year';
+            else keyword = 'years';
           }
         }
       }
