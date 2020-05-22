@@ -31,7 +31,7 @@ class FileCard extends Component {
             <Card.Title className={file.metadata._isFile ? 'fileName-white' : 'folderName-white'}>{file.metadata.name}</Card.Title>
           </Card.Header>
 
-          <Card.Footer className="text-muted footer">
+          <Card.Footer className="footer" style={{color: "#636363"}}>
             {file.metadata._isFile ? `Last updated: ${file.metadata.updated} ago` : 'Click to open'}
             <br />
             {file.metadata._isFile ? `Size: ${file.metadata.size} - ` : true}

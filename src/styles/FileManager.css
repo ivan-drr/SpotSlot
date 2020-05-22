@@ -1,13 +1,11 @@
 #badgeTitle {
-  background-color: rgba(105, 173, 187, 0.79);
+  background-color: rgba(67, 148, 164, 1);
 }
 #pathText {
-  background-color: rgba(181, 218, 219, 0.25);
-  color: rgb(23, 149, 167);
+  background-color: #fdfdfdf7;
 }
 #pathInfo {
-  background-color: rgba(66, 128, 158, 0.74);
-  color: rgb(179, 225, 237);
+  background-color: #377e8c;
 }
 
 .fixedFooter {

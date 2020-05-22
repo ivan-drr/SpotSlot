@@ -301,6 +301,7 @@ class AreaSelector extends Component {
       <div id="toolNav" className="flex-column fixed-right rounded">
         <Nav>
           <Button className="navButton"
+            aria-label="Add file"
             style={{backgroundColor: "#4cbb66", borderColor: "#4cbb66"}}
             onClick={() => document.getElementById("addFile").click()}>
               <FontAwesomeIcon icon={faFileMedical} />
@@ -308,6 +309,7 @@ class AreaSelector extends Component {
 
           <OverlayTrigger trigger="click" placement="left" overlay={popover}>
             <Button className="navButton"
+              aria-label="Add folder"
               id="newfolderOverlay"
               style={{backgroundColor: "#479057", borderColor: "#479057"}}
               onClick={() => document.getElementById("addFolder").click()}>
@@ -316,12 +318,14 @@ class AreaSelector extends Component {
           </OverlayTrigger>
 
           <Button className="navButton" disabled={this.isFolderOnSelectedCards()}
+            aria-label="Downlaod files"
             variant="info"
             onClick={() => this.handleDownloadFiles()}>
               <FontAwesomeIcon icon={faCloudDownloadAlt} />
           </Button>
 
           <Button className="navButton" disabled={this.isFolderOnSelectedCards()}
+            aria-label="Delete files"
             variant="danger"
             onClick={() => this.handleDeleteFiles()}>
               <FontAwesomeIcon icon={faTrash} />

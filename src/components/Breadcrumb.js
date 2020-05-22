@@ -9,12 +9,12 @@ class Breadcrumb extends Component {
 
     return (
       <InputGroup className="mb-3">
-        <InputGroup.Text id="pathText">❖ Current path being spotted</InputGroup.Text>
+        <InputGroup.Text id="pathText">
+          <span style={{color: "#377e8c"}}>❖ Current path being spotted</span>
+        </InputGroup.Text>
         <InputGroup.Prepend>
           <InputGroup.Text id="pathInfo" style={{ fontWeight: 'bold' }}>
-            〈
-            {currentPath}
-            〉
+            <span style={{color: "white"}}>〈{currentPath}〉</span>
           </InputGroup.Text>
         </InputGroup.Prepend>
       </InputGroup>

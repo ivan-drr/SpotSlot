@@ -247,9 +247,8 @@ class FileManager extends Component {
           <Badge
             variant="secondary"
             id="badgeTitle"
-            style={{ backgroundColor: 'rgba(#6c9eb8, 0.97)' }}
           >
-            Slot
+            <span style={{color: "white"}}>Slot</span>
           </Badge>
         </h1>
         <hr />
