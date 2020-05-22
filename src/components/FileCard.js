@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fileType } from './Mapper';
+import { fileType, elapsedTime, sizeFilter } from './Mapper';
 
 import '../styles/FileCard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,9 +32,9 @@ class FileCard extends Component {
           </Card.Header>
 
           <Card.Footer className="footer" style={{ color: '#636363' }}>
-            {file.metadata._isFile ? `Last updated: ${file.metadata.updated} ago` : 'Click to open'}
+            {file.metadata._isFile ? `Last updated: ${elapsedTime(new Date(file.metadata.updated))}` : 'Click to open'}
             <br />
-            {file.metadata._isFile ? `Size: ${file.metadata.size} - ` : true}
+            {file.metadata._isFile ? `Size: ${sizeFilter(file.metadata.size)} - ` : true}
             <FontAwesomeIcon icon={fileType(file.key)} />
           </Card.Footer>
         </Card>

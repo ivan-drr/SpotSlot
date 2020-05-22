@@ -35,6 +35,7 @@ class FileManager extends Component {
 
   fetchFiles = (path) => {
     startCounter();
+    console.log("");
     styledLog(`${Log.REQUEST}Fetching Files from ${path} ...`);
 
     const listRef = storageRef.child(path);
@@ -185,7 +186,7 @@ class FileManager extends Component {
             _isFile: true,
             name: file.name,
             size: file.size,
-            updated: file.lastModifiedDate,
+            updated: new Date(),
             fullPath: filepath,
             contentType: file.type,
           },

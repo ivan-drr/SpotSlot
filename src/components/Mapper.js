@@ -1,6 +1,62 @@
 import {
-  faCoffee, faFileImage, faFileAlt, faFolder, faFile, faFileCode, faFilePdf,
+  faCoffee, faFileImage, faFileAlt,
+  faFolder, faFile, faFileCode,
+  faFilePdf, faCertificate, faFileDownload,
+  faRss, faFileWord, faFileAudio,
+  faFileArchive, faFileExcel, faFilePowerpoint,
+  faFileVideo, faDatabase, faCompactDisc,
+  faRunning, faFont, faLaptopCode
 } from '@fortawesome/free-solid-svg-icons';
+
+export function sizeFilter(size) {
+  if (isNaN(size)) size = 0;
+	if (size < 1024) return size + ' Bytes';
+	size /= 1024;
+	if (size < 1024) return size.toFixed(2) + ' Kb';
+  size /= 1024;
+  if (size < 1024) return size.toFixed(2) + ' Mb';
+  size /= 1024;
+  if (size < 1024) return size.toFixed(2) + ' Gb';
+  size /= 1024;
+  return size.toFixed(2) + ' Tb';
+}
+
+export function elapsedTime(date) {
+  let result = (new Date() - date) / 60;
+  let keyword = "";
+
+  if (result < 1000) result = "Less than 1m";
+  else {
+    result = Math.trunc(result/1000);
+    if (result === 1) keyword = "minute";
+    else keyword = "minutes";
+
+    if (result >= 60) {
+      result = Math.trunc(result/10);
+      if (result === 1) keyword = "hour";
+      else keyword = "hours";
+
+      if (result >= 24) {
+        result = Math.trunc(result/24);
+        if (result === 1) keyword = "day";
+        else keyword = "days";
+
+        if (result >= 30) {
+          result = Math.trunc(result/30);
+          if (result === 1) keyword = "month";
+          else keyword = "months";
+
+          if (result >= 12) {
+            result = Math.trunc(result/12);
+            if (result === 1) keyword = "year";
+            else keyword = "years";
+          }
+        }
+      }
+    }
+  }
+  return `${result} ${keyword}`;
+}
 
 export function fileName(key) {
   if (isFolder(key)) key = key.slice(0, -1);
@@ -42,148 +98,147 @@ export function fileType(key) {
 function extensionFilter(key) {
   // PROGRAMMING
   if (key.endsWith('.java')) return faCoffee;
-  if (key.endsWith('.c')) return 'c';
-  if (key.endsWith('.cs')) return 'c#';
-  if (key.endsWith('.sh')) return 'bash';
-  if (key.endsWith('.swift')) return 'swift';
-  if (key.endsWith('.vb')) return 'visual-basic';
+  if (key.endsWith('.c')) return faFileCode;
+  if (key.endsWith('.cs')) return faFileCode;
+  if (key.endsWith('.sh')) return faFileCode;
+  if (key.endsWith('.swift')) return faFileCode;
+  if (key.endsWith('.vb')) return faFileCode;
 
   // INTERNET
   if (key.endsWith('.js')) return faFileCode;
-  if (key.endsWith('.jsp')) return 'jsp';
-  if (key.endsWith('.php')) return 'php';
-  if (key.endsWith('.py')) return 'py';
-  if (key.endsWith('.asp') || key.endsWith('.aspx')) return 'asp';
-  if (key.endsWith('.cer')) return 'certificate';
-  if (key.endsWith('.cfm')) return 'coldfusion';
-  if (key.endsWith('.css')) return 'css';
-  if (key.endsWith('.htm') || key.endsWith('.html')) return 'html';
-  if (key.endsWith('.part')) return 'part-downloaded';
-  if (key.endsWith('.rss')) return 'rss';
-  if (key.endsWith('.xhtml')) return 'xhtml';
+  if (key.endsWith('.jsp')) return faFileCode;
+  if (key.endsWith('.php')) return faFileCode;
+  if (key.endsWith('.py')) return faFileCode;
+  if (key.endsWith('.asp') || key.endsWith('.aspx')) return faFileCode;
+  if (key.endsWith('.cer')) return faCertificate;
+  if (key.endsWith('.cfm')) return faFileCode;
+  if (key.endsWith('.css')) return faFileCode;
+  if (key.endsWith('.htm') || key.endsWith('.html')) return faFileCode;
+  if (key.endsWith('.part')) return faFileDownload;
+  if (key.endsWith('.rss')) return faRss;
+  if (key.endsWith('.xhtml')) return faFileCode;
 
   // IMAGE
-  if (key.endsWith('.ai')) return 'adobe-ilustrator';
-  if (key.endsWith('.bmp')) return 'bitmap';
-  if (key.endsWith('.gif')) return 'gif';
-  if (key.endsWith('.ico')) return 'icon';
+  if (key.endsWith('.ai')) return faFileImage;
+  if (key.endsWith('.bmp')) return faFileImage;
+  if (key.endsWith('.gif')) return faFileImage;
+  if (key.endsWith('.ico')) return faFileImage;
   if (key.endsWith('.jpeg') || key.endsWith('.jpg')) return faFileImage;
   if (key.endsWith('.png')) return faFileImage;
-  if (key.endsWith('.ps')) return 'post-script';
-  if (key.endsWith('.psd')) return 'psd';
-  if (key.endsWith('.svg')) return 'svg';
-  if (key.endsWith('.tif') || key.endsWith('.tiff')) return 'tiff';
+  if (key.endsWith('.ps')) return faFileImage;
+  if (key.endsWith('.psd')) return faFileImage;
+  if (key.endsWith('.svg')) return faFileImage;
+  if (key.endsWith('.tif') || key.endsWith('.tiff')) return faFileImage;
 
   // WORD PROCESSOR AND TEXT
-  if (key.endsWith('.doc') || key.endsWith('.docx')) return 'word';
-  if (key.endsWith('.odt')) return 'odt';
+  if (key.endsWith('.doc') || key.endsWith('.docx')) return faFileWord;
+  if (key.endsWith('.odt')) return faFileWord;
   if (key.endsWith('.pdf')) return faFilePdf;
-  if (key.endsWith('.rtf')) return 'rich-text';
-  if (key.endsWith('.tex')) return 'tex';
+  if (key.endsWith('.rtf')) return faFileWord;
+  if (key.endsWith('.tex')) return faFileWord;
   if (key.endsWith('.txt')) return faFileAlt;
-  if (key.endsWith('.wks') || key.endsWith('.wps')) return 'microsoft-works';
-  if (key.endsWith('.wpd')) return 'wordperfect';
+  if (key.endsWith('.wks') || key.endsWith('.wps')) return faFileWord;
+  if (key.endsWith('.wpd')) return faFileWord;
 
   // VIDEO
-  if (key.endsWith('.3g2')) return '3gpp2';
-  if (key.endsWith('.3gp')) return '3gpp';
-  if (key.endsWith('.avi')) return 'avi';
-  if (key.endsWith('.flv')) return 'adobe-flash';
-  if (key.endsWith('.h264')) return 'h264';
-  if (key.endsWith('.m4v')) return 'apple-mp4';
-  if (key.endsWith('.mkv')) return 'mkv';
-  if (key.endsWith('.mov')) return 'apple-quicktime';
-  if (key.endsWith('.mp4')) return 'mp4';
-  if (key.endsWith('.mpg') || key.endsWith('.mpeg')) return 'mpeg';
-  if (key.endsWith('.rm')) return 'realmedia';
-  if (key.endsWith('.swf')) return 'shockwave';
-  if (key.endsWith('.vob')) return 'dvd-video';
-  if (key.endsWith('.wmv')) return 'wmv';
+  if (key.endsWith('.3g2')) return faFileVideo;
+  if (key.endsWith('.3gp')) return faFileVideo;
+  if (key.endsWith('.avi')) return faFileVideo;
+  if (key.endsWith('.flv')) return faFileVideo;
+  if (key.endsWith('.h264')) return faFileVideo;
+  if (key.endsWith('.m4v')) return faFileVideo;
+  if (key.endsWith('.mkv')) return faFileVideo;
+  if (key.endsWith('.mov')) return faFileVideo;
+  if (key.endsWith('.mp4')) return faFileVideo;
+  if (key.endsWith('.mpg') || key.endsWith('.mpeg')) return faFileVideo;
+  if (key.endsWith('.rm')) return faFileVideo;
+  if (key.endsWith('.swf')) return faFileVideo;
+  if (key.endsWith('.vob')) return faFileVideo;
+  if (key.endsWith('.wmv')) return faFileVideo;
 
   // AUDIO
-  if (key.endsWith('.aif')) return 'aif';
-  if (key.endsWith('.cda')) return 'cd';
-  if (key.endsWith('.mid') || key.endsWith('.midi')) return 'midi';
-  if (key.endsWith('.mp3')) return 'mp3';
-  if (key.endsWith('.mpa')) return 'mpa';
-  if (key.endsWith('.ogg')) return 'ogg';
-  if (key.endsWith('.wav')) return 'wav';
-  if (key.endsWith('.wma')) return 'wma';
-  if (key.endsWith('.wpl')) return 'windows-player';
+  if (key.endsWith('.aif')) return faFileAudio;
+  if (key.endsWith('.cda')) return faFileAudio;
+  if (key.endsWith('.mid') || key.endsWith('.midi')) return faFileAudio;
+  if (key.endsWith('.mp3')) return faFileAudio;
+  if (key.endsWith('.mpa')) return faFileAudio;
+  if (key.endsWith('.ogg')) return faFileAudio;
+  if (key.endsWith('.wav')) return faFileAudio;
+  if (key.endsWith('.wma')) return faFileAudio;
+  if (key.endsWith('.wpl')) return faFileAudio;
 
   // PRESENTATION
-  if (key.endsWith('.key')) return 'keynote-presentation';
-  if (key.endsWith('.odp')) return 'openoffice-presentation';
-  if (key.endsWith('.pps')) return 'powerpoint-slide';
-  if (key.endsWith('.ppt')) return 'powerpoint';
-  if (key.endsWith('.pptx')) return 'powerpoint-xml';
+  if (key.endsWith('.key')) return faFilePowerpoint;
+  if (key.endsWith('.odp')) return faFilePowerpoint;
+  if (key.endsWith('.pps')) return faFilePowerpoint;
+  if (key.endsWith('.ppt')) return faFilePowerpoint;
+  if (key.endsWith('.pptx')) return faFilePowerpoint;
 
   // SPREADSHEET
-  if (key.endsWith('.ods')) return 'openoffice-calc';
-  if (key.endsWith('.xlr')) return 'microsoft-works-spreadsheet';
-  if (key.endsWith('.xls')) return 'microsoft-excel';
-  if (key.endsWith('.xlsx')) return 'microsoft-excel-xml';
+  if (key.endsWith('.ods')) return faFileExcel;
+  if (key.endsWith('.xlr')) return faFileExcel;
+  if (key.endsWith('.xls')) return faFileExcel;
+  if (key.endsWith('.xlsx')) return faFileExcel;
 
   // COMPRESSED
-  if (key.endsWith('.7z')) return '7-zip';
-  if (key.endsWith('.arj')) return 'arj';
-  if (key.endsWith('.deb')) return 'deb';
-  if (key.endsWith('.pkg')) return 'pkg';
-  if (key.endsWith('.rar')) return 'rar';
-  if (key.endsWith('.rpm')) return 'rpm';
-  if (key.endsWith('.tar.gz')) return 'targz';
-  if (key.endsWith('.z')) return 'z';
-  if (key.endsWith('.zip')) return 'zip';
+  if (key.endsWith('.7z')) return faFileArchive;
+  if (key.endsWith('.arj')) return faFileArchive;
+  if (key.endsWith('.deb')) return faFileArchive;
+  if (key.endsWith('.pkg')) return faFileArchive;
+  if (key.endsWith('.rar')) return faFileArchive;
+  if (key.endsWith('.rpm')) return faFileArchive;
+  if (key.endsWith('.tar.gz')) return faFileArchive;
+  if (key.endsWith('.z')) return faFileArchive;
+  if (key.endsWith('.zip')) return faFileArchive;
 
   // DISC AND MEDIA
-  if (key.endsWith('.bin')) return 'binary';
-  if (key.endsWith('.dmg')) return 'dmg';
-  if (key.endsWith('.iso')) return 'iso';
-  if (key.endsWith('.toast')) return 'toast';
-  if (key.endsWith('.vcd')) return 'virtual-CD';
+  if (key.endsWith('.dmg')) return faCompactDisc;
+  if (key.endsWith('.iso')) return faCompactDisc;
+  if (key.endsWith('.toast')) return faCompactDisc;
+  if (key.endsWith('.vcd')) return faCompactDisc;
 
   // DATA AND DATABASE
-  if (key.endsWith('.csv')) return 'csv';
-  if (key.endsWith('.dat')) return 'dat';
-  if (key.endsWith('.db') || key.endsWith('.dbf')) return 'database';
-  if (key.endsWith('.log')) return 'log';
-  if (key.endsWith('.mdb')) return 'mdb';
-  if (key.endsWith('.sav')) return 'save';
-  if (key.endsWith('.sql')) return 'sql';
-  if (key.endsWith('.tar')) return 'tarball';
-  if (key.endsWith('.xml')) return 'xml';
+  if (key.endsWith('.csv')) return faDatabase;
+  if (key.endsWith('.dat')) return faDatabase;
+  if (key.endsWith('.db') || key.endsWith('.dbf')) return faDatabase;
+  if (key.endsWith('.log')) return faDatabase;
+  if (key.endsWith('.mdb')) return faDatabase;
+  if (key.endsWith('.sav')) return faDatabase;
+  if (key.endsWith('.sql')) return faDatabase;
+  if (key.endsWith('.tar')) return faFileArchive;
+  if (key.endsWith('.xml')) return faDatabase;
 
   // EXECUTABLE
-  if (key.endsWith('.apk')) return 'apk';
-  if (key.endsWith('.bat')) return 'bat';
-  if (key.endsWith('.bin')) return 'bin';
-  if (key.endsWith('.cgi') || key.endsWith('.pl')) return 'perl';
-  if (key.endsWith('.com')) return 'msdos-command';
-  if (key.endsWith('.exe')) return 'exe';
-  if (key.endsWith('.gadget')) return 'gadget';
-  if (key.endsWith('.jar')) return 'jar';
-  if (key.endsWith('.wsf')) return 'windows-script';
+  if (key.endsWith('.apk')) return faRunning;
+  if (key.endsWith('.bat')) return faRunning;
+  if (key.endsWith('.bin')) return faRunning;
+  if (key.endsWith('.cgi') || key.endsWith('.pl')) return faRunning;
+  if (key.endsWith('.com')) return faRunning;
+  if (key.endsWith('.exe')) return faRunning;
+  if (key.endsWith('.gadget')) return faRunning;
+  if (key.endsWith('.jar')) return faRunning;
+  if (key.endsWith('.wsf')) return faRunning;
 
   // FONTS
-  if (key.endsWith('.fnt')) return 'windows-font';
-  if (key.endsWith('.fon')) return 'font';
-  if (key.endsWith('.otf')) return 'open-type-font';
-  if (key.endsWith('.ttf')) return 'true-type-font';
+  if (key.endsWith('.fnt')) return faFont;
+  if (key.endsWith('.fon')) return faFont;
+  if (key.endsWith('.otf')) return faFont;
+  if (key.endsWith('.ttf')) return faFont;
 
   // SYSTEM
-  if (key.endsWith('.bak')) return 'backup';
-  if (key.endsWith('.cab')) return 'cab';
-  if (key.endsWith('.cfg')) return 'configuration';
-  if (key.endsWith('.cpl')) return 'cpl';
-  if (key.endsWith('.cur')) return 'cur';
-  if (key.endsWith('.dll')) return 'dll';
-  if (key.endsWith('.dmp')) return 'dump';
-  if (key.endsWith('.drv')) return 'device-driver';
-  if (key.endsWith('.ini')) return 'ini';
-  if (key.endsWith('.lnk')) return 'lnk';
-  if (key.endsWith('.msi')) return 'windows-installer';
-  if (key.endsWith('.sys')) return 'sys';
-  if (key.endsWith('.tmp')) return 'tmp';
+  if (key.endsWith('.bak')) return faLaptopCode;
+  if (key.endsWith('.cab')) return faLaptopCode;
+  if (key.endsWith('.cfg')) return faLaptopCode;
+  if (key.endsWith('.cpl')) return faLaptopCode;
+  if (key.endsWith('.cur')) return faLaptopCode;
+  if (key.endsWith('.dll')) return faLaptopCode;
+  if (key.endsWith('.dmp')) return faLaptopCode;
+  if (key.endsWith('.drv')) return faLaptopCode;
+  if (key.endsWith('.ini')) return faLaptopCode;
+  if (key.endsWith('.lnk')) return faLaptopCode;
+  if (key.endsWith('.msi')) return faLaptopCode;
+  if (key.endsWith('.sys')) return faLaptopCode;
+  if (key.endsWith('.tmp')) return faLaptopCode;
 
   return faFile;
 }
