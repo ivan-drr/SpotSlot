@@ -117,7 +117,7 @@ class FileManager extends Component {
         <FileCard
           key={file.key}
           file={file}
-          customOnClick={(e) => { this.handleOpenFolder(file.key); }}
+          customOnClick={(e) => this.handleOpenFolder(file.key)}
         />,
       );
     });

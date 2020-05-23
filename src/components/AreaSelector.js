@@ -155,6 +155,7 @@ class AreaSelector extends Component {
 
   handleMouseDown = (data) => {
     if (this.lastMouseMove === 'mousedown') {
+      this.unselectCards();
       data.forEach((target, index) => {
         const card = target.parentElement;
         if (this.visibleOnArea(card)) {
@@ -187,7 +188,11 @@ class AreaSelector extends Component {
     const x1 = x0 + width;
     const y1 = y0 + height;
 
-    const areaStartAtTopLeft = !(x0 > this.sx1 || x1 < this.sx0 || y0 > this.sy1 || y1 < this.sy0);
+    let sx0 = Math.min(this.sx0, this.sx1)
+    let sx1 = Math.max(this.sx0, this.sx1)
+    let sy0 = Math.min(this.sy0, this.sy1)
+    let sy1 = Math.max(this.sy0, this.sy1)
+    const areaStartAtTopLeft = !(x0 > sx1 || x1 < sx0 || y0 > sy1 || y1 < sy0);
     // const areaStartAtBottomLeft = !(x0 > this.sx1 || x1 < this.sx0 || y1 > this.sy0 || y0 < this.sy1);
 
     return areaStartAtTopLeft;
