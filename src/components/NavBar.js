@@ -47,7 +47,7 @@ export default function NavBar() {
           <a
             href="https://firebase.google.com/"
             target="_blank"
-            aria-label="Firestore"
+            aria-label="Firebase"
             rel="noopener noreferrer"
           >
             <FontAwesomeIcon icon={faFire} />
