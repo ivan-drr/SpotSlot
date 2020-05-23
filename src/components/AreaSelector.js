@@ -38,24 +38,27 @@ class AreaSelector extends Component {
     styledLog(`${Log.SUCCESS}𝘼𝙍𝙀𝘼-𝙎𝙀𝙇𝙀𝘾𝙏𝙊𝙍 ready`);
   }
 
+  componentWillUnmount() {
+    document.getElementById('areaSelector').cloneNode(true);
+  }
+
+  eMouseDown = (e) => {
+    this.handleAreaSelect(e);
+    this.handleClickOutOfCard(e);
+  }
+
   setEvents = () => {
     const { container } = this.state;
 
-    container.addEventListener('mousedown', (e) => {
-      this.handleAreaSelect(e);
-      this.handleClickOutOfCard(e);
-    }, false);
+    container.addEventListener('mousedown', (e) => { this.eMouseDown(e); });
 
-    container.addEventListener('mouseup', (e) => { this.handleAreaSelect(e); }, false);
-    container.addEventListener('mousemove', (e) => { this.handleAreaSelect(e); }, false);
+    container.addEventListener('mouseup', (e) => this.handleAreaSelect(e));
+    container.addEventListener('mousemove', (e) => this.handleAreaSelect(e));
 
-    container.addEventListener('touchstart', (e) => {
-      this.handleAreaSelect(e);
-      this.handleClickOutOfCard(e);
-    }, false);
+    container.addEventListener('touchstart', (e) => this.eMouseDown(e));
 
-    container.addEventListener('touchend', (e) => { this.handleAreaSelect(e); }, false);
-    container.addEventListener('touchmove', (e) => { this.handleAreaSelect(e); }, false);
+    container.addEventListener('touchend', (e) => this.handleAreaSelect(e));
+    container.addEventListener('touchmove', (e) => this.handleAreaSelect(e));
   }
 
   getMousePosition = (e) => {
@@ -133,6 +136,7 @@ class AreaSelector extends Component {
   }
 
   handleClickOutOfCard = (e) => {
+    if (document.getElementById('areaSelector') === null) return;
     if (!this.clickedOnCard(e)) {
       Array.prototype.slice.call(document.getElementsByClassName('file')).forEach((card) => card.style.backgroundColor = '');
       this.setState((state) => {
@@ -157,7 +161,7 @@ class AreaSelector extends Component {
     if (this.lastMouseMove === 'mousedown') {
       if (e.target.tagName !== 'button' && e.target.tagName !== 'path'
           && e.target.tagName !== 'svg') this.unselectCards();
-          
+
       data.forEach((target, index) => {
         const card = target.parentElement;
         if (this.visibleOnArea(card)) {
@@ -190,18 +194,18 @@ class AreaSelector extends Component {
     const x1 = x0 + width;
     const y1 = y0 + height;
 
-    let sx0 = Math.min(this.sx0, this.sx1)
-    let sx1 = Math.max(this.sx0, this.sx1)
-    let sy0 = Math.min(this.sy0, this.sy1)
-    let sy1 = Math.max(this.sy0, this.sy1)
-    const areaStartAtTopLeft = !(x0 > sx1 || x1 < sx0 || y0 > sy1 || y1 < sy0);
-    // const areaStartAtBottomLeft = !(x0 > this.sx1 || x1 < this.sx0 || y1 > this.sy0 || y0 < this.sy1);
+    const sx0 = Math.min(this.sx0, this.sx1);
+    const sx1 = Math.max(this.sx0, this.sx1);
+    const sy0 = Math.min(this.sy0, this.sy1);
+    const sy1 = Math.max(this.sy0, this.sy1);
 
-    return areaStartAtTopLeft;
+    return !(x0 > sx1 || x1 < sx0 || y0 > sy1 || y1 < sy0);
   }
 
   handleAreaSelect = (e) => {
     const areaSelector = document.getElementById('areaSelector');
+    if (areaSelector === null) return;
+
     const cards = Array.prototype.slice.call(document.getElementsByClassName('card'));
     const pos = this.getMousePosition(e);
 

@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
+
+import { Pie } from 'react-chartjs-2';
 import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import { fileName, lastDirectory } from './Mapper';
-import { styledLog, startCounter, endCounter } from './Utilities';
-import * as Log from './constants/log';
-import { storageRef } from './constants/firebase';
-
 import Loading from './Loading';
 import AreaSelector from './AreaSelector';
 import FileCard from './FileCard';
 import Breadcrumb from './Breadcrumb';
+import NavBar from './NavBar';
+import { fileName, lastDirectory } from './Mapper';
+import { styledLog, startCounter, endCounter } from './Utilities';
+import * as Log from './constants/log';
+import { storageRef } from './constants/firebase';
 
 
 import '../styles/FileManager.css';
@@ -20,17 +22,42 @@ class FileManager extends Component {
   constructor(props) {
     super(props);
     this.filesToShow = [];
+    this.maxSpace = 1024;
 
     this.state = {
       _isFetch: false,
+      dashboard: false,
+      filesystem: true,
       path: '/',
       files: [],
+      allFiles: [],
       fileUploadProgress: 0,
     };
   }
 
   componentDidMount() {
     this.fetchFiles(this.state.path);
+    this.getAllFiles('/');
+  }
+
+  getAllFiles = (startPath) => {
+    const listRef = storageRef.child(startPath);
+
+    listRef.listAll().then((res) => {
+      res.prefixes.forEach((folderRef) => {
+        this.getAllFiles(folderRef.location.path);
+      });
+      res.items.forEach((itemRef) => {
+        this.fetchFilesMetadata(itemRef, true).then((item) => {
+          this.setState((state) => {
+            state.allFiles.push(item);
+            return state;
+          });
+        });
+      });
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   fetchFiles = (path) => {
@@ -75,10 +102,10 @@ class FileManager extends Component {
     });
   }
 
-  fetchFilesMetadata = (itemRef) => {
+  fetchFilesMetadata = (itemRef, hidden) => {
     startCounter();
     return itemRef.getMetadata().then((metadata) => {
-      styledLog(`${Log.SUCCESS}Metadata fetched for ${metadata.name}${endCounter()}`);
+      if (!hidden) styledLog(`${Log.SUCCESS}Metadata fetched for ${metadata.name}${endCounter()}`);
       return {
         key: itemRef.location.path,
         metadata: {
@@ -95,6 +122,15 @@ class FileManager extends Component {
       console.log(error);
       return false;
     });
+  }
+
+  getSpaceUsed = () => {
+    let spaceUsed = 0;
+    this.state.allFiles.forEach((file) => {
+      if (file.metadata._isFile) spaceUsed += file.metadata.size;
+    });
+
+    return spaceUsed;
   }
 
   handleShowFileCards = () => {
@@ -202,10 +238,10 @@ class FileManager extends Component {
       state.files.forEach((file, index) => {
         if (file.key === e.target.value) {
           state.files.splice(index, 1);
-          return state;
         }
       });
     });
+    this.forceUpdate();
   }
 
   handleCreateFolder = () => {
@@ -240,9 +276,9 @@ class FileManager extends Component {
   }
 
   render() {
-    return (
-      <div id="fileManager">
-        <input id="deleteStateFile" style={{ display: 'none' }} type="text" onClick={(e) => this.handleDeleteStateFile(e)} />
+    let addon;
+    const result = (
+      <div id="base">
         <h1>
           Spot
           <Badge
@@ -252,65 +288,129 @@ class FileManager extends Component {
             <span style={{ color: 'white' }}>Slot</span>
           </Badge>
         </h1>
-        <hr />
 
-        <AreaSelector />
-        <form>
-          <input
-            type="file"
-            id="addFile"
-            style={{ display: 'none' }}
-            onChange={(e) => this.handleCreateFile(e)}
-          />
-        </form>
+        <NavBar />
+
         <button
-          id="addFolder"
+          id="renderFilesystem"
           style={{ display: 'none' }}
-          onClick={() => this.handleCreateFolder()}
+          onClick={() => this.setState((state) => {
+            state.filesystem = true;
+            state.dashboard = false;
+            return state;
+          })}
+        />
+        <button
+          id="renderDashboard"
+          style={{ display: 'none' }}
+          onClick={() => this.setState((state) => {
+            state.filesystem = false;
+            state.dashboard = true;
+            return state;
+          })}
         />
 
-        <Breadcrumb currentPath={this.state.path} />
+        <hr />
+      </div>
+    );
 
-        <div id="fileNav">
-          <div
-            id="btnBack"
-            type="button"
-            onClick={(e) => this.handleGoBack(e)}
-            style={{
-              color: '#6c9db7',
-              fontSize: '40px',
-              display: 'inline-block',
-              marginRight: '1.8rem',
+    if (this.state.dashboard) {
+      addon = (
+        <div className="sub chart-wrapper">
+          <h2 style={{ color: '#16508e' }}>Space Dashboard</h2>
+          <i className="text-muted">Percentage representation</i>
+          <p />
+          <Pie
+            height={120}
+            data={{
+              labels: ['Space used', 'Total'],
+              datasets: [
+                {
+                  label: 'Space used',
+                  data: [
+                    (((this.getSpaceUsed() / 1000000) * 100) / this.maxSpace).toFixed(2),
+                    100,
+                  ],
+                  backgroundColor: [
+                    '#e9bb9c',
+                    '#8bbce9',
+                  ],
+                },
+              ],
             }}
-          >
-            ⬅
-          </div>
-          <div
-            id="btnRoot"
-            type="button"
-            onClick={this.handleOpenRoot}
-            style={{
-              color: '#6c9db7',
-              fontSize: '40px',
-              display: 'inline-block',
-            }}
-          >
-            ❖
-          </div>
+          />
         </div>
-        <Loading _isFetch={this.state._isFetch} />
-        <Container>
-          <Row className="justify-content-md-center fadeIn" id="cardsRow">
-            {this.handleShowFileCards()}
-          </Row>
-        </Container>
-        <ProgressBar
-          id="fileUploadProgressBar"
-          className="fixedFooter"
-          now={this.state.fileUploadProgress}
-          label={`${this.state.fileUploadProgress}%`}
-          srOnly
-        />
+      );
+    }
+
+    if (this.state.filesystem) {
+      addon = (
+        <div id="filesystem">
+          <AreaSelector />
+          <form>
+            <input
+              type="file"
+              id="addFile"
+              style={{ display: 'none' }}
+              onChange={(e) => this.handleCreateFile(e)}
+            />
+          </form>
+          <button
+            id="addFolder"
+            style={{ display: 'none' }}
+            onClick={() => this.handleCreateFolder()}
+          />
+
+          <Breadcrumb currentPath={this.state.path} />
+
+          <div id="fileNav">
+            <div
+              id="btnBack"
+              type="button"
+              onClick={(e) => this.handleGoBack(e)}
+              style={{
+                color: '#6c9db7',
+                fontSize: '40px',
+                display: 'inline-block',
+                marginRight: '1.8rem',
+              }}
+            >
+              ⬅
+            </div>
+            <div
+              id="btnRoot"
+              type="button"
+              onClick={this.handleOpenRoot}
+              style={{
+                color: '#6c9db7',
+                fontSize: '40px',
+                display: 'inline-block',
+              }}
+            >
+              ❖
+            </div>
+          </div>
+          <Loading _isFetch={this.state._isFetch} />
+          <Container>
+            <Row className="justify-content-md-center" id="cardsRow">
+              {this.handleShowFileCards()}
+            </Row>
+          </Container>
+          <ProgressBar
+            id="fileUploadProgressBar"
+            className="fixedFooter"
+            now={this.state.fileUploadProgress}
+            label={`${this.state.fileUploadProgress}%`}
+            srOnly
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div id="fileManager">
+        {result}
+        {addon}
       </div>
     );
   }
