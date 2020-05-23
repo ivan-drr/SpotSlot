@@ -153,9 +153,11 @@ class AreaSelector extends Component {
     return button === 1;
   }
 
-  handleMouseDown = (data) => {
+  handleMouseDown = (e, data) => {
     if (this.lastMouseMove === 'mousedown') {
-      this.unselectCards();
+      if (e.target.tagName !== 'button' && e.target.tagName !== 'path'
+          && e.target.tagName !== 'svg') this.unselectCards();
+          
       data.forEach((target, index) => {
         const card = target.parentElement;
         if (this.visibleOnArea(card)) {
@@ -207,7 +209,7 @@ class AreaSelector extends Component {
     this.sy1 = pos.y;
 
     if (this.lastMouseMove === 'mousedown') this.attachMousePosTo(areaSelector);
-    this.handleMouseDown(cards);
+    this.handleMouseDown(e, cards);
 
     if (e.type === 'mousedown' || e.type === 'touchstart') {
       if (!pos) return false;
