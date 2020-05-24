@@ -382,7 +382,7 @@ class FileManager extends Component {
               type="button"
               onClick={(e) => this.handleGoBack(e)}
               style={{
-                color: '#6c9db7',
+                color: '#377e8c',
                 fontSize: '40px',
                 display: 'inline-block',
                 marginRight: '1.8rem',
@@ -395,7 +395,7 @@ class FileManager extends Component {
               type="button"
               onClick={this.handleOpenRoot}
               style={{
-                color: '#6c9db7',
+                color: '#377e8c',
                 fontSize: '40px',
                 display: 'inline-block',
               }}
