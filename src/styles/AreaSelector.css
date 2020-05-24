@@ -5,3 +5,12 @@
   position: absolute;
   z-index: -1;
 }
+
+.btnDisable {
+  opacity: .5;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}

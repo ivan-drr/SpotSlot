@@ -109,7 +109,8 @@ class AreaSelector extends Component {
       && !e.target.className.includes('card-header')
       && !e.target.className.includes('footer')
       && !e.target.className.includes('card-footer')
-      && !e.target.className.includes('card-title')) return false;
+      && !e.target.className.includes('card-title')
+      && !e.target.className.includes('navButton')) return false;
 
     return true;
   }
@@ -159,15 +160,16 @@ class AreaSelector extends Component {
 
   handleMouseDown = (e, data) => {
     if (this.lastMouseMove === 'mousedown') {
-      if (e.target.tagName !== 'button' && e.target.tagName !== 'path'
-          && e.target.tagName !== 'svg') this.unselectCards();
+
+      if (e.target.tagName !== 'svg' && e.target.tagName !== 'path') {
+        if (!e.target.className.includes('navButton')) this.unselectCards();
+      }
 
       const popover = document.getElementById('newFolder');
       if(e.target.className !== 'popover-header'
         && e.target.className !== 'popover-body'
         && popover !== null
         && popover.className.includes("show")) document.getElementById('newfolderOverlay').click();
-
 
       data.forEach((target, index) => {
         const card = target.parentElement;
@@ -292,13 +294,13 @@ class AreaSelector extends Component {
     this.unselectCards();
   }
 
-  isFolderOnSelectedCards = () => {
-    let result = 0;
+  disableButtonOnUnselectedCards = () => {
+    let result = '';
     if (this.state.selectedCards.length > 0) {
       this.state.selectedCards.forEach((card) => {
-        if (card.className.includes('folder')) result = 1;
+        if (card.className.includes('folder')) result = ' btnDisable';
       });
-    } else result = 1;
+    } else result = ' btnDisable';
 
     return result;
   }
@@ -342,8 +344,7 @@ class AreaSelector extends Component {
             </OverlayTrigger>
 
             <Button
-              className="navButton"
-              disabled={this.isFolderOnSelectedCards()}
+              className={'navButton' + this.disableButtonOnUnselectedCards()}
               aria-label="Downlaod files"
               variant="info"
               onClick={() => this.handleDownloadFiles()}
@@ -352,8 +353,7 @@ class AreaSelector extends Component {
             </Button>
 
             <Button
-              className="navButton"
-              disabled={this.isFolderOnSelectedCards()}
+              className={'navButton' + this.disableButtonOnUnselectedCards()}
               aria-label="Delete files"
               variant="danger"
               onClick={() => this.handleDeleteFiles()}
