@@ -12,30 +12,43 @@ const firebaseConfig = {
   messagingSenderId: '911180862163',
   appId: '1:911180862163:web:5ef4f2d09d58cc2e427a26',
 };
-export const firebaseApp = firebase.initializeApp(firebaseConfig, 'Splot');
+const firebaseApp = firebase.initializeApp(firebaseConfig, 'Splot');
 export const storageRef = firebase.storage(firebaseApp).ref();
 
-export const getAllFiles = (startPath) => {
+export const deleteAllFilesFrom = (startPath) => {
   const listRef = storageRef.child(startPath);
-  let result = [];
 
-  return listRef.listAll().then((res) => {
+  listRef.listAll().then((res) => {
     res.prefixes.forEach((folderRef) => {
-      getAllFiles(folderRef.location.path);
+      deleteAllFilesFrom(folderRef.location.path);
     });
     res.items.forEach((itemRef) => {
-      result.push(synchronousFilesMetadata(itemRef, true));
+      itemRef.delete();
     });
-    return result;
   }).catch((error) => {
     console.log(error);
     return false;
   });
 }
 
-const synchronousFilesMetadata = async function(itemRef, hidden) {
-  const result = await fetchFilesMetadata(itemRef, hidden);
-  return result;
+export const getAllFilesSize = (path) => {
+  const listRef = storageRef.child(path);
+
+  listRef.listAll().then((res) => {
+    res.prefixes.forEach((folderRef) => {
+      getAllFilesSize(folderRef.location.path);
+    });
+    res.items.forEach((itemRef) => {
+      fetchFilesMetadata(itemRef, true).then((file) => {
+        const changeSpace = document.getElementById("addSpaceUsed");
+        changeSpace.value = file.metadata.size;
+        changeSpace.click();
+      });
+    });
+  }).catch((error) => {
+    console.log(error);
+    return false;
+  });
 }
 
 export const fetchFilesMetadata = (itemRef, hidden) => {
@@ -58,4 +71,9 @@ export const fetchFilesMetadata = (itemRef, hidden) => {
     console.log(error);
     return false;
   });
+}
+
+export const synchronousFilesMetadata = async function(itemRef, hidden) {
+  const result = await fetchFilesMetadata(itemRef, hidden);
+  return result;
 }

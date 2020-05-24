@@ -26,7 +26,9 @@ export default function NavBar() {
           <a
             href="#dashboard"
             aria-label="Dashboard"
-            onClick={() => document.getElementById('renderDashboard').click()}
+            onClick={() => {
+              document.getElementById('renderDashboard').click();
+            }}
           >
             <FontAwesomeIcon icon={faChartPie} />
           </a>

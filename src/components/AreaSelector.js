@@ -9,7 +9,7 @@ import {
   faTrash, faCloudDownloadAlt, faFolderPlus, faFileMedical,
 } from '@fortawesome/free-solid-svg-icons';
 import { fileName, isFolder } from './Mapper';
-import { storageRef, getAllFiles } from './constants/firebase';
+import { storageRef, deleteAllFilesFrom } from './constants/firebase';
 import * as Log from './constants/log';
 import * as Constant from './constants/AreaSelector';
 import { styledLog, downloadFile } from './Utilities';
@@ -283,14 +283,7 @@ class AreaSelector extends Component {
       let ref = storageRef.child(file.id);
       if (isFolder(file.id)) {
         styledLog(`${Log.INFO}Deleting ${file.id} folder...`);
-        getAllFiles(file.id).then(files => {
-          files.forEach(promise => {
-            promise.then(trueFile => {
-              ref = storageRef.child(trueFile.key);
-              ref.delete();
-            });
-          });
-        });
+        deleteAllFilesFrom(file.id);
       } else {
         return ref.delete().catch((error) => {
           styledLog(`${Log.ERROR}File ${file.id} couldn't be deleted`);
