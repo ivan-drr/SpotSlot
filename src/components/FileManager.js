@@ -233,9 +233,12 @@ class FileManager extends Component {
   }
 
   handleDeleteStateFile = (e) => {
+    console.log("asdf");
     e.persist();
     this.setState((state) => {
       state.files.forEach((file, index) => {
+        console.log(file.key);
+        console.log(e.target.value);
         if (file.key === e.target.value) {
           state.files.splice(index, 1);
         }

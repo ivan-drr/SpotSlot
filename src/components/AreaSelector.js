@@ -8,8 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTrash, faCloudDownloadAlt, faFolderPlus, faFileMedical,
 } from '@fortawesome/free-solid-svg-icons';
-import { fileName } from './Mapper';
-import { storageRef } from './constants/firebase';
+import { fileName, isFolder } from './Mapper';
+import { storageRef, getAllFiles } from './constants/firebase';
 import * as Log from './constants/log';
 import * as Constant from './constants/AreaSelector';
 import { styledLog, downloadFile } from './Utilities';
@@ -277,32 +277,39 @@ class AreaSelector extends Component {
 
   handleDeleteFiles = () => {
     const files = this.state.selectedCards;
+    const deleteFile = document.getElementById('deleteStateFile');
+
     files.forEach((file) => {
-      const ref = storageRef.child(file.id);
+      let ref = storageRef.child(file.id);
+      if (isFolder(file.id)) {
+        styledLog(`${Log.INFO}Deleting ${file.id} folder...`);
+        getAllFiles(file.id).then(files => {
+          files.forEach(promise => {
+            promise.then(trueFile => {
+              ref = storageRef.child(trueFile.key);
+              ref.delete();
+            });
+          });
+        });
+      } else {
+        return ref.delete().catch((error) => {
+          styledLog(`${Log.ERROR}File ${file.id} couldn't be deleted`);
+          return;
+        });
+      }
 
-      ref.delete().then(() => {
-        styledLog(`${Log.INFO}File ${file.id} was deleted`);
-        const deleteFile = document.getElementById('deleteStateFile');
-        deleteFile.value = file.id;
-        deleteFile.click();
+      styledLog(`${Log.SUCCESS}Folder ${file.id} deleted`);
+      deleteFile.value = file.id;
+      deleteFile.click();
 
-        file.parentElement.style.display = 'none';
-      }).catch((error) => {
-        styledLog(`${Log.ERROR}File ${file.id} couldn't be deleted`);
-      });
+      file.parentElement.style.display = 'none';
     });
     this.unselectCards();
   }
 
   disableButtonOnUnselectedCards = () => {
-    let result = '';
-    if (this.state.selectedCards.length > 0) {
-      this.state.selectedCards.forEach((card) => {
-        if (card.className.includes('folder')) result = ' btnDisable';
-      });
-    } else result = ' btnDisable';
-
-    return result;
+    if (this.state.selectedCards.length > 0) return '';
+    else return ' btnDisable';
   }
 
   render() {
