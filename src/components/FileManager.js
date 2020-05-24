@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 
-import { Pie } from 'react-chartjs-2';
-import Badge from 'react-bootstrap/Badge';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import ProgressBar from 'react-bootstrap/ProgressBar';
 import Loading from './Loading';
 import AreaSelector from './AreaSelector';
 import FileCard from './FileCard';
@@ -15,6 +10,15 @@ import { styledLog, startCounter, endCounter } from './Utilities';
 import * as Log from './constants/log';
 import { storageRef } from './constants/firebase';
 
+import { Pie } from 'react-chartjs-2';
+import Badge from 'react-bootstrap/Badge';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faHome, faArrowLeft
+} from '@fortawesome/free-solid-svg-icons';
 
 import '../styles/FileManager.css';
 
@@ -384,7 +388,7 @@ class FileManager extends Component {
                 marginRight: '1.8rem',
               }}
             >
-              ⬅
+              <FontAwesomeIcon icon={faArrowLeft} />
             </div>
             <div
               id="btnRoot"
@@ -396,7 +400,7 @@ class FileManager extends Component {
                 display: 'inline-block',
               }}
             >
-              ❖
+              <FontAwesomeIcon icon={faHome} />
             </div>
           </div>
           <Loading _isFetch={this.state._isFetch} />
