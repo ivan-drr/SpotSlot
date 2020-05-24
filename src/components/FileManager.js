@@ -354,6 +354,12 @@ class FileManager extends Component {
               style={{ display: 'none' }}
               onChange={(e) => this.handleCreateFile(e)}
             />
+            <input
+              type="text"
+              id="deleteStateFile"
+              style={{ display: 'none' }}
+              onChange={(e) => this.handleDeleteStateFile(e)}
+            />
           </form>
           <button
             id="addFolder"
