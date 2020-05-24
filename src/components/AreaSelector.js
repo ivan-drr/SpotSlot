@@ -162,6 +162,13 @@ class AreaSelector extends Component {
       if (e.target.tagName !== 'button' && e.target.tagName !== 'path'
           && e.target.tagName !== 'svg') this.unselectCards();
 
+      const popover = document.getElementById('newFolder');
+      if(e.target.className !== 'popover-header'
+        && e.target.className !== 'popover-body'
+        && popover !== null
+        && popover.className.includes("show")) document.getElementById('newfolderOverlay').click();
+
+
       data.forEach((target, index) => {
         const card = target.parentElement;
         if (this.visibleOnArea(card)) {
