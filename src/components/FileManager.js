@@ -20,10 +20,6 @@ class FileManager extends Component {
     document.body.addEventListener('mousedown', (e) => this.handleClickOutOfMenu(e));
   }
 
-  componentWillUnmount() {
-    document.body.cloneNode(true);
-  }
-
   handleClickOutOfMenu = (e) => {
     let { target } = e;
     const menu = document.getElementById('menu-toggler');

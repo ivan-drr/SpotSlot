@@ -20,6 +20,7 @@ import '../styles/ToolNav.css';
 class AreaSelector extends Component {
   constructor() {
     super();
+    this._isMounted = false;
     this.lastMouseMove = false;
     this.sx0 = 0;
     this.sy0 = 0;
@@ -34,12 +35,14 @@ class AreaSelector extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.setEvents();
     styledLog(`${Log.SUCCESS}𝘼𝙍𝙀𝘼-𝙎𝙀𝙇𝙀𝘾𝙏𝙊𝙍 ready`);
   }
 
   componentWillUnmount() {
-    document.getElementById('areaSelector').cloneNode(true);
+    this._isMounted = false;
   }
 
   eMouseDown = (e) => {
@@ -137,6 +140,8 @@ class AreaSelector extends Component {
   }
 
   handleClickOutOfCard = (e) => {
+    if (!this._isMounted) return;
+
     if (document.getElementById('areaSelector') === null) return;
     if (!this.clickedOnCard(e)) {
       Array.prototype.slice.call(document.getElementsByClassName('file')).forEach((card) => card.style.backgroundColor = '');
@@ -211,6 +216,8 @@ class AreaSelector extends Component {
   }
 
   handleAreaSelect = (e) => {
+    if (!this._isMounted) return;
+
     const areaSelector = document.getElementById('areaSelector');
     if (areaSelector === null) return;
 
