@@ -11,7 +11,7 @@ export default function NavBar() {
   return (
     <nav id="navBar" className="menu">
       <input defaultChecked={0} className="menu-toggler" id="menu-toggler" type="checkbox" />
-        <label style={{ color: 'transparent' }} htmlFor="menu-toggler">Menu</label>
+      <label style={{ color: 'transparent' }} htmlFor="menu-toggler">Menu</label>
       <ul>
         <li className="menu-item">
           <a

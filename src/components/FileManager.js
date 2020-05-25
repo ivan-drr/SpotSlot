@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import Badge from 'react-bootstrap/Badge';
 import NavBar from './NavBar';
 import FileSystem from './FileSystem';
 import Dashboard from './Dashboard';
 
-import Badge from 'react-bootstrap/Badge';
 
 import '../styles/FileManager.css';
 
@@ -26,7 +26,7 @@ class FileManager extends Component {
   }
 
   handleClickOutOfMenu = (e) => {
-    let target = e.target;
+    let { target } = e;
     const menu = document.getElementById('menu-toggler');
 
     if (menu.checked) {
@@ -63,7 +63,7 @@ class FileManager extends Component {
               state.filesystem = true;
               state.dashboard = false;
               return state;
-            })
+            });
           }}
         />
         <button

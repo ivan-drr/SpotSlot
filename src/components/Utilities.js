@@ -70,10 +70,10 @@ export function downloadFile(fileURL, fileName) {
 }
 
 export function clone(obj) {
-    if (null == obj || "object" != typeof obj) return obj;
-    var copy = obj.constructor();
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-    }
-    return copy;
+  if (obj == null || typeof obj !== 'object') return obj;
+  const copy = obj.constructor();
+  for (const attr in obj) {
+    if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+  }
+  return copy;
 }

@@ -160,16 +160,15 @@ class AreaSelector extends Component {
 
   handleMouseDown = (e, data) => {
     if (this.lastMouseMove === 'mousedown') {
-
       if (e.target.tagName !== 'svg' && e.target.tagName !== 'path') {
         if (!e.target.className.includes('navButton')) this.unselectCards();
       }
 
       const popover = document.getElementById('newFolder');
-      if(e.target.className !== 'popover-header'
+      if (e.target.className !== 'popover-header'
         && e.target.className !== 'popover-body'
         && popover !== null
-        && popover.className.includes("show")) document.getElementById('newfolderOverlay').click();
+        && popover.className.includes('show')) document.getElementById('newfolderOverlay').click();
 
       data.forEach((target, index) => {
         const card = target.parentElement;
@@ -280,14 +279,13 @@ class AreaSelector extends Component {
     const deleteFile = document.getElementById('deleteStateFile');
 
     files.forEach((file) => {
-      let ref = storageRef.child(file.id);
+      const ref = storageRef.child(file.id);
       if (isFolder(file.id)) {
         styledLog(`${Log.INFO}Deleting ${file.id} folder...`);
         deleteAllFilesFrom(file.id);
       } else {
         ref.delete().catch((error) => {
           styledLog(`${Log.ERROR}File ${file.id} couldn't be deleted`);
-          return;
         });
       }
 
@@ -302,7 +300,7 @@ class AreaSelector extends Component {
 
   disableButtonOnUnselectedCards = () => {
     if (this.state.selectedCards.length > 0) return '';
-    else return ' btnDisable';
+    return ' btnDisable';
   }
 
   render() {
@@ -344,7 +342,7 @@ class AreaSelector extends Component {
             </OverlayTrigger>
 
             <Button
-              className={'navButton' + this.disableButtonOnUnselectedCards()}
+              className={`navButton${this.disableButtonOnUnselectedCards()}`}
               aria-label="Downlaod files"
               variant="info"
               onClick={() => this.handleDownloadFiles()}
@@ -353,7 +351,7 @@ class AreaSelector extends Component {
             </Button>
 
             <Button
-              className={'navButton' + this.disableButtonOnUnselectedCards()}
+              className={`navButton${this.disableButtonOnUnselectedCards()}`}
               aria-label="Delete files"
               variant="danger"
               onClick={() => this.handleDeleteFiles()}

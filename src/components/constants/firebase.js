@@ -29,7 +29,7 @@ export const deleteAllFilesFrom = (startPath) => {
     console.log(error);
     return false;
   });
-}
+};
 
 export const getAllFilesSize = (path) => {
   const listRef = storageRef.child(path);
@@ -40,7 +40,7 @@ export const getAllFilesSize = (path) => {
     });
     res.items.forEach((itemRef) => {
       fetchFilesMetadata(itemRef, true).then((file) => {
-        const changeSpace = document.getElementById("addSpaceUsed");
+        const changeSpace = document.getElementById('addSpaceUsed');
         changeSpace.value = file.metadata.size;
         changeSpace.click();
       });
@@ -49,7 +49,7 @@ export const getAllFilesSize = (path) => {
     console.log(error);
     return false;
   });
-}
+};
 
 export const fetchFilesMetadata = (itemRef, hidden) => {
   startCounter();
@@ -71,9 +71,9 @@ export const fetchFilesMetadata = (itemRef, hidden) => {
     console.log(error);
     return false;
   });
-}
+};
 
-export const synchronousFilesMetadata = async function(itemRef, hidden) {
+export const synchronousFilesMetadata = async function (itemRef, hidden) {
   const result = await fetchFilesMetadata(itemRef, hidden);
   return result;
-}
+};

@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 
-import Loading from './Loading';
-import AreaSelector from './AreaSelector';
-import FileCard from './FileCard';
-import Breadcrumb from './Breadcrumb';
-import { fileName, lastDirectory } from './Mapper';
-import { styledLog, startCounter, endCounter, clone } from './Utilities';
-import * as Log from './constants/log';
-import { storageRef, fetchFilesMetadata } from './constants/firebase';
-
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faHome, faArrowLeft
+  faHome, faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
+import Loading from './Loading';
+import AreaSelector from './AreaSelector';
+import FileCard from './FileCard';
+import Breadcrumb from './Breadcrumb';
+import { fileName, lastDirectory } from './Mapper';
+import {
+  styledLog, startCounter, endCounter, clone,
+} from './Utilities';
+import * as Log from './constants/log';
+import { storageRef, fetchFilesMetadata } from './constants/firebase';
+
 
 import '../styles/FileManager.css';
 
@@ -114,8 +116,8 @@ class FileSystem extends Component {
         state.fileUploadProgress = 0;
         return state;
       });
-      
-      if (this.state.path !== path) return
+
+      if (this.state.path !== path) return;
       this.setState((state) => {
         state.files.push({
           key: filepath,

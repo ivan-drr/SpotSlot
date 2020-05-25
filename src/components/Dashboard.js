@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { Pie } from 'react-chartjs-2';
 import { getAllFilesSize } from './constants/firebase';
 
-import { Pie } from 'react-chartjs-2';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class Dashboard extends Component {
 
   addSpaceUsed =(e) => {
     e.persist();
-    this.setState(state => {
+    this.setState((state) => {
       state.spaceUsed += parseInt(e.target.value);
       return state;
     });
@@ -28,7 +28,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="sub chart-wrapper">
-        <input type="number" id="addSpaceUsed" style={{display: 'none'}} onClick={(e) => this.addSpaceUsed(e)} />
+        <input type="number" id="addSpaceUsed" style={{ display: 'none' }} onClick={(e) => this.addSpaceUsed(e)} />
         <h2 style={{ color: '#16508e' }}>Space Dashboard</h2>
         <i className="text-muted">Percentage representation</i>
         <p />
