@@ -37,10 +37,8 @@ class AreaSelector extends Component {
   componentDidMount() {
     this._isMounted = true;
 
-    setTimeout(() => {
-      this.setEvents();
-      styledLog(`${Log.SUCCESS}𝘼𝙍𝙀𝘼-𝙎𝙀𝙇𝙀𝘾𝙏𝙊𝙍 ready`);
-    }, 0);
+    this.setEvents();
+    styledLog(`${Log.SUCCESS}𝘼𝙍𝙀𝘼-𝙎𝙀𝙇𝙀𝘾𝙏𝙊𝙍 ready`);
   }
 
   componentWillUnmount() {
