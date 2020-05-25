@@ -296,7 +296,7 @@ class AreaSelector extends Component {
         });
       }
 
-      styledLog(`${Log.SUCCESS}Folder ${file.id} deleted`);
+      styledLog(`${Log.SUCCESS}Archive ${file.id} deleted`);
       deleteFile.value = file.id;
       deleteFile.click();
 

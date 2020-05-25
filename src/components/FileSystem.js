@@ -91,7 +91,7 @@ class FileSystem extends Component {
 
     // Check if file already exist
     if (this.state.files.map((f) => {
-      if (filepath === `/${f.key}`) {
+      if (filepath === f.key) {
         styledLog(`${Log.WARNING}File ${f.key} already exist`);
         return true;
       }
