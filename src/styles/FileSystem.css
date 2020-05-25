@@ -1,0 +1,15 @@
+#pathText {
+  background-color: #fdfdfdf7;
+}
+#pathInfo {
+  background-color: #377e8c;
+}
+
+.fixedFooter {
+  position: fixed;
+  height: 10px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}

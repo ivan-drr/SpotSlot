@@ -4,7 +4,6 @@ import NavBar from './NavBar';
 import FileSystem from './FileSystem';
 import Dashboard from './Dashboard';
 
-
 import '../styles/FileManager.css';
 
 class FileManager extends Component {

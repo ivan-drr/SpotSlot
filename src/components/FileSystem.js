@@ -19,7 +19,7 @@ import * as Log from './constants/log';
 import { storageRef, fetchFilesMetadata } from './constants/firebase';
 
 
-import '../styles/FileManager.css';
+import '../styles/FileSystem.css';
 
 class FileSystem extends Component {
   constructor(props) {
