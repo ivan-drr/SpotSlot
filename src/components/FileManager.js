@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import NavBar from './NavBar';
 import FileSystem from './FileSystem';
 import Dashboard from './Dashboard';
-import NavBar from './NavBar';
 
 import Badge from 'react-bootstrap/Badge';
 
@@ -15,6 +15,29 @@ class FileManager extends Component {
       dashboard: false,
       filesystem: true,
     };
+  }
+
+  componentDidMount() {
+    document.body.addEventListener('mousedown', (e) => this.handleClickOutOfMenu(e));
+  }
+
+  componentWillUnmount() {
+    document.body.cloneNode(true);
+  }
+
+  handleClickOutOfMenu = (e) => {
+    let target = e.target;
+    const menu = document.getElementById('menu-toggler');
+
+    if (menu.checked) {
+      if (target.id !== 'menu-toggler' && target.className !== 'item') {
+        target = target.parentElement;
+        if (target.className !== 'item') {
+          target = target.parentElement;
+          if (target.className !== 'item') menu.click();
+        }
+      }
+    }
   }
 
   render() {

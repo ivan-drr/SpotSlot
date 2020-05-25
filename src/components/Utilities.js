@@ -68,3 +68,12 @@ export function downloadFile(fileURL, fileName) {
   document.body.removeChild(link);
   link.remove();
 }
+
+export function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}

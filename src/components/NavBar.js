@@ -16,8 +16,12 @@ export default function NavBar() {
         <li className="menu-item">
           <a
             href="#filesystem"
+            className="item"
             aria-label="File System"
-            onClick={() => document.getElementById('renderFilesystem').click()}
+            onClick={() => {
+              document.getElementById('renderFilesystem').click();
+              document.getElementById('menu-toggler').click();
+            }}
           >
             <FontAwesomeIcon icon={faFolder} />
           </a>
@@ -25,9 +29,11 @@ export default function NavBar() {
         <li className="menu-item">
           <a
             href="#dashboard"
+            className="item"
             aria-label="Dashboard"
             onClick={() => {
               document.getElementById('renderDashboard').click();
+              document.getElementById('menu-toggler').click();
             }}
           >
             <FontAwesomeIcon icon={faChartPie} />
@@ -36,9 +42,11 @@ export default function NavBar() {
         <li className="menu-item">
           <a
             href="https://github.com/ivan-drr/SpotSlot"
+            className="item"
             target="_blank"
             aria-label="Github"
             rel="noopener noreferrer"
+            onClick={() => document.getElementById('menu-toggler').click()}
           >
             <FontAwesomeIcon icon={faCodeBranch} />
           </a>
@@ -46,9 +54,11 @@ export default function NavBar() {
         <li className="menu-item">
           <a
             href="https://firebase.google.com/"
+            className="item"
             target="_blank"
             aria-label="Firebase"
             rel="noopener noreferrer"
+            onClick={() => document.getElementById('menu-toggler').click()}
           >
             <FontAwesomeIcon icon={faFire} />
           </a>

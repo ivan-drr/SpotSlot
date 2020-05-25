@@ -5,7 +5,7 @@ import AreaSelector from './AreaSelector';
 import FileCard from './FileCard';
 import Breadcrumb from './Breadcrumb';
 import { fileName, lastDirectory } from './Mapper';
-import { styledLog, startCounter, endCounter } from './Utilities';
+import { styledLog, startCounter, endCounter, clone } from './Utilities';
 import * as Log from './constants/log';
 import { storageRef, fetchFilesMetadata } from './constants/firebase';
 
@@ -82,8 +82,9 @@ class FileSystem extends Component {
     const file = e.target.files[0];
     e.target.value = '';
 
-    const filepath = this.state.path + file.name;
-    const ref = storageRef.child(this.state.path + file.name);
+    const path = clone(this.state.path);
+    const filepath = path + file.name;
+    const ref = storageRef.child(path + file.name);
 
     // Check if file already exist
     if (this.state.files.map((f) => {
@@ -113,6 +114,8 @@ class FileSystem extends Component {
         state.fileUploadProgress = 0;
         return state;
       });
+      
+      if (this.state.path !== path) return
       this.setState((state) => {
         state.files.push({
           key: filepath,

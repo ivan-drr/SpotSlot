@@ -165,9 +165,6 @@ class AreaSelector extends Component {
         if (!e.target.className.includes('navButton')) this.unselectCards();
       }
 
-      const menu = document.getElementById('menu-toggler');
-      if (e.target.id !== null && e.target.id !== 'menu-toggler' && menu.checked) menu.click();
-
       const popover = document.getElementById('newFolder');
       if(e.target.className !== 'popover-header'
         && e.target.className !== 'popover-body'
