@@ -53,6 +53,7 @@ class AreaSelector extends Component {
   setEvents = () => {
     const { container } = this.state;
 
+    container.addEventListener('keydown', (e) => { this.deleteFilesOnKeyPress(e); })
     container.addEventListener('mousedown', (e) => { this.eMouseDown(e); });
 
     container.addEventListener('mouseup', (e) => this.handleAreaSelect(e));
@@ -303,6 +304,12 @@ class AreaSelector extends Component {
       file.parentElement.style.display = 'none';
     });
     this.unselectCards();
+  }
+
+  deleteFilesOnKeyPress = (e) => {
+    if (!e) e = window.event;
+    const keyCode = e.keyCode || e.which;
+    if (keyCode === 46) this.handleDeleteFiles();
   }
 
   disableButtonOnUnselectedCards = () => {

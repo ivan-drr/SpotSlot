@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faHome, faArrowLeft,
+  faHome, faArrowLeft, faEye, faLowVision
 } from '@fortawesome/free-solid-svg-icons';
 import Loading from './Loading';
 import AreaSelector from './AreaSelector';
@@ -27,6 +27,7 @@ class FileSystem extends Component {
 
     this.state = {
       _isFetch: false,
+      hiddenFiles: false,
       dashboard: false,
       filesystem: true,
       path: '/',
@@ -222,6 +223,10 @@ class FileSystem extends Component {
     const fileCards = [];
 
     this.state.files.forEach((file) => {
+      if (!this.state.hiddenFiles) {
+        if(fileName(file.key)[0] === '.') return;
+      }
+
       fileCards.push(
         <FileCard
           key={file.key}
@@ -284,6 +289,24 @@ class FileSystem extends Component {
             }}
           >
             <FontAwesomeIcon icon={faHome} />
+          </div>
+          <div
+            id="btnRoot"
+            type="button"
+            onClick={() => {
+              this.setState((state) => {
+                state.hiddenFiles = !state.hiddenFiles;
+                return state;
+              });
+            }}
+            style={{
+              color: '#377e8c',
+              fontSize: '40px',
+              display: 'inline-block',
+              marginLeft: '24px'
+            }}
+          >
+            <FontAwesomeIcon icon={this.state.hiddenFiles ? faEye : faLowVision} />
           </div>
         </div>
         <Loading _isFetch={this.state._isFetch} />
