@@ -29,21 +29,35 @@
 .menu-toggler:hover + label:after,{
   background: white;
 }
+
 .menu-toggler:checked + label {
   background: transparent;
-}
-.menu-toggler:checked + label:before,
-.menu-toggler:checked + label:after,{
-  top:0;
-  width:40px;
-  transform-origin: 50% 50%;
+  transform: rotate(0deg) translateX(-20px);
+  transition: all .5s;
 }
 .menu-toggler:checked + label:before {
-  transform: rotate(45deg) translateY(-15px) translateX(-15px);
+  transform: rotate(45deg) translateY(-4px) translateX(-4px);
+  transition: transform .5s;
 }
 .menu-toggler:checked + label:after {
-  transform: rotate(-45deg);
+  transform: rotate(-45deg) translateY(10px) translateX(-10px);
+  transition: transform .5s;
 }
+
+.menu-toggler:not(:checked) + label {
+  background: solid;
+  transform: rotate(0deg) translateX(0px);
+  transition: all .5s;
+}
+.menu-toggler:not(:checked) + label:before {
+  transform: rotate(0deg);
+  transition: transform .5s;
+}
+.menu-toggler:not(:checked) + label:after {
+  transform: rotate(0deg);
+  transition: transform .5s;
+}
+
 .menu-toggler:checked ~ ul .menu-item {
   opacity: 1;
 }
