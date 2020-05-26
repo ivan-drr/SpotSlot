@@ -25,7 +25,8 @@ class FileManager extends Component {
     const menu = document.getElementById('menu-toggler');
 
     if (menu.checked) {
-      if (target.id !== 'menu-toggler' && target.className !== 'item') {
+      if (target.id === '' && target.className === '') menu.click();
+      else if (target.id !== 'menu-toggler' && target.className !== 'item') {
         target = target.parentElement;
         if (target.className !== 'item') {
           target = target.parentElement;
