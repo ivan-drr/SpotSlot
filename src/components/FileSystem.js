@@ -153,6 +153,7 @@ class FileSystem extends Component {
   handleCreateFolder = () => {
     setTimeout(() => {
       const folderInput = document.getElementById('folderName');
+      const path = clone(this.state.path);
       if (folderInput === null) return;
 
       document.getElementById('folderName').onkeypress = (e) => {
@@ -162,19 +163,23 @@ class FileSystem extends Component {
           document.getElementById('newfolderOverlay').click();
           if (e.target.value.replace(/\s/g, '').length <= 0) return;
 
-          const ref = storageRef.child(`${this.state.path}/${e.target.value}/.folder`);
+          const ref = storageRef.child(`${path}/${e.target.value}/.folder`);
           ref.put(new File([''], '.folder')).then(() => {
             styledLog(`${Log.INFO}Folder ${e.target.value} was created`);
-            this.setState((state) => {
-              state.files.push({
-                key: `${this.state.path}${e.target.value}/`,
-                metadata: {
-                  _isFile: false,
-                  name: fileName(`${e.target.value}/`),
-                },
+
+            setTimeout(() => {
+              if (path !== this.state.path) return;
+              this.setState((state) => {
+                state.files.push({
+                  key: `${path}${e.target.value}/`,
+                  metadata: {
+                    _isFile: false,
+                    name: fileName(`${e.target.value}/`),
+                  },
+                });
+                return state;
               });
-              return state;
-            });
+            }, 100);
           });
         }
       };
