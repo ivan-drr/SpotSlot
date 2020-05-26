@@ -232,7 +232,7 @@ class FileSystem extends Component {
           key={file.key}
           file={file}
           customOnClick={(e) => this.handleOpenFolder(file.key)}
-        />,
+        />
       );
     });
     return fileCards;

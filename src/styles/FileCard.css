@@ -30,15 +30,6 @@
     -moz-border-radius:100px / 10px;
     border-radius:100px / 10px;
 }
-.folder-white:after {
-    right:10px;
-    left:auto;
-    -webkit-transform:skew(8deg) rotate(3deg);
-       -moz-transform:skew(8deg) rotate(3deg);
-        -ms-transform:skew(8deg) rotate(3deg);
-         -o-transform:skew(8deg) rotate(3deg);
-            transform:skew(8deg) rotate(3deg);
-}
 
 .file:hover {
   background-color: rgba(102, 163, 198, 0.3);

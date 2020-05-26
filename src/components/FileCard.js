@@ -26,7 +26,7 @@ class FileCard extends Component {
     if (!this.state.file) return false;
     const { file } = this.state;
     return (
-      <Col className="file fade-in" onClick={this.props.customOnClick} xs={6} sm={6} md={4} lg={3}>
+      <Col className="file fade-in" onClick={this.props.customOnClick} xs={7} sm={5} md={3} lg={3}>
         <Card id={file.key} className={file.metadata._isFile ? 'file-white cardFile' : 'folder-white cardFile'}>
           <Card.Header className={file.metadata._isFile ? 'fileHeader-white' : 'folderHeader-white'}>
             <Card.Title className={file.metadata._isFile ? 'fileName-white' : 'folderName-white'}>{file.metadata.name}</Card.Title>
