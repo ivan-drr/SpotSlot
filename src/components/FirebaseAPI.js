@@ -1,42 +1,96 @@
 import { storageRef } from './constants/firebase';
-import { fileName } from './Mapper';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import * as Log from './constants/log';
 import { styledLog, startCounter, endCounter } from './Utilities';
+import { fileName } from './Mapper';
 
-export const fetchFiles = (path) => {
-  startCounter();
-  console.log('');
-  styledLog(`${Log.REQUEST}Fetching Files from ${path} ...`);
+export const deleteAllFilesFrom = (startPath) => {
+  const listRef = storageRef.child(startPath);
 
+  listRef.listAll().then((res) => {
+    res.prefixes.forEach((folderRef) => {
+      deleteAllFilesFrom(folderRef.location.path);
+    });
+    res.items.forEach((itemRef) => {
+      itemRef.delete();
+    });
+  }).catch((error) => {
+    console.log(error);
+    return false;
+  });
+};
+
+export const getAllFilesSize = (path) => {
   const listRef = storageRef.child(path);
+
+  listRef.listAll().then((res) => {
+    res.prefixes.forEach((folderRef) => {
+      getAllFilesSize(folderRef.location.path);
+    });
+    res.items.forEach((itemRef) => {
+      fetchFilesMetadata(itemRef, true).then((file) => {
+        const changeSpace = document.getElementById('addSpaceUsed');
+        changeSpace.value = file.metadata.size;
+        changeSpace.click();
+      });
+    });
+  }).catch((error) => {
+    console.log(error);
+    return false;
+  });
+};
+
+export const handleZipAllFiles = (ref) => {
+  const zip = new JSZip();
+  zipAllFiles(ref, zip).then(() => {
+    setTimeout(() => {
+    zip.generateAsync({type:"blob"})
+    .then((content) => {
+      saveAs(content, fileName(ref) + '.zip');
+    });
+  }, 5000);
+  });
+}
+
+const zipAllFiles = (ref, zip) => {
+  const listRef = storageRef.child(ref);
 
   return listRef.listAll().then((res) => {
     res.prefixes.forEach((folderRef) => {
-      this.setState((state) => {
-        state.files.push({
-          key: `${folderRef.location.path}/`,
-          metadata: {
-            _isFile: false,
-            name: fileName(`${folderRef.location.path}/`),
-          },
-        });
-        return state;
-      });
+      zipAllFiles(folderRef.location.path, zip.folder(folderRef.location.path));
     });
-    styledLog(`${Log.SUCCESS}Fetch with no metadata complete${endCounter()}`);
-    if (this.state.files.length === 0) styledLog(`${Log.INFO}No folders found`);
-
     res.items.forEach((itemRef) => {
-      this.fetchFilesMetadata(itemRef).then((item) => {
-        this.setState((state) => {
-          state.files.push(item);
-          return state;
+      return itemRef.getDownloadURL().then(url => {
+        return fetch(url)
+        .then(response => response.text())
+        .then(content => {
+          zip.file(itemRef.name, content);
         });
       });
     });
-    this.setState((state) => {
-      state._isFetch = true;
-      return state;
-    });
+  }).catch((error) => {
+    console.log(error);
+    return false;
+  });
+}
+
+export const fetchFilesMetadata = (itemRef, hidden) => {
+  startCounter();
+  return itemRef.getMetadata().then((metadata) => {
+    if (!hidden) styledLog(`${Log.SUCCESS}Metadata fetched for ${metadata.name}${endCounter()}`);
+    return {
+      key: itemRef.location.path,
+      metadata: {
+        _isFile: true,
+        name: metadata.name,
+        size: metadata.size,
+        timeCreated: metadata.timeCreated,
+        updated: metadata.updated,
+        fullPath: metadata.fullPath,
+        contentType: metadata.contentType,
+      },
+    };
   }).catch((error) => {
     console.log(error);
     return false;

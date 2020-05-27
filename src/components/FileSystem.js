@@ -16,7 +16,8 @@ import {
   styledLog, startCounter, endCounter, clone,
 } from './Utilities';
 import * as Log from './constants/log';
-import { storageRef, fetchFilesMetadata } from './constants/firebase';
+import { storageRef } from './constants/firebase';
+import { fetchFilesMetadata } from './FirebaseAPI';
 
 
 import '../styles/FileSystem.css';
@@ -141,8 +142,6 @@ class FileSystem extends Component {
     e.persist();
     this.setState((state) => {
       state.files.forEach((file, index) => {
-        console.log(file.key);
-        console.log(e.target.value);
         if (file.key === e.target.value) {
           state.files.splice(index, 1);
         }
@@ -291,7 +290,7 @@ class FileSystem extends Component {
             <FontAwesomeIcon icon={faHome} />
           </div>
           <div
-            id="btnRoot"
+            id="btnHide"
             type="button"
             onClick={() => {
               this.setState((state) => {

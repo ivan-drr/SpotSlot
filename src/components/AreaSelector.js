@@ -9,7 +9,8 @@ import {
   faTrash, faCloudDownloadAlt, faFolderPlus, faFileMedical,
 } from '@fortawesome/free-solid-svg-icons';
 import { fileName, isFolder } from './Mapper';
-import { storageRef, deleteAllFilesFrom } from './constants/firebase';
+import { storageRef } from './constants/firebase';
+import { deleteAllFilesFrom, handleZipAllFiles } from './FirebaseAPI';
 import * as Log from './constants/log';
 import * as Constant from './constants/AreaSelector';
 import { styledLog, downloadFile } from './Utilities';
@@ -253,6 +254,11 @@ class AreaSelector extends Component {
   handleDownloadFiles = () => {
     this.state.selectedCards.forEach((file) => {
       const ref = storageRef.child(file.id);
+      if (isFolder(file.id)) {
+        handleZipAllFiles(file.id);
+        return;
+      }
+
       ref.getDownloadURL().then((url) => {
         downloadFile(url, fileName(file.id));
       }).catch((error) => {
