@@ -41,34 +41,32 @@ export const getAllFilesSize = (path) => {
   });
 };
 
-export const handleZipAllFiles = (ref) => {
+export const handleZipAllFiles = async (ref) => {
   const zip = new JSZip();
-  zipAllFiles(ref, zip).then(() => {
-    setTimeout(() => {
-    zip.generateAsync({type:"blob"})
-    .then((content) => {
-      saveAs(content, fileName(ref) + '.zip');
-    });
-  }, 5000);
+  await zipAllFiles(ref, zip);
+  zip.generateAsync({type:"blob"})
+  .then((content) => {
+    saveAs(content, fileName(ref) + '.zip');
   });
 }
 
-const zipAllFiles = (ref, zip) => {
+const zipAllFiles = async (ref, zip) => {
   const listRef = storageRef.child(ref);
 
-  return listRef.listAll().then((res) => {
-    res.prefixes.forEach((folderRef) => {
-      zipAllFiles(folderRef.location.path, zip.folder(folderRef.location.path));
-    });
-    res.items.forEach((itemRef) => {
-      return itemRef.getDownloadURL().then(url => {
-        return fetch(url)
-        .then(response => response.text())
-        .then(content => {
-          zip.file(itemRef.name, content);
+  await listRef.listAll().then(async (res) => {
+    await Promise.all(res.prefixes.map(async (folderRef) => {
+      await zipAllFiles(folderRef.location.path, zip.folder(fileName(folderRef.location.path)));
+    }));
+    await Promise.all(res.items.map(async (itemRef) => {
+      if (itemRef.name === '.folder') return;
+      await itemRef.getDownloadURL().then(async url => {
+        await fetch(url)
+        .then(async response => await response.blob())
+        .then(async content => {
+          await zip.file(itemRef.name, content);
         });
       });
-    });
+    }));
   }).catch((error) => {
     console.log(error);
     return false;
