@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import ProgressBar from 'react-bootstrap/ProgressBar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faHome, faArrowLeft, faEye, faLowVision
-} from '@fortawesome/free-solid-svg-icons';
 import Loading from './Loading';
 import AreaSelector from './AreaSelector';
 import FileCard from './FileCard';
@@ -19,6 +12,14 @@ import * as Log from './constants/log';
 import { storageRef } from './constants/firebase';
 import { fetchFilesMetadata } from './FirebaseAPI';
 
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Alert from 'react-bootstrap/Alert';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faHome, faArrowLeft, faEye, faLowVision
+} from '@fortawesome/free-solid-svg-icons';
 
 import '../styles/FileSystem.css';
 
@@ -28,6 +29,7 @@ class FileSystem extends Component {
 
     this.state = {
       _isFetch: false,
+      existingFile: false,
       hiddenFiles: false,
       dashboard: false,
       filesystem: true,
@@ -83,22 +85,28 @@ class FileSystem extends Component {
     });
   }
 
+  checkIfFileExist = (file) => {
+    if (this.state.files.map((f) => {
+      if (file[0] === '/') file = file.substr(1);
+      if (file === f.key) {
+        styledLog(`${Log.WARNING}File ${f.key} already exist`);
+        this.setState({existingFile: true});
+        return true;
+      }
+      return false;
+    }).join().includes('true')) return true;
+    return false;
+  }
+
   handleCreateFile = (e) => {
     const file = e.target.files[0];
     e.target.value = '';
 
     const path = clone(this.state.path);
-    const filepath = path + file.name;
+    let filepath = path + file.name;
     const ref = storageRef.child(path + file.name);
 
-    // Check if file already exist
-    if (this.state.files.map((f) => {
-      if (filepath === f.key) {
-        styledLog(`${Log.WARNING}File ${f.key} already exist`);
-        return true;
-      }
-      return false;
-    }).join().includes('true')) return;
+    if (this.checkIfFileExist(filepath)) return;
 
     const uploadTask = ref.put(file);
     uploadTask.on('state_changed', (snapshot) => {
@@ -154,12 +162,16 @@ class FileSystem extends Component {
     setTimeout(() => {
       const folderInput = document.getElementById('folderName');
       const path = clone(this.state.path);
+
       if (folderInput === null) return;
 
       document.getElementById('folderName').onkeypress = (e) => {
         if (!e) e = window.event;
         const keyCode = e.keyCode || e.which;
         if (keyCode === 13) {
+          let folderpath = path + folderInput.value + '/';
+          if (this.checkIfFileExist(folderpath)) return;
+
           document.getElementById('newfolderOverlay').click();
           if (e.target.value.replace(/\s/g, '').length <= 0) return;
 
@@ -240,6 +252,14 @@ class FileSystem extends Component {
   render() {
     return (
       <div id="filesystem">
+        {this.state.existingFile
+          ? (<Alert variant="warning" style={{width: '50%', marginLeft: '26%',}} onClose={() => this.setState({existingFile: false})} dismissible>
+              <Alert.Heading>File already exist!</Alert.Heading>
+              <p>
+                To rewrite it try to delete and reupload the file.
+              </p>
+            </Alert>)
+          : false}
         <AreaSelector />
         <form>
           <input
