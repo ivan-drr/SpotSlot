@@ -89,7 +89,7 @@ class FileSystem extends Component {
     if (this.state.files.map((f) => {
       if (file[0] === '/') file = file.substr(1);
       if (file === f.key) {
-        styledLog(`${Log.WARNING}File ${f.key} already exist`);
+        styledLog(`${Log.WARNING}Archive ${f.key} already exist`);
         this.setState({existingFile: true});
         return true;
       }
