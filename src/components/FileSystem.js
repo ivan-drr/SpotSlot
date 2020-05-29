@@ -254,7 +254,7 @@ class FileSystem extends Component {
       <div id="filesystem">
         {this.state.existingFile
           ? (<Alert variant="warning" style={{width: '50%', marginLeft: '26%',}} onClose={() => this.setState({existingFile: false})} dismissible>
-              <Alert.Heading>File already exist!</Alert.Heading>
+              <Alert.Heading>Archive already exist!</Alert.Heading>
               <p>
                 To rewrite it try to delete and reupload the file.
               </p>
