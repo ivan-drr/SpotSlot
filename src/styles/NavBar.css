@@ -25,7 +25,6 @@
   cursor:pointer;
 }
 
-
 .menu-toggler:checked + label {
   background: transparent;
   transform: rotate(0deg) translateX(-20px);
@@ -68,6 +67,9 @@
 }
 .menu-toggler:checked ~ ul .menu-item:nth-child(4) {
   transform: rotate(45deg) translateX(-110px);
+}
+.menu-toggler:checked ~ ul .menu-item a {
+  pointer-events:auto;
 }
 .menu-toggler + label {
   width: 30px;
@@ -116,12 +118,6 @@
 }
 .menu-item:nth-child(4) a {
   transform: rotate(-45deg);
-}
-.menu-item:nth-child(5) a {
-  transform: rotate(-240deg);
-}
-.menu-item:nth-child(6) a {
-  transform: rotate(-300deg);
 }
 .menu-item {
   position: absolute;
