@@ -57,18 +57,6 @@ export function styledLog(msg) {
   return false;
 }
 
-export function downloadFile(fileURL, fileName) {
-  const link = document.createElement('a');
-  link.style.display = 'none';
-  link.download = fileName;
-  link.href = fileURL;
-  link.target = '_blank';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  link.remove();
-}
-
 export function clone(obj) {
   if (obj == null || typeof obj !== 'object') return obj;
   const copy = obj.constructor();
