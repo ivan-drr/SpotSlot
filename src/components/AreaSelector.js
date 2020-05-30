@@ -14,6 +14,7 @@ import { deleteAllFilesFrom, handleZipAllFiles } from './FirebaseAPI';
 import * as Log from './constants/log';
 import * as Constant from './constants/AreaSelector';
 import { styledLog, downloadFile } from './Utilities';
+import { saveAs } from 'file-saver';
 
 import '../styles/AreaSelector.css';
 import '../styles/ToolNav.css';
@@ -260,7 +261,12 @@ class AreaSelector extends Component {
       }
 
       ref.getDownloadURL().then((url) => {
-        downloadFile(url, fileName(file.id));
+        fetch(url)
+        .then(response => response.blob())
+        .then(content => {
+          saveAs(new Blob([content]), fileName(file.id));
+        });
+        //downloadFile(url, fileName(file.id));
       }).catch((error) => {
         // https://firebase.google.com/docs/storage/web/handle-errors
         switch (error.code) {
