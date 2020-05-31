@@ -85,7 +85,6 @@ export const fetchFilesMetadata = (itemRef, hidden) => {
         size: metadata.size,
         timeCreated: metadata.timeCreated,
         updated: metadata.updated,
-        fullPath: metadata.fullPath,
         contentType: metadata.contentType,
       },
     };

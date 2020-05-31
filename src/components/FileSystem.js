@@ -137,7 +137,6 @@ class FileSystem extends Component {
             name: file.name,
             size: file.size,
             updated: new Date(),
-            fullPath: filepath,
             contentType: file.type,
           },
         });
