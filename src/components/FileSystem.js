@@ -163,15 +163,21 @@ class FileSystem extends Component {
       const path = clone(this.state.path);
 
       if (folderInput === null) return;
+      const overlay = document.getElementById('newfolderOverlay');
 
-      document.getElementById('folderName').onkeypress = (e) => {
+      folderInput.onkeydown = (e) => {
+        if (!e) e = window.event;
+        const keyCode = e.keyCode || e.which;
+        if (keyCode === 27) overlay.click();
+      }
+      folderInput.onkeypress = (e) => {
         if (!e) e = window.event;
         const keyCode = e.keyCode || e.which;
         if (keyCode === 13) {
           let folderpath = path + folderInput.value + '/';
           if (this.checkIfFileExist(folderpath)) return;
 
-          document.getElementById('newfolderOverlay').click();
+          overlay.click();
           if (e.target.value.replace(/\s/g, '').length <= 0) return;
 
           const ref = storageRef.child(`${path}/${e.target.value}/.folder`);
