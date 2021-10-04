@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.517dbb7b.chunk.css",
-    "main.js": "/static/js/main.fdd7b376.chunk.js",
-    "main.js.map": "/static/js/main.fdd7b376.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.9f44bfd1.js",
-    "runtime-main.js.map": "/static/js/runtime-main.9f44bfd1.js.map",
-    "static/css/2.63f31f8d.chunk.css": "/static/css/2.63f31f8d.chunk.css",
-    "static/js/2.04e9b714.chunk.js": "/static/js/2.04e9b714.chunk.js",
-    "static/js/2.04e9b714.chunk.js.map": "/static/js/2.04e9b714.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.20190448ea76bcd082b93965b0b54cad.js": "/precache-manifest.20190448ea76bcd082b93965b0b54cad.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.63f31f8d.chunk.css.map": "/static/css/2.63f31f8d.chunk.css.map",
-    "static/css/main.517dbb7b.chunk.css.map": "/static/css/main.517dbb7b.chunk.css.map",
-    "static/js/2.04e9b714.chunk.js.LICENSE.txt": "/static/js/2.04e9b714.chunk.js.LICENSE.txt"
+    "main.css": "/SpotSlot/static/css/main.517dbb7b.chunk.css",
+    "main.js": "/SpotSlot/static/js/main.a21d4a35.chunk.js",
+    "main.js.map": "/SpotSlot/static/js/main.a21d4a35.chunk.js.map",
+    "runtime-main.js": "/SpotSlot/static/js/runtime-main.cd081092.js",
+    "runtime-main.js.map": "/SpotSlot/static/js/runtime-main.cd081092.js.map",
+    "static/css/2.63f31f8d.chunk.css": "/SpotSlot/static/css/2.63f31f8d.chunk.css",
+    "static/js/2.a6c362d8.chunk.js": "/SpotSlot/static/js/2.a6c362d8.chunk.js",
+    "static/js/2.a6c362d8.chunk.js.map": "/SpotSlot/static/js/2.a6c362d8.chunk.js.map",
+    "index.html": "/SpotSlot/index.html",
+    "precache-manifest.6277bf555e73bf6d88688b9995be5363.js": "/SpotSlot/precache-manifest.6277bf555e73bf6d88688b9995be5363.js",
+    "service-worker.js": "/SpotSlot/service-worker.js",
+    "static/css/2.63f31f8d.chunk.css.map": "/SpotSlot/static/css/2.63f31f8d.chunk.css.map",
+    "static/css/main.517dbb7b.chunk.css.map": "/SpotSlot/static/css/main.517dbb7b.chunk.css.map",
+    "static/js/2.a6c362d8.chunk.js.LICENSE.txt": "/SpotSlot/static/js/2.a6c362d8.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.9f44bfd1.js",
+    "static/js/runtime-main.cd081092.js",
     "static/css/2.63f31f8d.chunk.css",
-    "static/js/2.04e9b714.chunk.js",
+    "static/js/2.a6c362d8.chunk.js",
     "static/css/main.517dbb7b.chunk.css",
-    "static/js/main.fdd7b376.chunk.js"
+    "static/js/main.a21d4a35.chunk.js"
   ]
 }
