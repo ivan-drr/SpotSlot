@@ -2,7 +2,7 @@
   "name": "storehouse",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://spotslot-cloud.firebaseapp.com",
+  "homepage": "https://ivan-drr.github.io/SpotSlot",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
@@ -22,6 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
     "test": "jest --verbose",
     "createdoc": "jsdoc src -r -d docs",
     "eject": "react-scripts eject",
